@@ -17,7 +17,7 @@ myst-parser = "*"
 [scripts]
 main = "python -m ghastoolkit"
 build = "python -m build"
-publish = "pipenv run build && python -m twine upload dist/*"
+publish = "python -m twine upload dist/*"
 clean = "rm -r ./src/ghastoolkit.egg-info/ && rm -r ./dist"
 test = "python -m unittest discover -v -s ./tests -p 'test_*.py'"
 fmt = "black ./src/ghastoolkit"
