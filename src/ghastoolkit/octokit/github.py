@@ -31,7 +31,7 @@ class Repository:
         if "@" in name:
             name, branch = name.split("@", 1)
             ref = f"refs/heads/{branch}"
-            
+
         owner, repo = name.split("/", 1)
         return Repository(owner, repo, reference=ref, branch=branch)
 
