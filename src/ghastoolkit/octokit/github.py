@@ -27,10 +27,13 @@ class Repository:
     @staticmethod
     def parseRepository(name: str) -> "Repository":
         ref = None
+        branch = None
         if "@" in name:
-            name, ref = name.split("@", 1)
+            name, branch = name.split("@", 1)
+            ref = f"refs/heads/{branch}"
+            
         owner, repo = name.split("/", 1)
-        return Repository(owner, repo, ref)
+        return Repository(owner, repo, reference=ref, branch=branch)
 
 
 class GitHub:

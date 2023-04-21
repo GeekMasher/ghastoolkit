@@ -4,15 +4,10 @@ import logging
 import argparse
 
 from ghastoolkit import __name__ as name
-from ghastoolkit.codeql import CodeQLDatabase
-from ghastoolkit.codeql.databases import CodeQLDatabaseList
-from ghastoolkit.octokit import dependencygraph
 from ghastoolkit.octokit.github import GitHub
 from ghastoolkit.octokit.codescanning import CodeScanning
 from ghastoolkit.octokit.dependencygraph import (
-    Dependencies,
     DependencyGraph,
-    Dependency,
 )
 
 # Arguments
