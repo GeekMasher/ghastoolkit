@@ -37,4 +37,5 @@ jobs:
 
     - name: Test with unittest
       run: |
+        export PYTHONPATH=$PWD/src
         pipenv run test
