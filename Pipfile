@@ -21,3 +21,7 @@ publish = "pipenv run build && python -m twine upload dist/*"
 clean = "rm -r ./src/ghastoolkit.egg-info/ && rm -r ./dist"
 test = "python -m unittest discover -v -s ./tests -p 'test_*.py'"
 fmt = "black ./src/ghastoolkit"
+lint = "black --check ./src/ghastoolkit"
+docs = "sphinx-build -b html ./docs ./docs/_build"
+#
+
