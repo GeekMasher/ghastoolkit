@@ -1,0 +1,23 @@
+[project]
+name = "ghastoolkit"
+version = "0.1.0"
+authors = [
+  { name="GeekMasher" },
+]
+description = "GitHub Advanced Security Python Toolkit"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/GeekMaher/ghastoolkit"
+"Bug Tracker" = "https://github.com/GeekMaher/ghastoolkit/issues"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
