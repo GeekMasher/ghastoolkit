@@ -51,6 +51,7 @@ def header(name: str):
     print(f"    {name}")
     print("#" * 32)
 
+
 # logger
 logging.basicConfig(
     level=logging.DEBUG if arguments.debug or os.environ.get("DEBUG") else logging.INFO,
@@ -58,10 +59,7 @@ logging.basicConfig(
 )
 
 # GitHub Init
-GitHub.init(
-    repository=arguments.github_repository,
-    token=arguments.github_token
-)
+GitHub.init(repository=arguments.github_repository, token=arguments.github_token)
 
 
 if arguments.mode == "codescanning":
@@ -78,13 +76,12 @@ elif arguments.mode == "dependencygraph":
     depgraph = DependencyGraph(GitHub.repository)
     bom = depgraph.exportBOM()
     packages = bom.get("sbom", {}).get("packages", [])
-    
+
     print(f"Total Dependencies :: {len(packages)}")
-     
+
     info = bom.get("sbom", {}).get("creationInfo", {})
     print(f"Created :: {info.get('created')}")
 
     print("\nTools:")
     for tool in info.get("creators", []):
         print(f" - {tool}")
-
