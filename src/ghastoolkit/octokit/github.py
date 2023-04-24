@@ -37,7 +37,7 @@ class Repository:
 
 
 class GitHub:
-    repository: Optional[Repository] = None
+    repository: Repository = Repository("GeekMasher", "ghastoolkit")
     token: Optional[str] = None
 
     # URLs
