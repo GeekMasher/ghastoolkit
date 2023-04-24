@@ -3,3 +3,28 @@
 
 # ghastoolkit
 GitHub Advanced Security Toolkit
+
+## Installing 
+
+**Pip:**
+
+```bash
+pip install ghastoolkit
+```
+
+**Pipenv:**
+
+``bach
+pipenv install ghastoolkit
+```
+
+## Usage 
+
+```python
+from ghastoolkit import GitHub
+
+
+GitHub.init("GeekMasher/ghastoolkit")
+
+```
+

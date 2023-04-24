@@ -47,6 +47,7 @@ def header(name: str):
     print("#" * 32)
     print(f"    {name}")
     print("#" * 32)
+    print("")
 
 
 # logger
@@ -72,6 +73,17 @@ if arguments.mode in ["all", "codescanning"]:
     alerts = codescanning.getAlerts()
 
     print(f"Total Alerts :: {len(alerts)}")
+
+    analyses = codescanning.getLatestAnalyses(GitHub.repository.reference)
+    print(f"\nTools:   ({len(analyses)})")
+
+    for analyse in analyses:
+        tool = analyse.get("tool", {}).get("name")
+        version = analyse.get("tool", {}).get("version")
+        created_at = analyse.get("created_at")
+
+        print(f" - {tool} v{version} ({created_at})")
+
 
 if arguments.mode in ["all", "dependencygraph"]:
     header("Dependency Graph")
