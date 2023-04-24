@@ -41,6 +41,7 @@ jobs:
 
     - name: Run
       run: |
+        export PYTHONPATH=$PWD/src
         pipenv run main all -r="GeekMasher/ghastoolkit" 
 
     - name: Test with unittest
