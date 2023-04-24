@@ -8,11 +8,9 @@ on:
 
 permissions:
   contents: read
-  security-events: read
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -42,7 +40,9 @@ jobs:
     - name: Run
       run: |
         export PYTHONPATH=$PWD/src
-        pipenv run main all -r="GeekMasher/ghastoolkit" 
+        pipenv run main all \
+          -t="${{ secrets.GHASTOOLKIT_PAT }}" \
+          -r="GeekMasher/ghastoolkit"
 
     - name: Test with unittest
       run: |
