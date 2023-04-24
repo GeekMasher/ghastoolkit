@@ -14,7 +14,9 @@ from ghastoolkit.octokit.dependencygraph import (
 parser = argparse.ArgumentParser(name)
 parser.add_argument("--debug", action="store_true")
 
-parser.add_argument("mode", choices=["all", "codescanning", "codeql", "dependencygraph"])
+parser.add_argument(
+    "mode", choices=["all", "codescanning", "codeql", "dependencygraph"]
+)
 
 parser.add_argument("-sha", default=os.environ.get("GITHUB_SHA"), help="Commit SHA")
 parser.add_argument("-ref", default=os.environ.get("GITHUB_REF"), help="Commit ref")
@@ -57,7 +59,7 @@ logging.basicConfig(
 GitHub.init(
     repository=arguments.github_repository,
     instance=arguments.github_instance,
-    token=arguments.github_token
+    token=arguments.github_token,
 )
 
 if not GitHub.repository:
