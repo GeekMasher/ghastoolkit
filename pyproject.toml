@@ -1,6 +1,6 @@
 [project]
 name = "ghastoolkit"
-version = "0.1.3"
+version = "0.1.4"
 authors = [
   { name="GeekMasher" },
 ]
@@ -8,9 +8,21 @@ description = "GitHub Advanced Security Python Toolkit"
 readme = "README.md"
 requires-python = ">=3.9"
 classifiers = [
-    "Programming Language :: Python :: 3",
+    "Development Status :: 4 - Beta",
     "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
     "Operating System :: OS Independent",
+]
+dependencies = [
+    "certifi==2022.12.7",
+    "charset-normalizer==3.1.0",
+    "idna==3.4",
+    "PyYAML==6.0",
+    "requests==2.28.2",
+    "urllib3==1.26.15"
 ]
 
 [project.urls]
