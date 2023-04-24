@@ -115,8 +115,9 @@ class RestRequest:
             if known_error:
                 raise Exception(known_error)
             raise Exception(f"Failed to post data")
-        
+
         return response.json()
+
 
 class GraphQLRequest:
     locations: list[str] = [os.path.join(__OCTOKIT_PATH__, "queries")]
