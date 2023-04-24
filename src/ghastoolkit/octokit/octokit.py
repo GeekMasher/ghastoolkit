@@ -1,7 +1,7 @@
 import os
 import logging
 from string import Template
-from typing import Optional
+from typing import Optional, Union
 from requests import Session
 
 from ghastoolkit.octokit.github import GitHub, Repository
@@ -53,7 +53,7 @@ class RestRequest:
         parameters: dict = {},
         expected: int = 200,
         authenticated: bool = False,
-    ) -> dict | list[dict]:
+    ) -> Union[dict, list[dict]]:
         repo = self.repository or GitHub.repository
         if not repo:
             raise Exception("Repository needs to be set")
@@ -78,6 +78,7 @@ class RestRequest:
 
             if responce.status_code != expected:
                 logger.error(f"Error code from server :: {responce.status_code}")
+                logger.error(f"Content :: {responce_json}")
                 known_error = __OCTOKIT_ERRORS__.get(responce.status_code)
                 if known_error:
                     raise Exception(known_error)

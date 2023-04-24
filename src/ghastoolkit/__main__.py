@@ -14,7 +14,9 @@ from ghastoolkit.octokit.dependencygraph import (
 parser = argparse.ArgumentParser(name)
 parser.add_argument("--debug", action="store_true")
 
-parser.add_argument("mode", choices=["codescanning", "codeql", "dependencygraph"])
+parser.add_argument(
+    "mode", choices=["all", "codescanning", "codeql", "dependencygraph"]
+)
 
 parser.add_argument("-sha", default=os.environ.get("GITHUB_SHA"), help="Commit SHA")
 parser.add_argument("-ref", default=os.environ.get("GITHUB_REF"), help="Commit ref")
@@ -28,7 +30,7 @@ parser_github.add_argument(
 )
 parser_github.add_argument(
     "--github-instance",
-    default=os.environ.get("GITHUB_API_URL", "https://api.github.com"),
+    default=os.environ.get("GITHUB_SERVER_URL", "https://github.com"),
     help="GitHub Instance",
 )
 parser_github.add_argument(
@@ -54,10 +56,16 @@ logging.basicConfig(
 )
 
 # GitHub Init
-GitHub.init(repository=arguments.github_repository, token=arguments.github_token)
+GitHub.init(
+    repository=arguments.github_repository,
+    instance=arguments.github_instance,
+    token=arguments.github_token,
+)
 
+if not GitHub.repository:
+    raise Exception(f"GitHub Repository must be set")
 
-if arguments.mode == "codescanning":
+if arguments.mode in ["all", "codescanning"]:
     header("Code Scanning")
     codescanning = CodeScanning(GitHub.repository)
 
@@ -65,7 +73,7 @@ if arguments.mode == "codescanning":
 
     print(f"Total Alerts :: {len(alerts)}")
 
-elif arguments.mode == "dependencygraph":
+if arguments.mode in ["all", "dependencygraph"]:
     header("Dependency Graph")
 
     depgraph = DependencyGraph(GitHub.repository)

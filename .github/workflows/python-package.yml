@@ -6,14 +6,16 @@ on:
   pull_request:
     branches: [ "main", "develop" ]
 
+permissions:
+  contents: read
+
 jobs:
   build:
-
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.9", "3.10", "3.11"]
 
     steps:
     - uses: actions/checkout@v3
@@ -34,6 +36,13 @@ jobs:
     - name: Build
       run: |
         pipenv run build
+
+    - name: Run
+      run: |
+        export PYTHONPATH=$PWD/src
+        pipenv run main all \
+          -t="${{ secrets.GHASTOOLKIT_PAT }}" \
+          -r="GeekMasher/ghastoolkit"
 
     - name: Test with unittest
       run: |
