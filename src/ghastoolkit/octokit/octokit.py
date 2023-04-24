@@ -99,7 +99,7 @@ class RestRequest:
 
         return result
 
-    def postJson(self, path: str, data: dict, expected: int = 200):
+    def postJson(self, path: str, data: dict, expected: int = 200) -> dict:
         repo = self.repository or GitHub.repository
         if not repo:
             raise Exception("Repository needs to be set")
@@ -110,8 +110,13 @@ class RestRequest:
         response = self.session.post(url, json=data)
 
         if response.status_code != expected:
+            logger.error(f"Error code from server :: {response.status_code}")
+            known_error = __OCTOKIT_ERRORS__.get(response.status_code)
+            if known_error:
+                raise Exception(known_error)
             raise Exception(f"Failed to post data")
-
+        
+        return response.json()
 
 class GraphQLRequest:
     locations: list[str] = [os.path.join(__OCTOKIT_PATH__, "queries")]
