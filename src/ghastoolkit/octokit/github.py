@@ -13,6 +13,13 @@ class Repository:
 
     sha: Optional[str] = None
 
+    def __post_init__(self) -> None:
+        if self.reference and not self.branch:
+            _, _, branch = self.reference.split("/", 3)
+            self.branch = branch
+        if self.branch and not self.reference:
+            self.reference = f"refs/heads/{self.branch}"
+
     def __str__(self) -> str:
         return f"{self.owner}/{self.repo}"
 

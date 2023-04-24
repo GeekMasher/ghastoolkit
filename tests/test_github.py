@@ -42,3 +42,9 @@ class TestGitHub(unittest.TestCase):
         self.assertEqual(repo.reference, "refs/heads/main")
 
 
+class TestRepository(unittest.TestCase):
+    def test_branch(self):
+        repo = Repository("GeekMasher", "ghastoolkit", reference="refs/heads/main")
+        self.assertEqual(repo.reference, "refs/heads/main")
+        self.assertEqual(repo.branch, "main")
+
