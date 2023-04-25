@@ -9,13 +9,21 @@ logger = logging.getLogger("ghastoolkit.octokit.codescanning")
 
 
 class CodeScanning:
-    def __init__(self, repository: Repository) -> None:
-        """GitHub Code Scanning REST API"""
-        self.repository = repository
-        self.rest = RestRequest(repository)
+    def __init__(self, repository: Optional[Repository] = None) -> None:
+        """GitHub Code Scanning REST API
 
-    def getOrgAlerts(self, state: str = "open") -> list[dict[Any, Any]]:
-        """Get Organization Alerts"""
+        https://docs.github.com/en/rest/code-scanning
+        """
+        self.repository = repository or GitHub.repository
+        if not self.repository:
+            raise Exception("CodeScanning requires Repository to be set")
+        self.rest = RestRequest(self.repository)
+
+    def getOrganizationAlerts(self, state: str = "open") -> list[dict[Any, Any]]:
+        """Get Organization Alerts
+
+        https://docs.github.com/en/rest/code-scanning#list-code-scanning-alerts-for-an-organization
+        """
         results = self.rest.get(
             "/orgs/{org}/code-scanning/alerts", {"state": state}, authenticated=True
         )
@@ -28,7 +36,7 @@ class CodeScanning:
     ) -> list[dict]:
         """Get a code scanning alert
 
-        https://docs.github.com/en/rest/code-scanning?apiVersion=2022-11-28#get-a-code-scanning-alert
+        https://docs.github.com/en/rest/code-scanning#list-code-scanning-alerts-for-a-repository
         """
         results = self.rest.get(
             "/repos/{owner}/{repo}/code-scanning/alerts",
@@ -40,7 +48,10 @@ class CodeScanning:
         raise Exception(f"Error getting list of alerts")
 
     def getAlert(self, alert_number: int) -> dict:
-        """Get Single Alert"""
+        """Get Single Alert
+
+        https://docs.github.com/en/rest/code-scanning#get-a-code-scanning-alert
+        """
         results = self.rest.get(
             "/repos/{owner}/{repo}/code-scanning/alerts/{alert_number}",
             {"alert_number": alert_number},

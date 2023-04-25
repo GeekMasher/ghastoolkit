@@ -1,7 +1,7 @@
 __name__ = "ghastoolkit"
 __title__ = "GHAS Toolkit"
 
-__version__ = "0.1.5"
+__version__ = "0.1.6"
 
 __description__ = "GitHub Advanced Security Python Toolkit"
 __summary__ = """\
@@ -20,6 +20,7 @@ __author__ = "GeekMasher"
 from ghastoolkit.octokit.github import GitHub
 from ghastoolkit.octokit.octokit import Octokit, RestRequest, GraphQLRequest
 from ghastoolkit.octokit.codescanning import CodeScanning
+from ghastoolkit.octokit.secretscanning import SecretScanning
 from ghastoolkit.octokit.dependencygraph import (
     DependencyGraph,
     Dependencies,
