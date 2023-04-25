@@ -1,6 +1,6 @@
 [project]
 name = "ghastoolkit"
-version = "0.1.7"
+version = "0.1.8"
 authors = [
   { name="GeekMasher" },
 ]
@@ -22,6 +22,7 @@ dependencies = [
     "idna==3.4",
     "PyYAML==6.0",
     "requests==2.28.2",
+    "ratelimit==2.2.1",
     "urllib3==1.26.15"
 ]
 
