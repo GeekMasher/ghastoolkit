@@ -107,7 +107,10 @@ class Dependencies(list[Dependency]):
 
     def findNames(self, names: list[str]) -> "Dependencies":
         """Find by Name using wildcards"""
-        raise Exception("TODO")
+        regex_list = [re.compile(name_filter) for name_filter in names]
+        return Dependencies(
+            [dep for dep in self if any(regex.search(dep.name) for regex in regex_list)]
+        )
 
 
 class DependencyGraph:
