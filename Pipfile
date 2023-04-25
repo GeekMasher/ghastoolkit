@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 requests = "*"
 pyyaml = "*"
+ratelimit = "*"
 
 [dev-packages]
 black = "*"
@@ -24,4 +25,3 @@ fmt = "black ./src/ghastoolkit"
 lint = "black --check ./src/ghastoolkit"
 docs = "sphinx-build -b html ./docs ./docs/_build"
 #
-
