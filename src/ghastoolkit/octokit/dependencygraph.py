@@ -99,11 +99,14 @@ class Dependencies(list[Dependency]):
 
     def findLicenses(self, licenses: list[str]) -> "Dependencies":
         """Find Denied License"""
-        new_deps = Dependencies()
-        for dep in self:
-            if dep.licence in licenses:
-                new_deps.append(dep)
-        return new_deps
+        regex_list = [re.compile(name_filter) for name_filter in licenses]
+        return Dependencies(
+            [
+                dep
+                for dep in self
+                if any(regex.search(dep.licence or "NA") for regex in regex_list)
+            ]
+        )
 
     def findNames(self, names: list[str]) -> "Dependencies":
         """Find by Name using wildcards"""

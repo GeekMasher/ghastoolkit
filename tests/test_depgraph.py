@@ -61,6 +61,12 @@ class TestDependencies(unittest.TestCase):
         self.assertEqual(gpl[0].name, "pyyaml")
         self.assertEqual(gpl[1].name, "requests")
 
+    def test_license_wildcard(self):
+        gpl = self.deps.findLicenses(["GPL-*"])
+        self.assertEqual(len(gpl), 2)
+        self.assertEqual(gpl[0].name, "pyyaml")
+        self.assertEqual(gpl[1].name, "requests")
+
     def test_findName(self):
         pys = self.deps.findNames(["py*"])
         self.assertEqual(len(pys), 2)
