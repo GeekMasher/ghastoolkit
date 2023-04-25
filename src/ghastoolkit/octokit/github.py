@@ -1,5 +1,5 @@
-from dataclasses import dataclass
 import os
+from dataclasses import dataclass
 from typing import Optional, Tuple
 from urllib.parse import urlparse
 
@@ -15,16 +15,41 @@ class Repository:
 
     def __post_init__(self) -> None:
         if self.reference and not self.branch:
-            _, _, branch = self.reference.split("/", 3)
-            self.branch = branch
+            if not self.isInPullRequest():
+                _, _, branch = self.reference.split("/", 2)
+                self.branch = branch
         if self.branch and not self.reference:
             self.reference = f"refs/heads/{self.branch}"
 
     def __str__(self) -> str:
-        return f"{self.owner}/{self.repo}"
+        name = f"{self.owner}/{self.repo}"
+        if self.reference:
+            return f"{name}:{self.reference}"
+        elif self.branch:
+            return f"{name}@{self.branch}"
+        return name
 
     def __repr__(self) -> str:
         return self.__str__()
+
+    def isInPullRequest(self) -> bool:
+        """Is in Pull Request?"""
+        if self.reference:
+            return self.reference.startswith("refs/pull")
+        return False
+
+    def getPullRequestNumber(self) -> int:
+        """Get Pull Request Number"""
+        if self.reference:
+            return int(self.reference.split("/")[2])
+        return 0
+
+    @property
+    def clone_url(self) -> str:
+        if GitHub.token:
+            url = urlparse(GitHub.instance)
+            return f"{url.scheme}://{GitHub.token}@{url.netloc}/{self.owner}/{self.repo}.git"
+        return f"{GitHub.instance}/{self.owner}/{self.repo}.git"
 
     def display(self):
         if self.reference:

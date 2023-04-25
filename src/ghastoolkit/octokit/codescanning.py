@@ -1,7 +1,6 @@
 import json
 import logging
-import os
-from typing import Any, Optional, Union
+from typing import Any, Optional
 from ghastoolkit.octokit.github import GitHub, Repository
 from ghastoolkit.octokit.octokit import RestRequest
 
@@ -31,35 +30,53 @@ class CodeScanning:
             return results
         raise Exception(f"Error getting alerts from Organization")
 
+    @RestRequest.restGet(
+        "/repos/{owner}/{repo}/code-scanning/alerts", authenticated=True
+    )
     def getAlerts(
-        self, state: str = "open", tool_name: Optional[str] = None
+        self,
+        state: str = "open",
+        tool_name: Optional[str] = None,
+        ref: Optional[str] = None,
     ) -> list[dict]:
         """Get a code scanning alert
-
         https://docs.github.com/en/rest/code-scanning#list-code-scanning-alerts-for-a-repository
         """
-        results = self.rest.get(
-            "/repos/{owner}/{repo}/code-scanning/alerts",
-            {"state": state, "tool_name": tool_name},
-            authenticated=True,
-        )
-        if isinstance(results, list):
-            return results
-        raise Exception(f"Error getting list of alerts")
+        return []
 
+    def getAlertsInPR(self, base: str) -> list[dict]:
+        """Get Alerts in Pull Request (diff)
+
+        base: str - Base reference
+        https://docs.github.com/en/rest/code-scanning#list-instances-of-a-code-scanning-alert
+        """
+        if not self.repository.reference or not self.repository.isInPullRequest():
+            return []
+        results = []
+        alerts = self.getAlerts("open", ref=self.repository.reference)
+        print(f" $ {self.repository.reference} == {len(alerts)}")
+        for alert in alerts:
+            alert_info = self.getAlertInstances(alert.get("number", 0), ref=base)
+            print(f" >> {alert.get('number')} -> {len(alert_info)}")
+            if len(alert_info) == 0:
+                results.append(alert_info)
+        return results
+
+    @RestRequest.restGet(
+        "/repos/{owner}/{repo}/code-scanning/alerts/{alert_number}", authenticated=True
+    )
     def getAlert(self, alert_number: int) -> dict:
         """Get Single Alert
-
         https://docs.github.com/en/rest/code-scanning#get-a-code-scanning-alert
         """
-        results = self.rest.get(
-            "/repos/{owner}/{repo}/code-scanning/alerts/{alert_number}",
-            {"alert_number": alert_number},
-            authenticated=True,
+        return {}
+
+    def getAlertInstances(self, alert_number: int, ref: Optional[str] = None) -> dict:
+        result = self.rest.get(
+            "/repos/{owner}/{repo}/code-scanning/alerts/{alert_number}/instances",
+            {"alert_number": alert_number, "ref": ref},
         )
-        if isinstance(results, dict):
-            return results
-        raise Exception(f"Error getting alert: {alert_number}")
+        return result
 
     def getAnalyses(
         self, reference: Optional[str] = None, tool: Optional[str] = None

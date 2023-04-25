@@ -1,10 +1,11 @@
+import fnmatch
 import logging
-from typing import Any
 from dataclasses import dataclass, field
 from datetime import datetime
-from ghastoolkit.octokit.github import Repository
+import re
+from ghastoolkit.octokit.github import GitHub, Repository
 
-from ghastoolkit.octokit.octokit import Optional, RestRequest
+from ghastoolkit.octokit.octokit import GraphQLRequest, Optional, RestRequest
 
 logger = logging.getLogger("ghastoolkit.octokit.dependencygraph")
 
@@ -17,6 +18,8 @@ class Dependency:
     manager: Optional[str] = None
     path: Optional[str] = None
     qualifiers: dict[str, str] = field(default_factory=list)
+
+    licence: Optional[str] = None
 
     def getPurl(self) -> str:
         """Get PURL
@@ -32,6 +35,24 @@ class Dependency:
             result += f"@{self.version}"
 
         return result
+
+    @staticmethod
+    def fromPurl(purl: str) -> "Dependency":
+        dep = Dependency("")
+        pkg, dep.version = purl.split("@", 1)
+
+        if pkg.count("/") == 2:
+            manager, dep.namespace, dep.name = pkg.split("/", 3)
+        elif pkg.count("/") == 1:
+            manager, dep.name = pkg.split("/", 2)
+        elif pkg.count("/") > 2:
+            manager, dep.namespace, dep.name = pkg.split("/", 2)
+        else:
+            raise Exception(f"Unable to parse PURL :: {purl}")
+
+        _, dep.manager = manager.split(":", 1)
+
+        return dep
 
     def __str__(self) -> str:
         return self.getPurl()
@@ -76,14 +97,56 @@ class Dependencies(list[Dependency]):
         }
         return data
 
+    def findLicenses(self, licenses: list[str]) -> "Dependencies":
+        """Find Denied License"""
+        new_deps = Dependencies()
+        for dep in self:
+            if dep.licence in licenses:
+                new_deps.append(dep)
+        return new_deps
+
+    def findNames(self, names: list[str]) -> "Dependencies":
+        """Find by Name using wildcards"""
+        raise Exception("TODO")
+
 
 class DependencyGraph:
-    def __init__(self, repository: Repository) -> None:
+    def __init__(self, repository: Optional[Repository] = None) -> None:
+        self.repository = repository or GitHub.repository
         self.rest = RestRequest(repository)
+        self.graphql = GraphQLRequest(repository)
 
-    def exportBOM(self) -> dict:
-        bom = self.rest.get("/repos/{owner}/{repo}/dependency-graph/sbom")
-        return bom
+    def getDependencies(self) -> Dependencies:
+        """Get Dependencies from SBOM"""
+        result = Dependencies()
+        spdx_bom = self.exportBOM()
+
+        for package in spdx_bom.get("sbom", {}).get("packages", []):
+            extref = False
+            dep = Dependency("")
+            for ref in package.get("externalRefs", []):
+                if ref.get("referenceType"):
+                    dep = Dependency.fromPurl(ref.get("referenceLocator"))
+                    extref = True
+
+            if extref:
+                dep.licence = package.get("licenseConcluded")
+            else:
+                manager, name = package.get("name", "").split(":")
+                dep = Dependency(
+                    name,
+                    version=package.get("versionInfo"),
+                    manager=manager,
+                    licence=package.get("licenseConcluded"),
+                )
+
+            result.append(dep)
+
+        return result
+
+    def exportBOM(self) -> Dependencies:
+        """Download / Export DependencyGraph SBOM"""
+        return self.rest.get("/repos/{owner}/{repo}/dependency-graph/sbom")
 
     def submitDependencies(
         self,

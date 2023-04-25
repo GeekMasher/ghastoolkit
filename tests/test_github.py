@@ -43,8 +43,26 @@ class TestGitHub(unittest.TestCase):
 
 
 class TestRepository(unittest.TestCase):
+    def setUp(self) -> None:
+        GitHub.token = None
+        return super().setUp()
     def test_branch(self):
         repo = Repository("GeekMasher", "ghastoolkit", reference="refs/heads/main")
         self.assertEqual(repo.reference, "refs/heads/main")
         self.assertEqual(repo.branch, "main")
+
+    def test_pull_request(self):
+        repo = Repository("GeekMasher", "ghastoolkit", reference="refs/heads/main")
+        self.assertFalse(repo.isInPullRequest())
+
+        repo = Repository("GeekMasher", "ghastoolkit", reference="refs/pull/1/merge")
+        self.assertTrue(repo.isInPullRequest())
+        self.assertEqual(repo.getPullRequestNumber(), 1)
+
+    def test_clone_url(self):
+        repo = Repository("GeekMasher", "ghastoolkit")
+        self.assertEqual(repo.clone_url, "https://github.com/GeekMasher/ghastoolkit.git")
+        
+        GitHub.token = "test_token"
+        self.assertEqual(repo.clone_url, "https://test_token@github.com/GeekMasher/ghastoolkit.git")
 
