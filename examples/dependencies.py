@@ -1,7 +1,6 @@
 import json
 from ghastoolkit.octokit.dependencygraph import DependencyGraph
 from ghastoolkit.octokit.github import GitHub
-from ghastoolkit.octokit.octokit import GraphQLRequest
 
 GitHub.init("GeekMasher/ghastoolkit")
 
