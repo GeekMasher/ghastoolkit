@@ -44,6 +44,15 @@ jobs:
           -t="${{ secrets.GHASTOOLKIT_PAT }}" \
           -r="GeekMasher/ghastoolkit"
 
+    - name: Run Examples 
+      run: |
+        export PYTHONPATH=$PWD/src
+        for pyfile in ./examples/*.py; do
+          echo "[+] Running Example :: $pyfile"
+          pipenv run python $pyfile
+          echo "[+] Finished running example"
+        done
+
     - name: Test with unittest
       run: |
         export PYTHONPATH=$PWD/src
