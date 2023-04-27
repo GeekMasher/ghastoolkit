@@ -46,7 +46,10 @@ class Repository:
 
     @property
     def clone_url(self) -> str:
-        if GitHub.token:
+        if GitHub.github_app:
+            url = urlparse(GitHub.instance)
+            return f"{url.scheme}://x-access-token:{GitHub.token}@{url.netloc}/{self.owner}/{self.repo}.git"
+        elif GitHub.token:
             url = urlparse(GitHub.instance)
             return f"{url.scheme}://{GitHub.token}@{url.netloc}/{self.owner}/{self.repo}.git"
         return f"{GitHub.instance}/{self.owner}/{self.repo}.git"
@@ -76,6 +79,8 @@ class GitHub:
     instance: str = "https://github.com"
     api_rest: str = "https://api.github.com"
     api_graphql: str = "https://api.github.com/graphql"
+
+    github_app: bool = False
 
     @staticmethod
     def init(

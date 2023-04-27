@@ -15,6 +15,7 @@ from ghastoolkit.octokit.github import GitHub, Repository
 
 # Assume REST requests are being done by a GitHub Token, not
 # a GitHub App which has a higher limit
+# https://docs.github.com/en/rest/overview/resources-in-the-rest-api?apiVersion=2022-11-28#rate-limiting
 REST_MAX_CALLS = 80  # ~5000 per hour
 
 __OCTOKIT_PATH__ = os.path.dirname(os.path.realpath(__file__))
