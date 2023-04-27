@@ -14,9 +14,7 @@ from ghastoolkit.octokit.octokit import GitHub
 from requests import request
 
 
-__CODEQL_DATABASE_PATHS__ = [
-    os.path.expanduser("~/.codeql/databases")
-]
+__CODEQL_DATABASE_PATHS__ = [os.path.expanduser("~/.codeql/databases")]
 
 logger = logging.getLogger("ghastoolkit.codeql")
 
@@ -79,7 +77,7 @@ class CodeQLDatabase:
         for root in __CODEQL_DATABASE_PATHS__:
             if not os.path.exists(root):
                 continue
-            
+
             return os.path.join(root, self.database_folder)
         return
 
@@ -197,22 +195,22 @@ class CodeQLDatabases(list[CodeQLDatabase]):
             self.findDatabases(location)
 
     def getRemoteDatabases(self, repository: Repository):
-        """ Find all remote databases and return a list of them """
+        """Find all remote databases and return a list of them"""
         cs = CodeScanning(repository)
         databases = cs.getCodeQLDatabases()
         for db in databases:
             lang = db.get("language")
-            if not lang: 
+            if not lang:
                 raise Exception(f"CodeQL remote language is not set")
-            self.append(CodeQLDatabase(
-                f"{repository.repo}-{lang}",
-                language=lang,
-                repository=repository
-            ))
+            self.append(
+                CodeQLDatabase(
+                    f"{repository.repo}-{lang}", language=lang, repository=repository
+                )
+            )
 
     @staticmethod
     def loadRemoteDatabases(repository: Repository) -> "CodeQLDatabases":
-        """ Use API to find all the databases and return a list of them """
+        """Use API to find all the databases and return a list of them"""
         dbs = CodeQLDatabases()
         dbs.getRemoteDatabases(repository)
         return dbs
@@ -226,8 +224,7 @@ class CodeQLDatabases(list[CodeQLDatabase]):
                 if file == "codeql-database.yml":
                     path = os.path.join(root, file)
                     self.append(CodeQLDatabase.loadDatabaseYml(path))
-    
+
     def downloadDatabases(self):
         for db in self:
             db.downloadDatabase()
-
