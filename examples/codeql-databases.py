@@ -1,11 +1,34 @@
 import os
-from ghastoolkit.codeql.databases import CodeQLDatabaseList
+from ghastoolkit.codeql.databases import CodeQLDatabase, CodeQLDatabases
+from ghastoolkit.octokit.github import GitHub, Repository
+
+GitHub.init("GeekMasher/ghastoolkit")
 
 path = os.path.expanduser("~/.codeql/databases/")
-print(f"Loading Path :: {path}")
+os.makedirs(path, exist_ok=True) # create if not present
 
-databases = CodeQLDatabaseList.findDatabases(path)
+codeqldb = CodeQLDatabase("ghastoolkit", "python", GitHub.repository)
+print(f"- {codeqldb} (existis: {codeqldb.exists()})")
+print(f"    [{codeqldb.path}]")
 
-for database in databases:
-    print(f"{database}")
+if not codeqldb.exists():
+    codeqldb.downloadDatabase(codeqldb.path)
+
+
+# Load All Local Databases
+local_databases = CodeQLDatabases()
+local_databases.findDatabases(path)
+
+print("\nAll Local Databases:")
+for database in local_databases:
+    print(f"  - {database}")
+
+
+# Load Remote Database
+remote_databases = CodeQLDatabases.loadRemoteDatabases(GitHub.repository)
+# remote_databases.downloadDatabases()
+
+print("\nAll Remote Databases:")
+for database in remote_databases:
+    print(f"  - {database}")
 

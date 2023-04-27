@@ -28,4 +28,4 @@ from ghastoolkit.octokit.dependencygraph import (
 )
 
 # CodeQL
-from ghastoolkit.codeql.databases import CodeQLDatabaseList, CodeQLDatabase
+from ghastoolkit.codeql.databases import CodeQLDatabases, CodeQLDatabase

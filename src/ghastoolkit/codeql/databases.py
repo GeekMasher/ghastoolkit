@@ -14,6 +14,8 @@ from ghastoolkit.octokit.octokit import GitHub
 from requests import request
 
 
+__CODEQL_DATABASE_PATHS__ = [os.path.expanduser("~/.codeql/databases")]
+
 logger = logging.getLogger("ghastoolkit.codeql")
 
 
@@ -22,15 +24,21 @@ class CodeQLDatabase:
     name: str
     language: str
     repository: Optional[Repository] = None
+
+    # path to when the DB should be
     path: Optional[str] = None
+    path_download: Optional[str] = None
 
     def __post_init__(self):
         if self.path:
             if not os.path.exists(self.path):
                 raise Exception("Database folder incorrect")
             # TODO: check and load DB data
-        elif not self.path:
-            self.path = self.findOrCreatePath()
+        else:
+            self.path = self.createPath()
+
+        if not self.path_download:
+            self.path_download = self.createDownloadPath()
 
         if self.language not in CODEQL_LANGUAGES:
             raise Exception("Language is not supported by CodeQL Summary Generator")
@@ -65,7 +73,15 @@ class CodeQLDatabase:
         new_name = self.name.replace("-", " ")
         return new_name.title().replace(" ", "")
 
-    def findOrCreatePath(self, root: Optional[str] = None) -> str:
+    def createPath(self) -> Optional[str]:
+        for root in __CODEQL_DATABASE_PATHS__:
+            if not os.path.exists(root):
+                continue
+
+            return os.path.join(root, self.database_folder)
+        return
+
+    def createDownloadPath(self, root: Optional[str] = None) -> str:
         """Find a path where"""
         if not root:
             root = os.path.join(tempfile.gettempdir(), "codeql-db")
@@ -101,8 +117,12 @@ class CodeQLDatabase:
         db = CodeQLDatabase(name, data.get("primaryLanguage"), path=path)
         return db
 
-    def downloadDatabase(self, output: str, use_cache: bool = True) -> str:
+    def downloadDatabase(self, output: Optional[str], use_cache: bool = True) -> str:
         """Download CodeQL database"""
+        output = output or self.path or self.path_download
+        if not output:
+            raise Exception(f"CodeQL Database path not set")
+
         if not self.language or not self.repository:
             raise Exception(
                 f"Database download requires a repository and language to be set"
@@ -155,6 +175,7 @@ class CodeQLDatabase:
 
         logger.info(f" >>> {output_db}")
         codeql_lang_path = os.path.join(output_db, self.language)
+
         if os.path.exists(codeql_lang_path):
             return codeql_lang_path
 
@@ -163,19 +184,55 @@ class CodeQLDatabase:
             if os.path.isdir(codeql_dir):
                 return codeql_dir
 
+        raise Exception(f"Database downloaded but not DB files...")
 
-class CodeQLDatabaseList(list[CodeQLDatabase]):
+
+class CodeQLDatabases(list[CodeQLDatabase]):
+    def loadDefault(self):
+        """Load Databases from standard locations"""
+        for location in __CODEQL_DATABASE_PATHS__:
+            if not os.path.exists(location):
+                continue
+            self.findDatabases(location)
+
     @staticmethod
-    def findDatabases(path: str) -> "CodeQLDatabaseList":
-        if not os.path.exists(path):
-            raise Exception("Root database folder does not exist")
+    def loadLocalDatabase() -> "CodeQLDatabases":
+        """Load all Local Databases"""
+        db = CodeQLDatabases()
+        db.loadDefault()
+        return db
 
-        paths = CodeQLDatabaseList()
+    def getRemoteDatabases(self, repository: Repository):
+        """Find all remote databases and return a list of them"""
+        cs = CodeScanning(repository)
+        databases = cs.getCodeQLDatabases()
+        for db in databases:
+            lang = db.get("language")
+            if not lang:
+                raise Exception(f"CodeQL remote language is not set")
+            self.append(
+                CodeQLDatabase(
+                    f"{repository.repo}-{lang}", language=lang, repository=repository
+                )
+            )
+
+    @staticmethod
+    def loadRemoteDatabases(repository: Repository) -> "CodeQLDatabases":
+        """Use API to find all the databases and return a list of them"""
+        dbs = CodeQLDatabases()
+        dbs.getRemoteDatabases(repository)
+        return dbs
+
+    def findDatabases(self, path: str):
+        if not os.path.exists(path):
+            raise Exception(f"Path does not exist: {path}")
 
         for root, _, files in os.walk(path):
             for file in files:
                 if file == "codeql-database.yml":
                     path = os.path.join(root, file)
-                    paths.append(CodeQLDatabase.loadDatabaseYml(path))
+                    self.append(CodeQLDatabase.loadDatabaseYml(path))
 
-        return paths
+    def downloadDatabases(self):
+        for db in self:
+            db.downloadDatabase(None)
