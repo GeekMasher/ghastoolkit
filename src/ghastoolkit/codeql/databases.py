@@ -189,10 +189,18 @@ class CodeQLDatabase:
 
 class CodeQLDatabases(list[CodeQLDatabase]):
     def loadDefault(self):
+        """Load Databases from standard locations"""
         for location in __CODEQL_DATABASE_PATHS__:
             if not os.path.exists(location):
                 continue
             self.findDatabases(location)
+
+    @staticmethod
+    def loadLocalDatabase() -> "CodeQLDatabases":
+        """Load all Local Databases"""
+        db = CodeQLDatabases()
+        db.loadDefault()
+        return db
 
     def getRemoteDatabases(self, repository: Repository):
         """Find all remote databases and return a list of them"""
@@ -227,4 +235,4 @@ class CodeQLDatabases(list[CodeQLDatabase]):
 
     def downloadDatabases(self):
         for db in self:
-            db.downloadDatabase()
+            db.downloadDatabase(None)
