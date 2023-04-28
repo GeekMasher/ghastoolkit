@@ -146,9 +146,9 @@ class DependencyGraph:
                 # Namespace '/'
                 if "/" in package:
                     dep.namespace, name = name.split("/", 1)
-                
+
                 dep.name = name
-                dep.version = package.get("versionInfo") 
+                dep.version = package.get("versionInfo")
                 dep.licence = package.get("licenseConcluded")
 
             result.append(dep)
