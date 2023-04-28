@@ -213,7 +213,7 @@ class GraphQLRequest:
         if not query_content:
             return {}
 
-        cursor = f"after: \"{self.cursor}\"" if self.cursor != "" else ""
+        cursor = f'after: "{self.cursor}"' if self.cursor != "" else ""
 
         query = self.formatQuery(query_content, cursor=cursor, **options)
 
