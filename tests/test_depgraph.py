@@ -11,6 +11,12 @@ class TestDepGraph(unittest.TestCase):
         self.assertEqual(dep.manager, "pypi")
         self.assertEqual(dep.version, "1.11.1")
 
+    def test_fullname_maven(self):
+        dep = Dependency("express", manager="npm")
+        self.assertEqual(dep.fullname, "express")
+
+        dep = Dependency("spring-boot-starter-web", "org.springframework.boot", manager="maven")
+        self.assertEqual(dep.fullname, "org.springframework.boot:spring-boot-starter-web")
 
     def test_purl(self):
         # python
@@ -40,6 +46,12 @@ class TestDepGraph(unittest.TestCase):
         self.assertEqual(dep.name, "requests")
         self.assertEqual(dep.manager, "pypi")
         self.assertEqual(dep.version, "2.28.2")
+
+    def test_purl_from_basic(self):
+        dep = Dependency.fromPurl("npm/ini")
+        self.assertEqual(dep.name, "ini")
+        self.assertEqual(dep.manager, "npm")
+
 
 class TestDependencies(unittest.TestCase):
     def setUp(self) -> None:
@@ -73,4 +85,8 @@ class TestDependencies(unittest.TestCase):
         self.assertEqual(pys[0].name, "pyyaml")
         self.assertEqual(pys[1].name, "pyproject-hooks")
 
+    def test_find(self):
+        dep = self.deps.find("pyyaml")
+        self.assertIsNotNone(dep)
+        self.assertEqual(dep.name, "pyyaml")
 
