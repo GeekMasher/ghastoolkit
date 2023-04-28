@@ -199,6 +199,7 @@ class GraphQLRequest:
     def __init__(self, repository: Optional[Repository] = None) -> None:
         self.repository = repository or GitHub.repository
         self.session = Session()
+        self.cursor = ""
         # https://docs.github.com/en/rest/overview/authenticating-to-the-rest-api
         self.session.headers = {
             "Accept": "application/vnd.github.hawkgirl-preview+json",
@@ -208,11 +209,14 @@ class GraphQLRequest:
 
         self.loadQueries(DEFAULT_GRAPHQL_PATHS)
 
-    def query(self, name: str, options: dict[str, Any]) -> dict:
+    def query(self, name: str, options: dict[str, Any] = {}) -> dict:
         query_content = self.queries.get(name)
         if not query_content:
             return {}
-        query = self.formatQuery(query_content, **options)
+
+        cursor = f'after: "{self.cursor}"' if self.cursor != "" else ""
+
+        query = self.formatQuery(query_content, cursor=cursor, **options)
 
         response = self.session.post(
             GitHub.api_graphql, json={"query": query}, timeout=30
