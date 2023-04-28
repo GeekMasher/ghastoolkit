@@ -45,7 +45,10 @@ class TestGitHub(unittest.TestCase):
 class TestRepository(unittest.TestCase):
     def setUp(self) -> None:
         GitHub.token = None
+        GitHub.github_app = False
+
         return super().setUp()
+
     def test_branch(self):
         repo = Repository("GeekMasher", "ghastoolkit", reference="refs/heads/main")
         self.assertEqual(repo.reference, "refs/heads/main")
@@ -65,4 +68,8 @@ class TestRepository(unittest.TestCase):
         
         GitHub.token = "test_token"
         self.assertEqual(repo.clone_url, "https://test_token@github.com/GeekMasher/ghastoolkit.git")
+
+        GitHub.github_app = True
+        GitHub.token = "test_token"
+        self.assertEqual(repo.clone_url, "https://x-access-token:test_token@github.com/GeekMasher/ghastoolkit.git")
 

@@ -15,6 +15,7 @@ from ghastoolkit.octokit.github import GitHub, Repository
 
 # Assume REST requests are being done by a GitHub Token, not
 # a GitHub App which has a higher limit
+# https://docs.github.com/en/rest/overview/resources-in-the-rest-api?apiVersion=2022-11-28#rate-limiting
 REST_MAX_CALLS = 80  # ~5000 per hour
 
 __OCTOKIT_PATH__ = os.path.dirname(os.path.realpath(__file__))
@@ -198,6 +199,7 @@ class GraphQLRequest:
     def __init__(self, repository: Optional[Repository] = None) -> None:
         self.repository = repository or GitHub.repository
         self.session = Session()
+        self.cursor = ""
         # https://docs.github.com/en/rest/overview/authenticating-to-the-rest-api
         self.session.headers = {
             "Accept": "application/vnd.github.hawkgirl-preview+json",
@@ -207,11 +209,14 @@ class GraphQLRequest:
 
         self.loadQueries(DEFAULT_GRAPHQL_PATHS)
 
-    def query(self, name: str, options: dict[str, Any]) -> dict:
+    def query(self, name: str, options: dict[str, Any] = {}) -> dict:
         query_content = self.queries.get(name)
         if not query_content:
             return {}
-        query = self.formatQuery(query_content, **options)
+
+        cursor = f'after: "{self.cursor}"' if self.cursor != "" else ""
+
+        query = self.formatQuery(query_content, cursor=cursor, **options)
 
         response = self.session.post(
             GitHub.api_graphql, json={"query": query}, timeout=30
