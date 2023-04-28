@@ -43,7 +43,7 @@ class Dependency:
             pkg, dep.version = purl.split("@", 1)
         else:
             pkg = purl
-        
+
         slashes = pkg.count("/")
         if slashes == 0 and pkg.count(":", 1):
             # basic purl `npm:name`
@@ -56,7 +56,7 @@ class Dependency:
             manager, dep.namespace, dep.name = pkg.split("/", 2)
         else:
             raise Exception(f"Unable to parse PURL :: {purl}")
-        
+
         if manager.startswith("pkg:"):
             _, dep.manager = manager.split(":", 1)
         else:
@@ -66,7 +66,7 @@ class Dependency:
 
     @property
     def fullname(self) -> str:
-        """ Full Name of the Dependency """
+        """Full Name of the Dependency"""
         if self.namespace:
             sep = "/"
             if self.manager == "maven":
@@ -127,7 +127,7 @@ class Dependencies(list[Dependency]):
                 if any(regex.search(dep.licence or "NA") for regex in regex_list)
             ]
         )
-    
+
     def contains(self, dependency: Dependency) -> bool:
         purl = dependency.getPurl(version=False)
         for dep in self:
