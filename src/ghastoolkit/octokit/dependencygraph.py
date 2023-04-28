@@ -135,16 +135,21 @@ class DependencyGraph:
                     dep = Dependency.fromPurl(ref.get("referenceLocator"))
                     extref = True
 
+            # if get find a PURL or not
             if extref:
                 dep.licence = package.get("licenseConcluded")
             else:
-                manager, name = package.get("name", "").split(":")
-                dep = Dependency(
-                    name,
-                    version=package.get("versionInfo"),
-                    manager=manager,
-                    licence=package.get("licenseConcluded"),
-                )
+                name = package.get("name", "")
+                # manager ':'
+                if ":" in name:
+                    dep.manager, name = name.split(":", 1)
+                # Namespace '/'
+                if "/" in package:
+                    dep.namespace, name = name.split("/", 1)
+                
+                dep.name = name
+                dep.version = package.get("versionInfo") 
+                dep.licence = package.get("licenseConcluded")
 
             result.append(dep)
 
