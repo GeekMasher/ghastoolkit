@@ -17,7 +17,7 @@ __author__ = "GeekMasher"
 
 
 # Octokit
-from ghastoolkit.octokit.github import GitHub
+from ghastoolkit.octokit.github import GitHub, Repository
 from ghastoolkit.octokit.octokit import Octokit, RestRequest, GraphQLRequest
 from ghastoolkit.octokit.codescanning import CodeScanning
 from ghastoolkit.octokit.secretscanning import SecretScanning
