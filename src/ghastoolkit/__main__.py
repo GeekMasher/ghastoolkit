@@ -3,7 +3,7 @@ import os
 import logging
 import argparse
 
-from ghastoolkit import __name__ as name
+from ghastoolkit import __name__ as name, __banner__
 from ghastoolkit.octokit.github import GitHub
 from ghastoolkit.octokit.codescanning import CodeScanning
 from ghastoolkit.octokit.dependencygraph import (
@@ -55,6 +55,8 @@ logging.basicConfig(
     level=logging.DEBUG if arguments.debug or os.environ.get("DEBUG") else logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
 )
+
+print(__banner__)
 
 # GitHub Init
 GitHub.init(
