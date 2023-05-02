@@ -88,5 +88,6 @@ class TestDependencies(unittest.TestCase):
     def test_find(self):
         dep = self.deps.find("pyyaml")
         self.assertIsNotNone(dep)
+        assert dep is not None
         self.assertEqual(dep.name, "pyyaml")
 
