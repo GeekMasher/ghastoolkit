@@ -1,4 +1,3 @@
-
 import os
 import inspect
 import logging
@@ -44,15 +43,17 @@ class Octokit:
         )
         return formatted_path
 
-class OctoItem():
-    """ OctoItem """
+
+class OctoItem:
+    """OctoItem"""
+
     __data__: dict = field(default_factory=dict)
 
     def get(self, name) -> Any:
         return self.__getattr__(name)
 
     def __getattr__(self, name) -> Any:
-        """ Get Attr """
+        """Get Attr"""
         if hasattr(self, name):
             return getattr(self, name)
         elif self.__data__ and self.__data__.get(name):
@@ -134,11 +135,15 @@ class RestRequest:
                 # if return_type and not type(result) is return_type.__origin__:
                 #     name = f"{self.__class__.__name__}.{func.__name__}()"
                 #     raise Exception(f"Unexpected type returned for `{name}`")
-                
+
                 # return is a list
                 if return_type.__origin__ == Union:
                     logger.debug(f"Ignoring Union type")
-                elif return_type and isinstance(result, return_type.__origin__) and return_type.__origin__ == list:
+                elif (
+                    return_type
+                    and isinstance(result, return_type.__origin__)
+                    and return_type.__origin__ == list
+                ):
                     subtype = return_type.__args__[0]
                     if issubclass(subtype, OctoItem):
                         new_results = []

@@ -24,7 +24,7 @@ class SecretAlert(OctoItem):
 
     @property
     def locations(self) -> list[dict]:
-        """ Get Alert locations (use cache or request from API) """
+        """Get Alert locations (use cache or request from API)"""
         if not self._locations:
             self._locations = SecretScanning().getAlertLocations(self.number)
         return self._locations
@@ -51,7 +51,6 @@ class SecretScanning:
             return results
         raise Exception(f"Error getting organization secret scanning results")
 
-
     @RestRequest.restGet("/repos/{owner}/{repo}/secret-scanning/alerts")
     def getAlerts(self, state: str = "") -> list[SecretAlert]:
         """Get Repository alerts
@@ -60,7 +59,9 @@ class SecretScanning:
         """
         return []
 
-    def getAlert(self, alert_number: int, state: Optional[str] = None) -> Optional[SecretAlert]:
+    def getAlert(
+        self, alert_number: int, state: Optional[str] = None
+    ) -> Optional[SecretAlert]:
         """Get Alert by `alert_number`
 
         https://docs.github.com/en/rest/secret-scanning#get-a-secret-scanning-alert
