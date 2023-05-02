@@ -1,5 +1,5 @@
 import logging
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Optional
 
 from ghastoolkit.octokit.github import GitHub, Repository
@@ -19,6 +19,15 @@ class SecretAlert(OctoItem):
     secret_type: str
     secret_type_display_name: str
     secret: str
+
+    _locations: list[dict] = field(default_factory=list)
+
+    @property
+    def locations(self) -> list[dict]:
+        """ Get Alert locations (use cache or request from API) """
+        if not self._locations:
+            self._locations = SecretScanning().getAlertLocations(self.number)
+        return self._locations
 
     def __str__(self) -> str:
         return f"SecretAlert({self.number}, '{self.secret_type}')"

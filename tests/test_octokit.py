@@ -1,6 +1,7 @@
+from dataclasses import dataclass, is_dataclass
 import unittest
 
-from ghastoolkit.octokit.octokit import Octokit
+from ghastoolkit.octokit.octokit import OctoItem, Octokit, loadOctoItem
 from ghastoolkit.octokit.github import GitHub
 
 
@@ -17,3 +18,20 @@ class TestOctokit(unittest.TestCase):
             route,
             "https://api.github.com/repos/GeekMasher/ghastoolkit/secret-scanning/alerts",
         )
+
+
+@dataclass
+class Example(OctoItem):
+    number: int
+
+
+class TestLoadOctoItem(unittest.TestCase):
+    def test_load(self):
+        item = loadOctoItem(Example, {"number": 5})
+
+        self.assertTrue(isinstance(item, Example))
+        self.assertTrue(is_dataclass(item))
+
+        self.assertEqual(item.number, 5)
+
+
