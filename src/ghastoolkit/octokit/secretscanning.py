@@ -1,8 +1,27 @@
-from os import stat
+import logging
+from dataclasses import dataclass
 from typing import Optional
 
 from ghastoolkit.octokit.github import GitHub, Repository
-from ghastoolkit.octokit.octokit import RestRequest
+from ghastoolkit.octokit.octokit import OctoItem, RestRequest, loadOctoItem
+
+
+logger = logging.getLogger("ghastoolkit.octokit.secretscanning")
+
+
+@dataclass
+class SecretAlert(OctoItem):
+    number: int
+    state: str
+
+    created_at: str
+
+    secret_type: str
+    secret_type_display_name: str
+    secret: str
+
+    def __str__(self) -> str:
+        return f"SecretAlert({self.number}, '{self.secret_type}')"
 
 
 class SecretScanning:
@@ -23,19 +42,16 @@ class SecretScanning:
             return results
         raise Exception(f"Error getting organization secret scanning results")
 
-    def getAlerts(self, state: Optional[str] = None) -> list[dict]:
+
+    @RestRequest.restGet("/repos/{owner}/{repo}/secret-scanning/alerts")
+    def getAlerts(self, state: str = "") -> list[SecretAlert]:
         """Get Repository alerts
 
         https://docs.github.com/en/rest/secret-scanning#list-secret-scanning-alerts-for-a-repository
         """
-        results = self.rest.get(
-            "/repos/{owner}/{repo}/secret-scanning/alerts", {"state": state}
-        )
-        if isinstance(results, list):
-            return results
-        raise Exception(f"Error getting repository secret scanning results")
+        return []
 
-    def getAlert(self, alert_number: int, state: Optional[str] = None) -> dict:
+    def getAlert(self, alert_number: int, state: Optional[str] = None) -> Optional[SecretAlert]:
         """Get Alert by `alert_number`
 
         https://docs.github.com/en/rest/secret-scanning#get-a-secret-scanning-alert
@@ -45,8 +61,7 @@ class SecretScanning:
             {"alert_number": alert_number, "state": state},
         )
         if isinstance(results, dict):
-            return results
-        raise Exception(f"Error getting repository secret scanning result")
+            return loadOctoItem(SecretAlert, results)
 
     def getAlertLocations(self, alert_number: int) -> list[dict]:
         """Get Alert Locations by `alert_number`
