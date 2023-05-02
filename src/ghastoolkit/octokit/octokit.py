@@ -210,9 +210,11 @@ class GraphQLRequest:
         self.loadQueries(DEFAULT_GRAPHQL_PATHS)
 
     def query(self, name: str, options: dict[str, Any] = {}) -> dict:
+        logger.debug(f"Loading Query by Name :: {name}")
         query_content = self.queries.get(name)
+
         if not query_content:
-            return {}
+            raise Exception(f"Failed to load GraphQL query :: {name}")
 
         cursor = f'after: "{self.cursor}"' if self.cursor != "" else ""
 
@@ -235,7 +237,11 @@ class GraphQLRequest:
 
     def loadQueries(self, paths: list[str]):
         for path in paths:
+            if not os.path.exists(path):
+                logger.debug(f"Query load path does not exist :: {path}")
+                continue
             if not os.path.isdir(path):
+                logger.debug(f"Query path is not a dir :: {path}")
                 continue
             for file in os.listdir(path):
                 root = os.path.join(path, file)
