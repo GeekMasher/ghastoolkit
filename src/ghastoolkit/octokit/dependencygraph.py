@@ -128,7 +128,9 @@ class Dependencies(list[Dependency]):
             ]
         )
 
-    def findUnknownLicenses(self, licenses: Optional[list[str]] = None) -> "Dependencies":
+    def findUnknownLicenses(
+        self, licenses: Optional[list[str]] = None
+    ) -> "Dependencies":
         licenses = licenses or ["NA", "NOASSERTION"]
         return self.findLicenses(licenses)
 
