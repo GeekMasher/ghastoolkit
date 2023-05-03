@@ -27,8 +27,8 @@ class TestGitHub(unittest.TestCase):
         GitHub.init("GeekMasher/ghastoolkit", instance="https://github.geekmasher.dev")
         
         self.assertEqual(GitHub.instance, "https://github.geekmasher.dev")
-        self.assertEqual(GitHub.api_rest, "https://github.geekmasher.dev/api")
-        self.assertEqual(GitHub.api_graphql, "https://github.geekmasher.dev/api/graphql")
+        self.assertEqual(GitHub.api_rest, "https://github.geekmasher.dev/api/v3")
+        self.assertEqual(GitHub.api_graphql, "https://github.geekmasher.dev/api/v3/graphql")
 
     def test_parseReference(self):
         repo = Repository.parseRepository("GeekMasher/ghastoolkit")
