@@ -12,7 +12,7 @@ logger = logging.getLogger("ghastoolkit.octokit.codescanning")
 class CodeAlert(OctoItem):
     number: int
     state: str
-    
+
     rule: dict
     tool: dict
 
@@ -35,7 +35,7 @@ class CodeAlert(OctoItem):
     def instances(self) -> list[dict]:
         if not self._instances:
             self._instances = CodeScanning().getAlertInstances(self.number)
-        return self._instances 
+        return self._instances
 
     def __str__(self) -> str:
         return f"CodeAlert({self.number}, '{self.state}', '{self.tool_name}', '{self.rule_id}')"
@@ -108,7 +108,9 @@ class CodeScanning:
         """
         return {}
 
-    def getAlertInstances(self, alert_number: int, ref: Optional[str] = None) -> list[dict]:
+    def getAlertInstances(
+        self, alert_number: int, ref: Optional[str] = None
+    ) -> list[dict]:
         result = self.rest.get(
             "/repos/{owner}/{repo}/code-scanning/alerts/{alert_number}/instances",
             {"alert_number": alert_number, "ref": ref},
