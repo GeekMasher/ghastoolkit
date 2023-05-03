@@ -101,7 +101,7 @@ class Repository:
         with open(os.devnull, "w") as null:
             subprocess.check_call(cmd, stdout=null, stderr=null)
 
-    def getCloneFile(self, path: str) -> str:
+    def getFile(self, path: str) -> str:
         """Get a path relative from the base of the cloned repository"""
         if not self.clone_path:
             raise Exception(f"Unknown clone path")
