@@ -45,21 +45,24 @@ class CodeScanning:
         return []
 
     def getAlertsInPR(self, base: str) -> list[dict]:
-        """Get Alerts in Pull Request (diff)
+        """Get the open alerts in a Pull Request (delta / diff).
+
+        Note this operation is slow due to it needing to lookup each alert instance
+        information.
 
         base: str - Base reference
         https://docs.github.com/en/rest/code-scanning#list-instances-of-a-code-scanning-alert
         """
         if not self.repository.reference or not self.repository.isInPullRequest():
             return []
+
         results = []
         alerts = self.getAlerts("open", ref=self.repository.reference)
-        print(f" $ {self.repository.reference} == {len(alerts)}")
+
         for alert in alerts:
             alert_info = self.getAlertInstances(alert.get("number", 0), ref=base)
-            print(f" >> {alert.get('number')} -> {len(alert_info)}")
             if len(alert_info) == 0:
-                results.append(alert_info)
+                results.append(alert)
         return results
 
     @RestRequest.restGet(
