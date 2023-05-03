@@ -73,3 +73,22 @@ class TestRepository(unittest.TestCase):
         GitHub.token = "test_token"
         self.assertEqual(repo.clone_url, "https://x-access-token:test_token@github.com/GeekMasher/ghastoolkit.git")
 
+    def test_clone_cmd(self):
+        path = "/tml/ghastoolkit" 
+        repo = Repository("GeekMasher", "ghastoolkit")
+
+        cmd = ["git", "clone", repo.clone_url, path]
+        self.assertEqual(repo._cloneCmd(path), cmd)
+
+        cmd = ["git", "clone", "--depth", "1", repo.clone_url, path]
+        self.assertEqual(repo._cloneCmd(path, depth=1), cmd)
+        
+        repo.branch = "main"
+        cmd = ["git", "clone", "-b", "main", repo.clone_url, path]
+        self.assertEqual(repo._cloneCmd(path), cmd)
+
+    def test_clone_file(self):
+        path = "README.md"
+        repo = Repository("GeekMasher", "ghastoolkit")
+        repo.getFile(path)
+

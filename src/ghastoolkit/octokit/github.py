@@ -1,7 +1,13 @@
+import logging
 import os
+import tempfile
+import subprocess
 from dataclasses import dataclass
 from typing import Optional, Tuple
 from urllib.parse import urlparse
+
+
+logger = logging.getLogger("ghastoolkit.octokit.github")
 
 
 @dataclass
@@ -13,6 +19,8 @@ class Repository:
 
     sha: Optional[str] = None
 
+    clone_path: Optional[str] = None
+
     def __post_init__(self) -> None:
         if self.reference and not self.branch:
             if not self.isInPullRequest():
@@ -20,6 +28,9 @@ class Repository:
                 self.branch = branch
         if self.branch and not self.reference:
             self.reference = f"refs/heads/{self.branch}"
+
+        if not self.clone_path:
+            self.clone_path = os.path.join(tempfile.gettempdir(), self.repo)
 
     def __str__(self) -> str:
         name = f"{self.owner}/{self.repo}"
@@ -53,6 +64,48 @@ class Repository:
             url = urlparse(GitHub.instance)
             return f"{url.scheme}://{GitHub.token}@{url.netloc}/{self.owner}/{self.repo}.git"
         return f"{GitHub.instance}/{self.owner}/{self.repo}.git"
+
+    def _cloneCmd(self, path: str, depth: Optional[int] = None) -> list[str]:
+        cmd = ["git", "clone"]
+        if self.branch:
+            cmd.extend(["-b", self.branch])
+        if depth:
+            cmd.extend(["--depth", str(depth)])
+        cmd.extend([self.clone_url, path])
+        return cmd
+
+    def clone(
+        self,
+        path: Optional[str] = None,
+        clobber: bool = False,
+        depth: Optional[int] = None,
+    ):
+        """Clone Repository
+        The clone path if left None will create a tmp folder for you
+        """
+        if path:
+            self.clone_path = path
+        if not self.clone_path:
+            raise Exception(f"Clone path not set")
+
+        if os.path.exists(self.clone_path) and clobber:
+            logger.debug(f"Path exists but deleting it ready for cloning")
+            os.removedirs(self.clone_path)
+        elif not clobber and os.path.exists(self.clone_path):
+            logger.debug("Cloned repository already exists")
+            return
+
+        cmd = self._cloneCmd(self.clone_path, depth=depth)
+        logger.debug("Cloning Command :: {cmd}")
+
+        with open(os.devnull, "w") as null:
+            subprocess.check_call(cmd, stdout=null, stderr=null)
+
+    def getCloneFile(self, path: str) -> str:
+        """Get a path relative from the base of the cloned repository"""
+        if not self.clone_path:
+            raise Exception(f"Unknown clone path")
+        return os.path.join(self.clone_path, path)
 
     def display(self):
         if self.reference:
