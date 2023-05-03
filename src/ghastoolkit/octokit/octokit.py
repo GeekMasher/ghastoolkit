@@ -188,7 +188,7 @@ class RestRequest:
         # if the parameter is in the path, ignore it
         for key, param in parameters.items():
             if "{" + key + "}" not in path:
-                params[key] = param      
+                params[key] = param
 
         params["per_page"] = RestRequest.PER_PAGE
 
