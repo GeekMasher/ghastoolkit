@@ -1,8 +1,7 @@
-
 import unittest
 
 from ghastoolkit.octokit.codescanning import CodeScanning
-from ghastoolkit.octokit.github import GitHub 
+from ghastoolkit.octokit.github import GitHub
 
 
 class TestCodeScanning(unittest.TestCase):
@@ -12,12 +11,11 @@ class TestCodeScanning(unittest.TestCase):
 
     def test_codescanning_default(self):
         cs = CodeScanning()
-        self.assertEqual(cs.repository.display(), "GeekMasher/ghastoolkit")    
-        
+        self.assertEqual(cs.repository.display(), "GeekMasher/ghastoolkit")
+
         cs = CodeScanning(GitHub.repository)
-        self.assertEqual(cs.repository.display(), "GeekMasher/ghastoolkit")    
+        self.assertEqual(cs.repository.display(), "GeekMasher/ghastoolkit")
 
         GitHub.init("Sample/Repo")
         cs = CodeScanning(GitHub.repository)
         self.assertEqual(cs.repository.display(), "Sample/Repo")
-

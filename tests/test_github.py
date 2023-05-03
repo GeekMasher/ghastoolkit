@@ -1,4 +1,3 @@
-
 import unittest
 
 from ghastoolkit.octokit.github import GitHub, Repository
@@ -18,17 +17,19 @@ class TestGitHub(unittest.TestCase):
 
     def test_default(self):
         GitHub.init("GeekMasher/ghastoolkit")
-        
+
         self.assertEqual(GitHub.instance, "https://github.com")
         self.assertEqual(GitHub.api_rest, "https://api.github.com")
         self.assertEqual(GitHub.api_graphql, "https://api.github.com/graphql")
 
     def test_server(self):
         GitHub.init("GeekMasher/ghastoolkit", instance="https://github.geekmasher.dev")
-        
+
         self.assertEqual(GitHub.instance, "https://github.geekmasher.dev")
         self.assertEqual(GitHub.api_rest, "https://github.geekmasher.dev/api/v3")
-        self.assertEqual(GitHub.api_graphql, "https://github.geekmasher.dev/api/v3/graphql")
+        self.assertEqual(
+            GitHub.api_graphql, "https://github.geekmasher.dev/api/v3/graphql"
+        )
 
     def test_parseReference(self):
         repo = Repository.parseRepository("GeekMasher/ghastoolkit")
@@ -64,12 +65,37 @@ class TestRepository(unittest.TestCase):
 
     def test_clone_url(self):
         repo = Repository("GeekMasher", "ghastoolkit")
-        self.assertEqual(repo.clone_url, "https://github.com/GeekMasher/ghastoolkit.git")
-        
+        self.assertEqual(
+            repo.clone_url, "https://github.com/GeekMasher/ghastoolkit.git"
+        )
+
         GitHub.token = "test_token"
-        self.assertEqual(repo.clone_url, "https://test_token@github.com/GeekMasher/ghastoolkit.git")
+        self.assertEqual(
+            repo.clone_url, "https://test_token@github.com/GeekMasher/ghastoolkit.git"
+        )
 
         GitHub.github_app = True
         GitHub.token = "test_token"
-        self.assertEqual(repo.clone_url, "https://x-access-token:test_token@github.com/GeekMasher/ghastoolkit.git")
+        self.assertEqual(
+            repo.clone_url,
+            "https://x-access-token:test_token@github.com/GeekMasher/ghastoolkit.git",
+        )
 
+    def test_clone_cmd(self):
+        path = "/tml/ghastoolkit"
+        repo = Repository("GeekMasher", "ghastoolkit")
+
+        cmd = ["git", "clone", repo.clone_url, path]
+        self.assertEqual(repo._cloneCmd(path), cmd)
+
+        cmd = ["git", "clone", "--depth", "1", repo.clone_url, path]
+        self.assertEqual(repo._cloneCmd(path, depth=1), cmd)
+
+        repo.branch = "main"
+        cmd = ["git", "clone", "-b", "main", repo.clone_url, path]
+        self.assertEqual(repo._cloneCmd(path), cmd)
+
+    def test_clone_file(self):
+        path = "README.md"
+        repo = Repository("GeekMasher", "ghastoolkit")
+        repo.getFile(path)
