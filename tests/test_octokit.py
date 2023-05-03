@@ -33,5 +33,3 @@ class TestLoadOctoItem(unittest.TestCase):
         self.assertTrue(is_dataclass(item))
 
         self.assertEqual(item.number, 5)
-
-

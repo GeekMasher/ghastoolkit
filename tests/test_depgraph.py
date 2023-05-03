@@ -1,7 +1,7 @@
-
 import unittest
 
 from ghastoolkit.octokit.dependencygraph import Dependency, Dependencies
+
 
 class TestDepGraph(unittest.TestCase):
     def test_dependency(self):
@@ -15,14 +15,18 @@ class TestDepGraph(unittest.TestCase):
         dep = Dependency("express", manager="npm")
         self.assertEqual(dep.fullname, "express")
 
-        dep = Dependency("spring-boot-starter-web", "org.springframework.boot", manager="maven")
-        self.assertEqual(dep.fullname, "org.springframework.boot:spring-boot-starter-web")
+        dep = Dependency(
+            "spring-boot-starter-web", "org.springframework.boot", manager="maven"
+        )
+        self.assertEqual(
+            dep.fullname, "org.springframework.boot:spring-boot-starter-web"
+        )
 
     def test_purl(self):
         # python
         dep = Dependency("django", version="1.11.1", manager="pypi")
         self.assertEqual(dep.getPurl(), "pkg:pypi/django@1.11.1")
-        
+
         # go
         dep = Dependency("genproto", "google.golang.org", manager="golang")
         self.assertEqual(dep.getPurl(), "pkg:golang/google.golang.org/genproto")
@@ -41,7 +45,7 @@ class TestDepGraph(unittest.TestCase):
         self.assertEqual(dep.manager, "githubactions")
         self.assertEqual(dep.version, "2")
 
-        # PyPi 
+        # PyPi
         dep = Dependency.fromPurl("pkg:pypi/requests@2.28.2")
         self.assertEqual(dep.name, "requests")
         self.assertEqual(dep.manager, "pypi")
@@ -90,4 +94,3 @@ class TestDependencies(unittest.TestCase):
         self.assertIsNotNone(dep)
         assert dep is not None
         self.assertEqual(dep.name, "pyyaml")
-

@@ -12,12 +12,10 @@ class TestCodeQLDb(unittest.TestCase):
         codeql = CodeQLDatabase("db", "java", self.repo)
         self.assertEqual(
             codeql.createDownloadPath("/tmp"),
-            os.path.join("/tmp", "java", "GeekMasher", "ghastoolkit")
+            os.path.join("/tmp", "java", "GeekMasher", "ghastoolkit"),
         )
 
         codeql = CodeQLDatabase("db", "java")
         self.assertEqual(
-            codeql.createDownloadPath("/tmp"),
-            os.path.join("/tmp", "java", "db")
+            codeql.createDownloadPath("/tmp"), os.path.join("/tmp", "java", "db")
         )
-
