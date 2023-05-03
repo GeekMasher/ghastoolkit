@@ -49,8 +49,11 @@ class OctoItem:
 
     __data__: dict = field(default_factory=dict)
 
-    def get(self, name) -> Any:
-        return self.__getattr__(name)
+    def get(self, name: str, default: Any = None) -> Any:
+        try:
+            return self.__getattr__(name)
+        except:
+            return default
 
     def __getattr__(self, name) -> Any:
         """Get Attr"""

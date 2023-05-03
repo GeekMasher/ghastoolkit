@@ -13,6 +13,8 @@ class CodeAlert(OctoItem):
     number: int
     state: str
 
+    created_at: str
+
     rule: dict
     tool: dict
 
@@ -23,6 +25,10 @@ class CodeAlert(OctoItem):
         return self.rule.get("id")
 
     @property
+    def description(self):
+        return self.rule.get("description")
+
+    @property
     def tool_name(self):
         return self.tool.get("name")
 
@@ -30,6 +36,10 @@ class CodeAlert(OctoItem):
     def tool_fullname(self):
         version = self.tool.get("version")
         return f"{self.tool_name}@{version}"
+
+    @property
+    def severity(self):
+        return self.rule.get("severity")
 
     @property
     def instances(self) -> list[dict]:
@@ -94,7 +104,8 @@ class CodeScanning:
         alerts = self.getAlerts("open", ref=self.repository.reference)
 
         for alert in alerts:
-            alert_info = self.getAlertInstances(alert.get("number", 0), ref=base)
+            number = alert.get("number")
+            alert_info = self.getAlertInstances(number, ref=base)
             if len(alert_info) == 0:
                 results.append(alert)
         return results

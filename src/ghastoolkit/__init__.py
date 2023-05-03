@@ -30,11 +30,12 @@ from ghastoolkit.octokit.github import GitHub, Repository
 from ghastoolkit.octokit.octokit import Octokit, RestRequest, GraphQLRequest
 from ghastoolkit.octokit.codescanning import CodeScanning
 from ghastoolkit.octokit.secretscanning import SecretScanning
-from ghastoolkit.octokit.dependencygraph import (
-    DependencyGraph,
-    Dependencies,
-    Dependency,
-)
+from ghastoolkit.octokit.dependencygraph import DependencyGraph
+
+# Supply Chain
+from ghastoolkit.supplychain.advisories import Advisory
+from ghastoolkit.supplychain.dependencyalert import DependencyAlert
+from ghastoolkit.supplychain.dependencies import Dependency, Dependencies
 
 # CodeQL
 from ghastoolkit.codeql.databases import CodeQLDatabases, CodeQLDatabase
