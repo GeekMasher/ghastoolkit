@@ -1,5 +1,6 @@
 import logging
 import os
+import shutil
 import tempfile
 import subprocess
 from dataclasses import dataclass
@@ -122,13 +123,14 @@ class Repository:
 
         if os.path.exists(self.clone_path) and clobber:
             logger.debug(f"Path exists but deleting it ready for cloning")
-            os.removedirs(self.clone_path)
+            shutil.rmtree(self.clone_path)
+
         elif not clobber and os.path.exists(self.clone_path):
             logger.debug("Cloned repository already exists")
             return
 
         cmd = self._cloneCmd(self.clone_path, depth=depth)
-        logger.debug("Cloning Command :: {cmd}")
+        logger.debug(f"Cloning Command :: {cmd}")
 
         with open(os.devnull, "w") as null:
             subprocess.check_call(cmd, stdout=null, stderr=null)
