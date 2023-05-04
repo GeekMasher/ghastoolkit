@@ -1,4 +1,3 @@
-
 import logging
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -18,7 +17,7 @@ class Dependency:
     manager: Optional[str] = None
     path: Optional[str] = None
     qualifiers: dict[str, str] = field(default_factory=dict)
-    
+
     # Licensing information
     licence: Optional[str] = None
     # Security Alerts
@@ -146,14 +145,14 @@ class Dependencies(list[Dependency]):
         return False
 
     def find(self, name: str) -> Optional[Dependency]:
-        """ Find by name"""
+        """Find by name"""
         for dep in self:
             if dep.name == name or dep.fullname == name:
                 return dep
         logger.debug(f"Unable to find by name :: {name}")
 
     def findPurl(self, purl: str) -> Optional[Dependency]:
-        """ Find by PURL"""
+        """Find by PURL"""
         purldep = Dependency.fromPurl(purl)
         for dep in self:
             if purldep.name == purldep.fullname or dep.fullname == dep.fullname:
@@ -166,5 +165,3 @@ class Dependencies(list[Dependency]):
         return Dependencies(
             [dep for dep in self if any(regex.search(dep.name) for regex in regex_list)]
         )
-
-

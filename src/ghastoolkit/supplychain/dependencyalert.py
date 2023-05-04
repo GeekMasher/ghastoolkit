@@ -1,4 +1,3 @@
-
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional
@@ -30,4 +29,3 @@ class DependencyAlert(OctoItem):
 
     def __str__(self) -> str:
         return f"DependencyAlert({self.advisory.ghsa_id}, {self.severity})"
-

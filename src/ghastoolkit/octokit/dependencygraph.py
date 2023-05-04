@@ -53,7 +53,7 @@ class DependencyGraph:
         return result
 
     def getDependenciesInPR(self, base: str, head: str) -> Dependencies:
-        """ Get all the dependencies from a Pull Request"""
+        """Get all the dependencies from a Pull Request"""
         dependencies = Dependencies()
         base = urllib.parse.quote(base, safe="")
         head = urllib.parse.quote(head, safe="")
@@ -62,7 +62,7 @@ class DependencyGraph:
         results = self.rest.get(
             "/repos/{owner}/{repo}/dependency-graph/compare/{basehead}",
             {"basehead": basehead},
-            expected=200
+            expected=200,
         )
         if not results:
             return dependencies
@@ -76,14 +76,14 @@ class DependencyGraph:
 
             for alert in depdata.get("vulnerabilities", []):
                 dep_alert = DependencyAlert(
-                    alert.get("severity"), 
+                    alert.get("severity"),
                     purl=dep.getPurl(False),
                     advisory=Advisory(
                         ghsa_id=alert.get("advisory_ghsa_id"),
                         severity=alert.get("severity"),
                         summary=alert.get("advisory_summary"),
-                        url=alert.get("advisory_ghsa_url")
-                    )
+                        url=alert.get("advisory_ghsa_url"),
+                    ),
                 )
                 dep.alerts.append(dep_alert)
 

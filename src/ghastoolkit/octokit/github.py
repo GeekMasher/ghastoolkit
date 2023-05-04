@@ -64,10 +64,11 @@ class Repository:
         """
         if not self.__prinfo__:
             from ghastoolkit.octokit.octokit import RestRequest
+
             pull_number = self.getPullRequestNumber()
             self.__prinfo__ = RestRequest().get(
                 "/repos/{owner}/{repo}/pulls/{pull_number}",
-                {"pull_number": pull_number}
+                {"pull_number": pull_number},
             )
         return self.__prinfo__
 
@@ -76,10 +77,11 @@ class Repository:
         result = []
         if self.isInPullRequest():
             from ghastoolkit.octokit.octokit import RestRequest
+
             pull_number = self.getPullRequestNumber()
             response = RestRequest().get(
                 "/repos/{owner}/{repo}/pulls/{pull_number}/commits",
-                {"pull_number": pull_number}
+                {"pull_number": pull_number},
             )
             for commit in response:
                 result.append(commit.get("sha"))
@@ -216,4 +218,3 @@ class GitHub:
     @staticmethod
     def display() -> str:
         return f"GitHub('{GitHub.repository.display()}', '{GitHub.instance}')"
-

@@ -33,7 +33,7 @@ class Dependabot:
 
             for alert in alerts.get("edges", []):
                 data = alert.get("node", {})
-                package = data.get("securityVulnerability", {}).get("package", {}) 
+                package = data.get("securityVulnerability", {}).get("package", {})
                 purl = f"pkg:{package.get('ecosystem')}/{package.get('name')}".lower()
 
                 advisory = Advisory(
@@ -42,9 +42,7 @@ class Dependabot:
                     # TODO: CWE info
                 )
                 dep_alert = DependencyAlert(
-                    severity=advisory.severity,
-                    purl=purl,
-                    advisory=advisory
+                    severity=advisory.severity, purl=purl, advisory=advisory
                 )
                 dep_alert.__data__ = data
                 results.append(dep_alert)

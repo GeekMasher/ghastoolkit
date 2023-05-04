@@ -85,7 +85,7 @@ class SecretScanning:
             return loadOctoItem(SecretAlert, results)
 
     def getAlertsInPR(self) -> list[SecretAlert]:
-        """ Get Alerts in a Pull Request"""
+        """Get Alerts in a Pull Request"""
         results = []
         pr_commits = self.repository.getPullRequestCommits()
         logger.debug(f"Number of Commits in PR :: {len(pr_commits)}")
@@ -93,7 +93,7 @@ class SecretScanning:
         for alert in self.getAlerts("open"):
             if alert.commit_sha in pr_commits:
                 results.append(alert)
-        
+
         return results
 
     def getAlertLocations(self, alert_number: int) -> list[dict]:

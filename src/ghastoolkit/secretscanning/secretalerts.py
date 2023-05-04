@@ -1,4 +1,3 @@
-
 from dataclasses import dataclass, field
 from typing import Optional
 
@@ -24,6 +23,7 @@ class SecretAlert(OctoItem):
         """Get Alert locations (use cache or request from API)"""
         if not self._locations:
             from ghastoolkit.octokit.secretscanning import SecretScanning
+
             self._locations = SecretScanning().getAlertLocations(self.number)
         return self._locations
 
@@ -39,4 +39,3 @@ class SecretAlert(OctoItem):
 
     def __str__(self) -> str:
         return f"SecretAlert({self.number}, '{self.secret_type}')"
-
