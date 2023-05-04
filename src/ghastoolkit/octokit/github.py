@@ -136,8 +136,10 @@ class Repository:
             subprocess.check_call(cmd, stdout=null, stderr=null)
 
     def gitsha(self) -> str:
-        cmd = ['git', 'rev-parse', 'HEAD']
-        result = subprocess.check_output(cmd, cwd=self.clone_path).decode('ascii').strip()
+        cmd = ["git", "rev-parse", "HEAD"]
+        result = (
+            subprocess.check_output(cmd, cwd=self.clone_path).decode("ascii").strip()
+        )
         return result
 
     def getFile(self, path: str) -> str:
