@@ -67,6 +67,11 @@ if __name__ == "__main__":
     logging.info(f"Cloning / Using `clearlydefined` repo: {repository.clone_path}")
     repository.clone(clobber=True, depth=1)
 
+    lock_content = {
+        "repository": repository.display(),
+        "version": repository.gitsha(),
+    }
+
     # https://github.com/clearlydefined/curated-data/tree/master/curations
     curations = repository.getFile("curations")
 
@@ -92,6 +97,12 @@ if __name__ == "__main__":
 
             licenses.add(purl, list(revision_licenses))
 
-    print(f"Licenses Loaded :: {len(licenses)}")
+    logging.info(f"Licenses Loaded :: {len(licenses)}")
+
+    # lock file
+    lock_path = arguments.output.replace(".json", ".lock.json")
+    logging.info(f"Saving lock file :: {lock_path}")
+    with open(lock_path, "w") as handle:
+        json.dump(lock_content, handle, sort_keys=True, indent=2)
 
     licenses.export(arguments.output)
