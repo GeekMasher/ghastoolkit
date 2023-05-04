@@ -139,7 +139,7 @@ class Dependencies(list[Dependency]):
         return self.findLicenses(licenses)
 
     def applyLicenses(self, licenses: Licenses):
-        """ Apply Linceses """
+        """Apply Linceses"""
         for i, dep in enumerate(self):
             if dep.licence:
                 continue
