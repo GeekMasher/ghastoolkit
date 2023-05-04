@@ -24,7 +24,7 @@ class Licenses:
         with open(path, "r") as handle:
             data = json.load(handle)
 
-        Licenses.data = data.get("data", {})
+        Licenses.data = data
         logger.debug(f"Loaded licenses :: {len(data)}")
 
     def add(self, purl: str, licenses: str | list):
@@ -35,6 +35,7 @@ class Licenses:
         Licenses.data[purl] = licenses
 
     def find(self, purl: str) -> Optional[list[str]]:
+        """Find by PURL"""
         return Licenses.data.get(purl)
 
     def export(self, path: str):
@@ -67,6 +68,11 @@ if __name__ == "__main__":
     logging.info(f"Cloning / Using `clearlydefined` repo: {repository.clone_path}")
     repository.clone(clobber=True, depth=1)
 
+    lock_content = {
+        "repository": repository.display(),
+        "version": repository.gitsha(),
+    }
+
     # https://github.com/clearlydefined/curated-data/tree/master/curations
     curations = repository.getFile("curations")
 
@@ -82,7 +88,7 @@ if __name__ == "__main__":
                 curation_data = yaml.safe_load(handle)
 
             coordinates = curation_data.get("coordinates", {})
-            purl = f"{coordinates.get('type')}/{coordinates.get('namespace')}/{coordinates.get('name')}"
+            purl = f"pkg:{coordinates.get('type')}/{coordinates.get('namespace')}/{coordinates.get('name')}"
 
             revision_licenses = set()
             for _, revision in curation_data.get("revisions", {}).items():
@@ -92,6 +98,12 @@ if __name__ == "__main__":
 
             licenses.add(purl, list(revision_licenses))
 
-    print(f"Licenses Loaded :: {len(licenses)}")
+    logging.info(f"Licenses Loaded :: {len(licenses)}")
+
+    # lock file
+    lock_path = arguments.output.replace(".json", ".lock.json")
+    logging.info(f"Saving lock file :: {lock_path}")
+    with open(lock_path, "w") as handle:
+        json.dump(lock_content, handle, sort_keys=True, indent=2)
 
     licenses.export(arguments.output)

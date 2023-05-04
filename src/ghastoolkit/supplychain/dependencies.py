@@ -5,6 +5,7 @@ import re
 from typing import Optional
 
 from ghastoolkit.supplychain.dependencyalert import DependencyAlert
+from ghastoolkit.supplychain.licensing import Licenses
 
 logger = logging.getLogger("ghastoolkit.supplychain.dependencies")
 
@@ -136,6 +137,17 @@ class Dependencies(list[Dependency]):
     ) -> "Dependencies":
         licenses = licenses or ["NA", "NOASSERTION"]
         return self.findLicenses(licenses)
+
+    def applyLicenses(self, licenses: Licenses):
+        """Apply Linceses"""
+        for i, dep in enumerate(self):
+            if dep.licence:
+                continue
+            purl = dep.getPurl(version=False)
+            dblicense = licenses.find(purl)
+            if dblicense:
+                dep.licence = " OR ".join(dblicense)
+                self[i] = dep
 
     def contains(self, dependency: Dependency) -> bool:
         purl = dependency.getPurl(version=False)
