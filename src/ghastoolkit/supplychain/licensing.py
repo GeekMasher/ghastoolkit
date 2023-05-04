@@ -24,7 +24,7 @@ class Licenses:
         with open(path, "r") as handle:
             data = json.load(handle)
 
-        Licenses.data = data.get("data", {})
+        Licenses.data = data
         logger.debug(f"Loaded licenses :: {len(data)}")
 
     def add(self, purl: str, licenses: str | list):
@@ -35,6 +35,7 @@ class Licenses:
         Licenses.data[purl] = licenses
 
     def find(self, purl: str) -> Optional[list[str]]:
+        """Find by PURL"""
         return Licenses.data.get(purl)
 
     def export(self, path: str):
@@ -87,7 +88,7 @@ if __name__ == "__main__":
                 curation_data = yaml.safe_load(handle)
 
             coordinates = curation_data.get("coordinates", {})
-            purl = f"{coordinates.get('type')}/{coordinates.get('namespace')}/{coordinates.get('name')}"
+            purl = f"pkg:{coordinates.get('type')}/{coordinates.get('namespace')}/{coordinates.get('name')}"
 
             revision_licenses = set()
             for _, revision in curation_data.get("revisions", {}).items():
