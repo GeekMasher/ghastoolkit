@@ -1,5 +1,6 @@
 import logging
 import os
+import shutil
 import tempfile
 import subprocess
 from dataclasses import dataclass
@@ -14,8 +15,10 @@ logger = logging.getLogger("ghastoolkit.octokit.github")
 class Repository:
     owner: str
     repo: str
+
     reference: Optional[str] = None
     branch: Optional[str] = None
+    __prinfo__: Optional[dict] = None
 
     sha: Optional[str] = None
 
@@ -55,6 +58,36 @@ class Repository:
             return int(self.reference.split("/")[2])
         return 0
 
+    def getPullRequestInfo(self) -> dict:
+        """Get information for the current pull request
+
+        https://docs.github.com/en/enterprise-cloud@latest/rest/pulls/pulls#get-a-pull-request
+        """
+        if not self.__prinfo__:
+            from ghastoolkit.octokit.octokit import RestRequest
+
+            pull_number = self.getPullRequestNumber()
+            self.__prinfo__ = RestRequest().get(
+                "/repos/{owner}/{repo}/pulls/{pull_number}",
+                {"pull_number": pull_number},
+            )
+        return self.__prinfo__
+
+    def getPullRequestCommits(self) -> list[str]:
+        """Get Pull Request Commits"""
+        result = []
+        if self.isInPullRequest():
+            from ghastoolkit.octokit.octokit import RestRequest
+
+            pull_number = self.getPullRequestNumber()
+            response = RestRequest().get(
+                "/repos/{owner}/{repo}/pulls/{pull_number}/commits",
+                {"pull_number": pull_number},
+            )
+            for commit in response:
+                result.append(commit.get("sha"))
+        return result
+
     @property
     def clone_url(self) -> str:
         if GitHub.github_app:
@@ -90,13 +123,14 @@ class Repository:
 
         if os.path.exists(self.clone_path) and clobber:
             logger.debug(f"Path exists but deleting it ready for cloning")
-            os.removedirs(self.clone_path)
+            shutil.rmtree(self.clone_path)
+
         elif not clobber and os.path.exists(self.clone_path):
             logger.debug("Cloned repository already exists")
             return
 
         cmd = self._cloneCmd(self.clone_path, depth=depth)
-        logger.debug("Cloning Command :: {cmd}")
+        logger.debug(f"Cloning Command :: {cmd}")
 
         with open(os.devnull, "w") as null:
             subprocess.check_call(cmd, stdout=null, stderr=null)
@@ -182,3 +216,7 @@ class GitHub:
         api = url.scheme + "://" + url.netloc + "/api/v3"
 
         return (api, f"{api}/graphql")
+
+    @staticmethod
+    def display() -> str:
+        return f"GitHub('{GitHub.repository.display()}', '{GitHub.instance}')"
