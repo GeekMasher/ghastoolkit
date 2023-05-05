@@ -32,8 +32,10 @@ class Licenses:
 
         logger.debug(f"Loading licenseing file :: {path}")
         with open(path, "r") as handle:
+            data = json.load(handle)
             # TODO validate the data before loading?
-            self.data = json.load(handle)
+
+        self.data.update(data)
 
         self.sources.append(path)
         logger.debug(f"Loaded licenses :: {len(self.data)}")
@@ -71,7 +73,7 @@ class Licenses:
 if __name__ == "__main__":
     import yaml
     import argparse
-    from ghastoolkit.octokit.github import Repository
+    from ghastoolkit import Repository, Dependency
 
     logging.basicConfig(
         level=logging.DEBUG,
