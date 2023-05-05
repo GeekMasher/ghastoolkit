@@ -6,13 +6,12 @@ from types import coroutine
 from typing import Optional
 
 from ghastoolkit.octokit.github import Repository
+
 # from ghastoolkit.supplychain.dependencies import Dependency
 
 logger = logging.getLogger("ghastoolkit.supplychain.licenses")
 
-NO_LICENSES = [
-    "None", "NA", "NOASSERTION"
-]
+NO_LICENSES = ["None", "NA", "NOASSERTION"]
 
 
 class Licenses:
