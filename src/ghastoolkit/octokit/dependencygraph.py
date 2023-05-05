@@ -2,6 +2,7 @@ import logging
 from dataclasses import dataclass, field
 from datetime import datetime
 import re
+from typing import Any
 import urllib.parse
 
 from ghastoolkit.octokit.github import GitHub, Repository
@@ -113,3 +114,12 @@ class DependencyGraph:
             dependencies.exportBOM(tool, path, sha, ref, version, url),
             expected=201,
         )
+
+    def submitSbom(self, sbom: dict[Any, Any]):
+        """Submit SBOM"""
+        self.rest.postJson(
+            "/repos/{owner}/{repo}/dependency-graph/snapshots",
+            sbom,
+            expected=201,
+        )
+
