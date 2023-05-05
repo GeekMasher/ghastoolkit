@@ -1,6 +1,7 @@
 import unittest
 
 from ghastoolkit.octokit.dependencygraph import Dependency, Dependencies
+from ghastoolkit.supplychain.licensing import Licenses
 
 
 class TestDepGraph(unittest.TestCase):
@@ -60,11 +61,11 @@ class TestDepGraph(unittest.TestCase):
 class TestDependencies(unittest.TestCase):
     def setUp(self) -> None:
         self.deps = Dependencies()
-        self.deps.append(Dependency("urllib3", licence="MIT"))
-        self.deps.append(Dependency("rich", licence="NOASSERTION"))
-        self.deps.append(Dependency("pyyaml", licence="GPL-3.0"))
-        self.deps.append(Dependency("pyproject-hooks", licence="Apache-2.0"))
-        self.deps.append(Dependency("requests", licence="GPL-2.0"))
+        self.deps.append(Dependency("urllib3", manager="pypi", licence="MIT"))
+        self.deps.append(Dependency("rich", manager="pypi", licence="NOASSERTION"))
+        self.deps.append(Dependency("pyyaml", manager="pypi", licence="GPL-3.0"))
+        self.deps.append(Dependency("pyproject-hooks", manager="pypi", licence="Apache-2.0"))
+        self.deps.append(Dependency("requests", manager="pypi", licence="GPL-2.0"))
         return super().setUp()
 
     def test_license(self):
@@ -94,3 +95,21 @@ class TestDependencies(unittest.TestCase):
         self.assertIsNotNone(dep)
         assert dep is not None
         self.assertEqual(dep.name, "pyyaml")
+
+    def test_apply_license(self):
+        deps = self.deps.findUnknownLicenses()
+        self.assertEqual(len(deps), 1)
+
+        licenses = Licenses()
+        licenses.add("pkg:pypi/rich", ["MIT"])
+
+        self.deps.applyLicenses(licenses)
+        
+        deps = self.deps.findUnknownLicenses()
+        self.assertEqual(len(deps), 0)
+
+        dep = self.deps.find("rich")
+        self.assertEqual(dep.name, "rich")
+        self.assertEqual(dep.licence, "MIT")
+
+
