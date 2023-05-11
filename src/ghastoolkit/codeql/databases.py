@@ -60,6 +60,13 @@ class CodeQLDatabase:
     def exists(self) -> bool:
         return False if not self.path else os.path.exists(self.path)
 
+    @property
+    def default_pack(self) -> str:
+        return f"codeql/{self.language}-queries"
+
+    def getSuite(self, name: str) -> str:
+        return f"{self.default_pack}:codeql-suites/{self.language}-{name}.qls"
+
     def display_name(self, owner: Optional[str] = None) -> str:
         """Display Name"""
         if self.repository:
@@ -109,12 +116,13 @@ class CodeQLDatabase:
         if not path.endswith(".yml"):
             raise Exception("File is not a YML file")
 
-        name = os.path.basename(os.path.dirname(path))
+        dbdir = os.path.dirname(path)
+        name = os.path.basename(dbdir)
 
         with open(path, "r") as handle:
             data = safe_load(handle)
 
-        db = CodeQLDatabase(name, data.get("primaryLanguage"), path=path)
+        db = CodeQLDatabase(name, data.get("primaryLanguage"), path=dbdir)
         return db
 
     def downloadDatabase(self, output: Optional[str], use_cache: bool = True) -> str:
@@ -232,6 +240,12 @@ class CodeQLDatabases(list[CodeQLDatabase]):
                 if file == "codeql-database.yml":
                     path = os.path.join(root, file)
                     self.append(CodeQLDatabase.loadDatabaseYml(path))
+
+    def get(self, name: str) -> Optional[CodeQLDatabase]:
+        for db in self:
+            if db.name == name:
+                return db
+        return
 
     def downloadDatabases(self):
         for db in self:

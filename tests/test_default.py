@@ -15,6 +15,10 @@ class TestDefault(unittest.TestCase):
         cs = CodeScanning()
         alert = CodeAlert(0, "open", "", {}, {})
 
+    def test_codeql(self):
+        codeql = CodeQL("codeql")
+        alerts = CodeQLResults()
+
     def test_secretscanning(self):
         ss = SecretScanning()
         alert = SecretAlert(
