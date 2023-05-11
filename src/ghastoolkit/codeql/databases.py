@@ -59,7 +59,7 @@ class CodeQLDatabase:
 
     def exists(self) -> bool:
         return False if not self.path else os.path.exists(self.path)
-    
+
     @property
     def default_pack(self) -> str:
         return f"codeql/{self.language}-queries"

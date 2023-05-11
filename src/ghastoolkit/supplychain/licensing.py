@@ -5,9 +5,10 @@ import logging
 from types import coroutine
 from typing import Optional
 
+from requests import request
+
 from ghastoolkit.octokit.github import Repository
 
-# from ghastoolkit.supplychain.dependencies import Dependency
 
 logger = logging.getLogger("ghastoolkit.supplychain.licenses")
 
