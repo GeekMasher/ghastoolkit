@@ -23,7 +23,7 @@ dependencies = [
     "PyYAML==6.0",
     "requests==2.30.0",
     "ratelimit==2.2.1",
-    "urllib3==1.26.15"
+    "urllib3==2.0.2"
 ]
 
 [project.urls]
