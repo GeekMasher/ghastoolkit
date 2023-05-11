@@ -40,3 +40,6 @@ from ghastoolkit.supplychain.licensing import Licenses
 
 # CodeQL
 from ghastoolkit.codeql.databases import CodeQLDatabases, CodeQLDatabase
+from ghastoolkit.codeql.cli import CodeQL
+from ghastoolkit.codeql.results import CodeQLResults
+
