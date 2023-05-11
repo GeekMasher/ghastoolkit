@@ -19,3 +19,13 @@ class TestCodeQLDb(unittest.TestCase):
         self.assertEqual(
             codeql.createDownloadPath("/tmp"), os.path.join("/tmp", "java", "db")
         )
+    
+    def test_pack(self):
+        codeql = CodeQLDatabase("db", "java", self.repo)
+        self.assertEqual(codeql.default_pack, "codeql/java-queries")
+
+    def test_suite(self):
+        codeql = CodeQLDatabase("db", "java", self.repo)
+        self.assertEqual(codeql.getSuite("code-scanning"), "codeql/java-queries:codeql-suites/java-code-scanning.qls")
+
+
