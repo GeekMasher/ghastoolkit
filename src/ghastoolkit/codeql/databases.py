@@ -55,6 +55,9 @@ class CodeQLDatabase:
 
     def __str__(self) -> str:
         name = str(self.repository) if self.repository else self.name
+        if self.created:
+            created = self.created.strftime("%Y-%m-%dT%H:%M")
+            return f"CodeQLDatabase('{name}', '{self.language}', {created})"
         return f"CodeQLDatabase('{name}', '{self.language}')"
 
     def __repr__(self) -> str:
@@ -151,8 +154,11 @@ class CodeQLDatabase:
 
         # can't load datetime with milliseconds...
         creation_time = data.get("creationMetadata", {}).get("creationTime")
-        creation_time, _ = creation_time.split(".", 1)
-        self.created = datetime.fromisoformat(creation_time)
+        if isinstance(creation_time, datetime):
+            self.created = creation_time
+        else:
+            creation_time, _ = creation_time.split(".", 1)
+            self.created = datetime.fromisoformat(creation_time)
 
     def downloadDatabase(self, output: Optional[str], use_cache: bool = True) -> str:
         """Download CodeQL database"""
