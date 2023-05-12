@@ -15,9 +15,14 @@ from ghastoolkit.octokit.octokit import GitHub
 from requests import request
 
 
-__CODEQL_DATABASE_PATHS__ = [os.path.expanduser("~/.codeql/databases")]
-
 logger = logging.getLogger("ghastoolkit.codeql")
+
+__CODEQL_DATABASE_PATHS__ = [
+    # local
+    os.path.expanduser("~/.codeql/databases"),
+    # GitHub Actions
+    os.path.join(os.environ.get("RUNNER_TEMP", "/home/runner/work/_temp"), "codeql_databases")
+]
 
 
 @dataclass
