@@ -21,7 +21,9 @@ __CODEQL_DATABASE_PATHS__ = [
     # local
     os.path.expanduser("~/.codeql/databases"),
     # GitHub Actions
-    os.path.join(os.environ.get("RUNNER_TEMP", "/home/runner/work/_temp"), "codeql_databases")
+    os.path.join(
+        os.environ.get("RUNNER_TEMP", "/home/runner/work/_temp"), "codeql_databases"
+    ),
 ]
 
 
