@@ -269,6 +269,7 @@ class CodeQLDatabases(list[CodeQLDatabase]):
         return dbs
 
     def findDatabases(self, path: str):
+        """Find databases based on a path (recursive)"""
         if not os.path.exists(path):
             raise Exception(f"Path does not exist: {path}")
 
@@ -279,11 +280,21 @@ class CodeQLDatabases(list[CodeQLDatabase]):
                     self.append(CodeQLDatabase.loadFromYml(path))
 
     def get(self, name: str) -> Optional[CodeQLDatabase]:
+        """Get a database by name"""
         for db in self:
             if db.name == name:
                 return db
         return
 
+    def getLanguages(self, language: str) -> "CodeQLDatabases":
+        """Get a list of databases by language"""
+        dbs = CodeQLDatabases()
+        for db in dbs:
+            if db.language == language:
+                dbs.append(db)
+        return dbs
+
     def downloadDatabases(self):
+        """Download all databases from GitHub"""
         for db in self:
             db.downloadDatabase(None)
