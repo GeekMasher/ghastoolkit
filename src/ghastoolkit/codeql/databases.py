@@ -1,3 +1,4 @@
+from datetime import date, datetime
 import os
 import shutil
 import zipfile
@@ -28,6 +29,10 @@ class CodeQLDatabase:
     # path to when the DB should be
     path: Optional[str] = None
     path_download: Optional[str] = None
+
+    loc_baseline: int = 0
+
+    created: Optional[datetime] = None
 
     def __post_init__(self):
         if self.path:
@@ -110,20 +115,39 @@ class CodeQLDatabase:
         return result
 
     @staticmethod
-    def loadDatabaseYml(path: str) -> "CodeQLDatabase":
+    def loadFromYml(path: str) -> "CodeQLDatabase":
+        """Load from YAML / YML file"""
+        if not os.path.exists(path):
+            raise Exception("CodeQL Database YML does not exist")
+        if not path.endswith(".yml"):
+            raise Exception("File is not a YML file")
+        dirname = os.path.dirname(path)
+        name = os.path.basename(dirname)
+        db = CodeQLDatabase(name, "python", path=dirname)
+        db.loadDatabaseYml(path)
+        if db.language == "":
+            logger.error(f"CodeQLDatabase Language not set from YML")
+            raise Exception(f"Unable to load DB correctly")
+        return db
+
+    def loadDatabaseYml(self, path: str):
+        """Load content from YML"""
         if not os.path.exists(path):
             raise Exception("CodeQL Database YML does not exist")
         if not path.endswith(".yml"):
             raise Exception("File is not a YML file")
 
-        dbdir = os.path.dirname(path)
-        name = os.path.basename(dbdir)
-
         with open(path, "r") as handle:
             data = safe_load(handle)
 
-        db = CodeQLDatabase(name, data.get("primaryLanguage"), path=dbdir)
-        return db
+        self.name = os.path.basename(data.get("sourceLocationPrefix", ""))
+        self.language = data.get("primaryLanguage")
+        self.loc_baseline = data.get("baselineLinesOfCode", 0)
+
+        # can't load datetime with milliseconds...
+        creation_time = data.get("creationMetadata", {}).get("creationTime")
+        creation_time, _ = creation_time.split(".", 1)
+        self.created = datetime.fromisoformat(creation_time)
 
     def downloadDatabase(self, output: Optional[str], use_cache: bool = True) -> str:
         """Download CodeQL database"""
@@ -239,7 +263,7 @@ class CodeQLDatabases(list[CodeQLDatabase]):
             for file in files:
                 if file == "codeql-database.yml":
                     path = os.path.join(root, file)
-                    self.append(CodeQLDatabase.loadDatabaseYml(path))
+                    self.append(CodeQLDatabase.loadFromYml(path))
 
     def get(self, name: str) -> Optional[CodeQLDatabase]:
         for db in self:
