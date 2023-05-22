@@ -10,6 +10,7 @@ ratelimit = "*"
 
 [dev-packages]
 black = "*"
+typing_extensions = "*"
 build = "*"
 twine = "*"
 sphinx = "*"
