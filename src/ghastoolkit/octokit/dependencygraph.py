@@ -72,7 +72,13 @@ class DependencyGraph:
             if depdata.get("change_type") == "removed":
                 continue
 
-            dep = Dependency.fromPurl(depdata.get("package_url"))
+            purl = depdata.get("package_url")
+            if not purl or purl == "":
+                logger.warn("Package URL is not present, skipping...")
+                logger.warn(f"Package :: {depdata}")
+                continue
+
+            dep = Dependency.fromPurl(purl)
             dep.licence = depdata.get("license")
 
             for alert in depdata.get("vulnerabilities", []):
