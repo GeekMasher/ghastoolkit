@@ -2,10 +2,7 @@ from datetime import datetime
 import os
 import json
 import logging
-from types import coroutine
-from typing import Optional
-
-from requests import request
+from typing import Optional, Union
 
 from ghastoolkit.octokit.github import Repository
 
@@ -41,7 +38,7 @@ class Licenses:
         self.sources.append(path)
         logger.debug(f"Loaded licenses :: {len(self.data)}")
 
-    def add(self, purl: str, licenses: str | list):
+    def add(self, purl: str, licenses: Union[str, list]):
         """Add license"""
         if self.data.get(purl):
             return
