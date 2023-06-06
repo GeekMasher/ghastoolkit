@@ -14,7 +14,12 @@ logger = logging.getLogger("ghastoolkit.octokit.dependencygraph")
 
 
 class DependencyGraph:
-    def __init__(self, repository: Optional[Repository] = None, enable_graphql: bool = True, enable_clearlydefined: bool = False) -> None:
+    def __init__(
+        self,
+        repository: Optional[Repository] = None,
+        enable_graphql: bool = True,
+        enable_clearlydefined: bool = False,
+    ) -> None:
         self.repository = repository or GitHub.repository
         self.rest = RestRequest(repository)
         self.graphql = GraphQLRequest(repository)
@@ -25,7 +30,7 @@ class DependencyGraph:
     def getDependencies(self) -> Dependencies:
         """Get Dependencies"""
         deps = self.getDependenciesSbom()
-       
+
         if self.enable_graphql:
             logger.debug("Enabled GraphQL Dependencies")
             graph_deps = self.getDependenciesGraphQL()

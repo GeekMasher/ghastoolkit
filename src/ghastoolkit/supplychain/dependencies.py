@@ -208,4 +208,3 @@ class Dependencies(list[Dependency]):
         """Update a list of dependencies"""
         for dep in dependencies:
             self.updateDependency(dep)
-
