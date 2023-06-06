@@ -58,4 +58,12 @@ class TestDependencies(unittest.TestCase):
         self.assertEqual(dep.name, "rich")
         self.assertEqual(dep.license, "MIT")
 
+    def test_update_dep(self):
+        dep = Dependency("urllib3", manager="pypi", license="Apache-2")
+
+        self.deps.updateDependency(dep)
+
+        urllib_dep = self.deps.find("urllib3")
+        self.assertEqual(urllib_dep.name, "urllib3")
+        self.assertEqual(urllib_dep.license, "Apache-2")
 

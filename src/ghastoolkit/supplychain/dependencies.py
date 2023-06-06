@@ -195,3 +195,17 @@ class Dependencies(list[Dependency]):
         return Dependencies(
             [dep for dep in self if any(regex.search(dep.name) for regex in regex_list)]
         )
+
+    def updateDependency(self, dependency: Dependency):
+        """Update a dependency in our list with the incoming information"""
+        for dep in self:
+            if dependency.name == dep.name or dependency.fullname == dep.fullname:
+                dep.__dict__.update(dependency.__dict__)
+                # self[i] = new_dep
+                break
+
+    def updateDependencies(self, dependencies: "Dependencies"):
+        """Update a list of dependencies"""
+        for dep in dependencies:
+            self.updateDependency(dep)
+

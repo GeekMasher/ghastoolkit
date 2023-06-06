@@ -11,6 +11,6 @@ class TestClearly(unittest.TestCase):
         dep = Dependency("requests", manager="pypi")
 
         url = clearly.createCurationUrl(dep)
-        self.assertEqual(url, f"{clearly.api}/curation/pypi/pypi/-/requests")
+        self.assertEqual(url, f"{clearly.api}/curations/pypi/pypi/-/requests")
 
 

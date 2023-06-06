@@ -56,10 +56,13 @@ class ClearlyDefined:
 
     def getLicenses(self, dependency: Dependency) -> list[str]:
         licenses = set()
-        data = self.getCurations(dependency)
-        for _, curation in data.get("curations", {}).items():
-            curlicense = curation.get("licensed", {}).get("declared")
-            if curlicense:
-                licenses.add(curlicense)
+        try:
+            data = self.getCurations(dependency)
+            for _, curation in data.get("curations", {}).items():
+                curlicense = curation.get("licensed", {}).get("declared")
+                if curlicense:
+                    licenses.add(curlicense)
+        except:
+            logger.warning(f"Error getting curation data :: {dependency}")
 
         return list(licenses)
