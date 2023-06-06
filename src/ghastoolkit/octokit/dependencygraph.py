@@ -65,13 +65,19 @@ class DependencyGraph:
     def getDependenciesGraphQL(self) -> Dependencies:
         """Get Dependencies from GraphQL"""
         deps = Dependencies()
-        data = self.graphql.query("GetDependencyInfo", {
-            "owner": self.repository.owner,
-            "repo": self.repository.repo
-        })
-        graph_manifests = data.get("data", {}).get("repository", {}).get("dependencyGraphManifests", {})
-        logger.debug(f"Graph Manifests Total Count :: {graph_manifests.get('totalCount')}")
-        
+        data = self.graphql.query(
+            "GetDependencyInfo",
+            {"owner": self.repository.owner, "repo": self.repository.repo},
+        )
+        graph_manifests = (
+            data.get("data", {})
+            .get("repository", {})
+            .get("dependencyGraphManifests", {})
+        )
+        logger.debug(
+            f"Graph Manifests Total Count :: {graph_manifests.get('totalCount')}"
+        )
+
         for manifest in graph_manifests.get("edges", []):
             node = manifest.get("node", {})
             logger.debug(f"Processing :: '{node.get('filename')}'")
@@ -79,14 +85,20 @@ class DependencyGraph:
             for dep in node.get("dependencies", {}).get("edges", []):
                 dep = dep.get("node", {})
                 license = None
-                if dep.get("repository") and dep.get("repository", {}).get("licenseInfo"):
-                    license = dep.get("repository", {}).get("licenseInfo", {}).get("name")
+                if dep.get("repository") and dep.get("repository", {}).get(
+                    "licenseInfo"
+                ):
+                    license = (
+                        dep.get("repository", {}).get("licenseInfo", {}).get("name")
+                    )
 
-                deps.append(Dependency(
-                    name=dep.get("packageName"),
-                    manager=dep.get("packageManager"),
-                    license=license
-                ))
+                deps.append(
+                    Dependency(
+                        name=dep.get("packageName"),
+                        manager=dep.get("packageManager"),
+                        license=license,
+                    )
+                )
 
         return deps
 
