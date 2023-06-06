@@ -25,6 +25,6 @@ class TestLicensing(unittest.TestCase):
 
         dep = dependencies.pop(0)
         self.assertTrue(isinstance(dep, Dependency))
-        self.assertEqual(dep.licence, "MIT")
+        self.assertEqual(dep.license, "MIT")
 
 
