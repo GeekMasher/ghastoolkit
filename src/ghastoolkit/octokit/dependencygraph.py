@@ -1,7 +1,6 @@
+import json
 import logging
-from dataclasses import dataclass, field
-from datetime import datetime
-import re
+from threading import main_thread
 from typing import Any
 import urllib.parse
 
@@ -20,7 +19,17 @@ class DependencyGraph:
         self.rest = RestRequest(repository)
         self.graphql = GraphQLRequest(repository)
 
-    def getDependencies(self) -> Dependencies:
+    def getDependencies(self, clearly_defined: bool = False) -> Dependencies:
+        """Get Dependencies"""
+        deps = self.getDependenciesSbom()
+        # graph = self.getDependenciesGraphQL()
+
+        if clearly_defined:
+            logger.debug("Applying ClearlyDefined on dependencies")
+            deps.applyClearlyDefined()
+        return deps
+
+    def getDependenciesSbom(self) -> Dependencies:
         """Get Dependencies from SBOM"""
         result = Dependencies()
         spdx_bom = self.exportBOM()
@@ -35,7 +44,7 @@ class DependencyGraph:
 
             # if get find a PURL or not
             if extref:
-                dep.licence = package.get("licenseConcluded")
+                dep.license = package.get("licenseConcluded")
             else:
                 name = package.get("name", "")
                 # manager ':'
@@ -47,11 +56,39 @@ class DependencyGraph:
 
                 dep.name = name
                 dep.version = package.get("versionInfo")
-                dep.licence = package.get("licenseConcluded")
+                dep.license = package.get("licenseConcluded")
 
             result.append(dep)
 
         return result
+
+    def getDependenciesGraphQL(self) -> Dependencies:
+        """Get Dependencies from GraphQL"""
+        deps = Dependencies()
+        data = self.graphql.query("GetDependencyInfo", {
+            "owner": self.repository.owner,
+            "repo": self.repository.repo
+        })
+        graph_manifests = data.get("data", {}).get("repository", {}).get("dependencyGraphManifests", {})
+        logger.debug(f"Graph Manifests Total Count :: {graph_manifests.get('totalCount')}")
+        
+        for manifest in graph_manifests.get("edges", []):
+            node = manifest.get("node", {})
+            logger.debug(f"Processing :: '{node.get('filename')}'")
+
+            for dep in node.get("dependencies", {}).get("edges", []):
+                dep = dep.get("node", {})
+                license = None
+                if dep.get("repository") and dep.get("repository", {}).get("licenseInfo"):
+                    license = dep.get("repository", {}).get("licenseInfo", {}).get("name")
+
+                deps.append(Dependency(
+                    name=dep.get("packageName"),
+                    manager=dep.get("packageManager"),
+                    license=license
+                ))
+
+        return deps
 
     def getDependenciesInPR(self, base: str, head: str) -> Dependencies:
         """Get all the dependencies from a Pull Request"""

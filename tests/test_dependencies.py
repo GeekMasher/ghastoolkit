@@ -7,11 +7,11 @@ from ghastoolkit import Dependencies, Dependency, Licenses
 class TestDependencies(unittest.TestCase):
     def setUp(self) -> None:
         self.deps = Dependencies()
-        self.deps.append(Dependency("urllib3", manager="pypi", licence="MIT"))
-        self.deps.append(Dependency("rich", manager="pypi", licence="NOASSERTION"))
-        self.deps.append(Dependency("pyyaml", manager="pypi", licence="GPL-3.0"))
-        self.deps.append(Dependency("pyproject-hooks", manager="pypi", licence="Apache-2.0"))
-        self.deps.append(Dependency("requests", manager="pypi", licence="GPL-2.0"))
+        self.deps.append(Dependency("urllib3", manager="pypi", license="MIT"))
+        self.deps.append(Dependency("rich", manager="pypi", license="NOASSERTION"))
+        self.deps.append(Dependency("pyyaml", manager="pypi", license="GPL-3.0"))
+        self.deps.append(Dependency("pyproject-hooks", manager="pypi", license="Apache-2.0"))
+        self.deps.append(Dependency("requests", manager="pypi", license="GPL-2.0"))
         return super().setUp()
 
     def test_license(self):
@@ -56,6 +56,6 @@ class TestDependencies(unittest.TestCase):
 
         dep = self.deps.find("rich")
         self.assertEqual(dep.name, "rich")
-        self.assertEqual(dep.licence, "MIT")
+        self.assertEqual(dep.license, "MIT")
 
 
