@@ -1,7 +1,7 @@
 __name__ = "ghastoolkit"
 __title__ = "GHAS Toolkit"
 
-__version__ = "0.4.1"
+__version__ = "0.4.2"
 
 __description__ = "GitHub Advanced Security Python Toolkit"
 __summary__ = """\
@@ -42,3 +42,6 @@ from ghastoolkit.supplychain.licensing import Licenses
 from ghastoolkit.codeql.databases import CodeQLDatabases, CodeQLDatabase
 from ghastoolkit.codeql.cli import CodeQL
 from ghastoolkit.codeql.results import CodeQLResults
+
+# CodeQL Data Extensions / Models as Data
+from ghastoolkit.codeql.dataextensions.ext import DataExtensions
