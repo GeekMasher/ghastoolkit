@@ -1,6 +1,6 @@
 import os
 import logging
-from typing import List, Optional
+from typing import List, Optional, Union
 from dataclasses import dataclass, field
 
 import yaml
@@ -29,15 +29,19 @@ class DataExtensions:
     pack: Optional[str] = None
     paths: List[str] = field(default_factory=list)
 
-    sources: List[CompiledSources | InterpretedSource] = field(default_factory=list)
-
-    sinks: List[CompiledSinks | InterpretedSink] = field(default_factory=list)
-
-    summaries: List[CompiledSummaries | InterpretedSummary] = field(
+    sources: List[Union[CompiledSources, InterpretedSource]] = field(
         default_factory=list
     )
 
-    types: List[InterpretedType | InterpretedTypeVariable] = field(default_factory=list)
+    sinks: List[Union[CompiledSinks, InterpretedSink]] = field(default_factory=list)
+
+    summaries: List[Union[CompiledSummaries, InterpretedSummary]] = field(
+        default_factory=list
+    )
+
+    types: List[Union[InterpretedType, InterpretedTypeVariable]] = field(
+        default_factory=list
+    )
 
     neutrals: List[CompiledNeutrals] = field(default_factory=list)
 
