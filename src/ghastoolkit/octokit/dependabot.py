@@ -42,10 +42,10 @@ class Dependabot:
                     # TODO: CWE info
                 )
                 dep_alert = DependencyAlert(
-                    severity=advisory.severity, 
-                    purl=purl, 
-                    advisory=advisory, 
-                    created_at=created_at
+                    severity=advisory.severity,
+                    purl=purl,
+                    advisory=advisory,
+                    created_at=created_at,
                 )
                 dep_alert.__data__ = data
                 results.append(dep_alert)
