@@ -19,6 +19,8 @@ class TestDefault(unittest.TestCase):
         codeql = CodeQL("codeql")
         alerts = CodeQLResults()
 
+        dataext = DataExtensions("python")
+
     def test_secretscanning(self):
         ss = SecretScanning()
         alert = SecretAlert(
