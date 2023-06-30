@@ -26,4 +26,3 @@ print(f" Sinks      :: {len(de.sinks)}")
 print(f" Summaries  :: {len(de.summaries)}")
 print(f" Types      :: {len(de.types)}")
 print(f" Neutrals   :: {len(de.neutrals)}")
-

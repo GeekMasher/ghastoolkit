@@ -81,5 +81,3 @@ class DataExtensions:
                     logger.warning(f"Unknown data extension :: {ext_name}")
 
         self.paths.append(path)
-
-
