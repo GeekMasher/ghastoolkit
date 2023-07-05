@@ -1,7 +1,7 @@
 from dataclasses import dataclass, is_dataclass
 import unittest
 
-from ghastoolkit.octokit.octokit import OctoItem, Octokit, loadOctoItem
+from ghastoolkit.octokit.octokit import OctoItem, Octokit, GraphQLRequest, loadOctoItem
 from ghastoolkit.octokit.github import GitHub
 
 
@@ -33,3 +33,20 @@ class TestLoadOctoItem(unittest.TestCase):
         self.assertTrue(is_dataclass(item))
 
         self.assertEqual(item.number, 5)
+
+class TestOctokitGraphQL(unittest.TestCase):
+    def setUp(self) -> None:
+        GitHub.init(repository="GeekMasher/ghastoolkit@main")
+        return super().setUp()
+
+    def test_loading_defaults(self):
+        gql = GraphQLRequest()
+        # load 2 default queries
+        self.assertEqual(len(gql.queries.keys()), 2)
+
+        query1 = gql.queries.get("GetDependencyAlerts")
+        self.assertIsNotNone(query1)
+        
+        query2 = gql.queries.get("GetDependencyInfo")
+        self.assertIsNotNone(query2)
+
