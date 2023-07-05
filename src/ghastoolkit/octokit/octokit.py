@@ -9,7 +9,7 @@ from requests import Session
 from ratelimit import limits, sleep_and_retry
 
 from ghastoolkit.octokit.github import GitHub, Repository
-from ghastoolkit.octokit.graphql import QUERIES 
+from ghastoolkit.octokit.graphql import QUERIES
 
 
 # Assume REST requests are being done by a GitHub Token, not

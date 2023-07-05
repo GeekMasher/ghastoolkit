@@ -1,4 +1,3 @@
-
 DEPENDENCY_GRAPH_ALERTS = """\
 {
     repository(owner: "$owner", name: "$repo") {
@@ -80,10 +79,7 @@ DEPENDENCY_GRAPH_INFO = """\
 """
 
 
-
 QUERIES = {
     "GetDependencyAlerts": DEPENDENCY_GRAPH_ALERTS,
-    "GetDependencyInfo": DEPENDENCY_GRAPH_INFO
+    "GetDependencyInfo": DEPENDENCY_GRAPH_INFO,
 }
-
-
