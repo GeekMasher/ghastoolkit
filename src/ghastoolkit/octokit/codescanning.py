@@ -88,7 +88,7 @@ class CodeScanning:
         """
         return []
 
-    def getAlertsInPR(self, base: str) -> list[dict]:
+    def getAlertsInPR(self, base: str) -> list[CodeAlert]:
         """Get the open alerts in a Pull Request (delta / diff).
 
         Note this operation is slow due to it needing to lookup each alert instance
@@ -113,7 +113,7 @@ class CodeScanning:
     @RestRequest.restGet(
         "/repos/{owner}/{repo}/code-scanning/alerts/{alert_number}", authenticated=True
     )
-    def getAlert(self, alert_number: int) -> dict:
+    def getAlert(self, alert_number: int) -> CodeAlert:
         """Get Single Alert
         https://docs.github.com/en/rest/code-scanning#get-a-code-scanning-alert
         """
