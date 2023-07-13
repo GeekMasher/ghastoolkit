@@ -1,0 +1,15 @@
+
+div.sphinxsidebarwrapper p.logo {
+    margin-bottom: 1rem;
+}
+
+div.sphinxsidebarwrapper h1.logo {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 3rem;
+}
+
+div.sphinxsidebar h3 {
+    text-align: center;
+}
+
