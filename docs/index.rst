@@ -15,7 +15,7 @@ To install `ghastoolkit` you can use the following commands:
     pip install ghastoolkit
 
     # pipenv
-    pip install ghastoolkit
+    pipenv install ghastoolkit
 
     # poetry
     poetry add ghastoolkit
