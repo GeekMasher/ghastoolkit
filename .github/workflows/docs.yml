@@ -21,7 +21,7 @@ jobs:
 
       - name: Build docs
         run: |
-          export PYTHONPATH=$PWD/src/ghastoolkit
+          export PYTHONPATH=$PWD/src
           pipenv run docs
 
       - name: Publish
