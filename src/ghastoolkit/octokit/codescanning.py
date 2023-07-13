@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 import json
 import logging
-from typing import Any, Optional
+from typing import Any, List, Optional
 from ghastoolkit.octokit.github import GitHub, Repository
 from ghastoolkit.octokit.octokit import OctoItem, RestRequest
 
@@ -58,6 +58,8 @@ class CodeScanning:
         https://docs.github.com/en/rest/code-scanning
         """
         self.repository = repository or GitHub.repository
+        self.tools: List[str] = []
+
         if not self.repository:
             raise Exception("CodeScanning requires Repository to be set")
         self.rest = RestRequest(self.repository)
@@ -155,7 +157,15 @@ class CodeScanning:
             tools.add(name)
             results.append(analysis)
 
+        self.tools = list(tools)
+
         return results
+
+    def getTools(self, reference: Optional[str] = None) -> List[str]:
+        """Get list of tools from the latest analyses"""
+        if len(self.tools) == 0:
+            self.getLatestAnalyses(reference)
+        return self.tools
 
     def getSarifId(self, url: str) -> int:
         """Get the latest SARIF ID from a URL"""
