@@ -4,7 +4,7 @@ import os
 import subprocess
 from sys import stdout
 import tempfile
-from typing import Optional
+from typing import Optional, Union
 
 from ghastoolkit.codeql.databases import CodeQLDatabase
 from ghastoolkit.codeql.results import CodeQLResults
@@ -66,7 +66,7 @@ class CodeQL:
 
     def runRawQuery(
         self, path: str, database: CodeQLDatabase, outputtype: str = "bqrs"
-    ) -> dict | list:
+    ) -> Union[dict, list]:
         """Run raw query"""
         if not database.path:
             raise Exception("CodeQL Database path is not set")
