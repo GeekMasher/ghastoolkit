@@ -44,7 +44,7 @@ html_static_path = ["static"]
 
 # Toolbox icons created by Smashicons - Flaticon
 # https://www.flaticon.com/free-icons/toolbox 
-html_logo = "static/AdvancedSecurity.png"
+html_logo = "static/ghastoolkit.png"
 
 htmlhelp_basename = f"{project}Doc"
 
