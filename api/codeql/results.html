@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>CodeQL Result Models &#8212; GHAS Toolkit 0.4.5 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Examples" href="../../examples/index.html" />
+    <link rel="prev" title="CodeQL Databases" href="databases.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="codeql-result-models">
+<span id="codeql-results"></span><h1>CodeQL Result Models<a class="headerlink" href="#codeql-result-models" title="Permalink to this heading">¶</a></h1>
+<section id="codeqlresults">
+<h2>CodeQLResults<a class="headerlink" href="#codeqlresults" title="Permalink to this heading">¶</a></h2>
+<span class="target" id="module-ghastoolkit"></span><dl class="py class">
+<dt class="sig sig-object py" id="ghastoolkit.CodeQLResults">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ghastoolkit.</span></span><span class="sig-name descname"><span class="pre">CodeQLResults</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ghastoolkit.CodeQLResults" title="Permalink to this definition">¶</a></dt>
+<dd><p>CodeQL Results</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.CodeQLResults.loadSarifResults">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">loadSarifResults</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#ghastoolkit.CodeQLResults" title="ghastoolkit.codeql.results.CodeQLResults"><span class="pre">CodeQLResults</span></a></span></span><a class="headerlink" href="#ghastoolkit.CodeQLResults.loadSarifResults" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load SARIF Results</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="codelocation">
+<h2>CodeLocation<a class="headerlink" href="#codelocation" title="Permalink to this heading">¶</a></h2>
+<span class="target" id="module-0"></span><dl class="py class">
+<dt class="sig sig-object py" id="ghastoolkit.CodeLocation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ghastoolkit.</span></span><span class="sig-name descname"><span class="pre">CodeLocation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_line</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_line</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ghastoolkit.CodeLocation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Code Location Module</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ghastoolkit.CodeLocation.end_column">
+<span class="sig-name descname"><span class="pre">end_column</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ghastoolkit.CodeLocation.end_column" title="Permalink to this definition">¶</a></dt>
+<dd><p>End line of the result</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ghastoolkit.CodeLocation.end_line">
+<span class="sig-name descname"><span class="pre">end_line</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ghastoolkit.CodeLocation.end_line" title="Permalink to this definition">¶</a></dt>
+<dd><p>End line of the result</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ghastoolkit.CodeLocation.start_column">
+<span class="sig-name descname"><span class="pre">start_column</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ghastoolkit.CodeLocation.start_column" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start column of the result</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ghastoolkit.CodeLocation.start_line">
+<span class="sig-name descname"><span class="pre">start_line</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#ghastoolkit.CodeLocation.start_line" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start line of the result</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ghastoolkit.CodeLocation.uri">
+<span class="sig-name descname"><span class="pre">uri</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#ghastoolkit.CodeLocation.uri" title="Permalink to this definition">¶</a></dt>
+<dd><p>URI to the location where the result occurs</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="coderesult">
+<h2>CodeResult<a class="headerlink" href="#coderesult" title="Permalink to this heading">¶</a></h2>
+<span class="target" id="module-1"></span><dl class="py class">
+<dt class="sig sig-object py" id="ghastoolkit.CodeResult">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ghastoolkit.</span></span><span class="sig-name descname"><span class="pre">CodeResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rule_id:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locations:</span> <span class="pre">list[ghastoolkit.codeql.results.CodeLocation]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ghastoolkit.CodeResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Code Result</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.CodeResult.loadSarifLocations">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">loadSarifLocations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'CodeLocation'</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ghastoolkit.CodeResult.loadSarifLocations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load SARIF Locations</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ghastoolkit.CodeResult.locations">
+<span class="sig-name descname"><span class="pre">locations</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#ghastoolkit.CodeLocation" title="ghastoolkit.codeql.results.CodeLocation"><span class="pre">ghastoolkit.codeql.results.CodeLocation</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#ghastoolkit.CodeResult.locations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Locations of the results</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ghastoolkit.CodeResult.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#ghastoolkit.CodeResult.message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Message of the result</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ghastoolkit.CodeResult.rule_id">
+<span class="sig-name descname"><span class="pre">rule_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#ghastoolkit.CodeResult.rule_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rule ID</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/ghastoolkit.png" alt="Logo"/>
+            </a></p>
+<h1 class="logo"><a href="../../index.html">GHAS Toolkit</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../octokit/index.html">Octokit</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">CodeQL</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="codeql-cli.html">CodeQL CLI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="databases.html">CodeQL Databases</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">CodeQL Result Models</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/index.html">Examples</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">API Reference</a><ul>
+  <li><a href="index.html">CodeQL</a><ul>
+      <li>Previous: <a href="databases.html" title="previous chapter">CodeQL Databases</a></li>
+      <li>Next: <a href="../../examples/index.html" title="next chapter">Examples</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;Copyright (c) 2023, GeekMasher.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/api/codeql/results.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

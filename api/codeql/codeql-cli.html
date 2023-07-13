@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>CodeQL CLI &#8212; GHAS Toolkit 0.4.5 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="CodeQL Databases" href="databases.html" />
+    <link rel="prev" title="CodeQL" href="index.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="codeql-cli">
+<span id="id1"></span><h1>CodeQL CLI<a class="headerlink" href="#codeql-cli" title="Permalink to this heading">¶</a></h1>
+<section id="module-ghastoolkit">
+<span id="codeql"></span><h2>CodeQL<a class="headerlink" href="#module-ghastoolkit" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="ghastoolkit.CodeQL">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ghastoolkit.</span></span><span class="sig-name descname"><span class="pre">CodeQL</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">binary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ghastoolkit.CodeQL" title="Permalink to this definition">¶</a></dt>
+<dd><p>CodeQL CLI</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.CodeQL.exists">
+<span class="sig-name descname"><span class="pre">exists</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#ghastoolkit.CodeQL.exists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check codeql is present on the system</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.CodeQL.getResults">
+<span class="sig-name descname"><span class="pre">getResults</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">database</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="databases.html#ghastoolkit.CodeQLDatabase" title="ghastoolkit.codeql.databases.CodeQLDatabase"><span class="pre">CodeQLDatabase</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="results.html#ghastoolkit.CodeQLResults" title="ghastoolkit.codeql.results.CodeQLResults"><span class="pre">CodeQLResults</span></a></span></span><a class="headerlink" href="#ghastoolkit.CodeQL.getResults" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get interpret results from CodeQL</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.CodeQL.readBqrs">
+<span class="sig-name descname"><span class="pre">readBqrs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bqrsfile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#ghastoolkit.CodeQL.readBqrs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read BQRS</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.CodeQL.runCommand">
+<span class="sig-name descname"><span class="pre">runCommand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">argvs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#ghastoolkit.CodeQL.runCommand" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run CodeQL command without the binary / path</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.CodeQL.runQuery">
+<span class="sig-name descname"><span class="pre">runQuery</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">database</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="databases.html#ghastoolkit.CodeQLDatabase" title="ghastoolkit.codeql.databases.CodeQLDatabase"><span class="pre">CodeQLDatabase</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="results.html#ghastoolkit.CodeQLResults" title="ghastoolkit.codeql.results.CodeQLResults"><span class="pre">CodeQLResults</span></a></span></span><a class="headerlink" href="#ghastoolkit.CodeQL.runQuery" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs Query on a CodeQL Database</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.CodeQL.runRawQuery">
+<span class="sig-name descname"><span class="pre">runRawQuery</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="databases.html#ghastoolkit.CodeQLDatabase" title="ghastoolkit.codeql.databases.CodeQLDatabase"><span class="pre">CodeQLDatabase</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'bqrs'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span></span></span><a class="headerlink" href="#ghastoolkit.CodeQL.runRawQuery" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run raw query</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ghastoolkit.CodeQL.version">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#ghastoolkit.CodeQL.version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get CodeQL Version</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/ghastoolkit.png" alt="Logo"/>
+            </a></p>
+<h1 class="logo"><a href="../../index.html">GHAS Toolkit</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../octokit/index.html">Octokit</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">CodeQL</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">CodeQL CLI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="databases.html">CodeQL Databases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="results.html">CodeQL Result Models</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/index.html">Examples</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">API Reference</a><ul>
+  <li><a href="index.html">CodeQL</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">CodeQL</a></li>
+      <li>Next: <a href="databases.html" title="next chapter">CodeQL Databases</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;Copyright (c) 2023, GeekMasher.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/api/codeql/codeql-cli.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
