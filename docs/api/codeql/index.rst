@@ -8,4 +8,6 @@ CodeQL
    :maxdepth: 2
    
    codeql-cli
+   databases
+   results
 
