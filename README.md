@@ -1,6 +1,6 @@
 <div align="center">
 <h1>GHASToolkit</h1>
-[![GitHub](./docs/static/ghastoolkit.png)](https://github.com/GeekMasher/ghastoolkit)
+[![GHASToolkit](https://raw.githubusercontent.com/GeekMasher/ghastoolkit/docs/docs/static/ghastoolkit.png)](https://github.com/GeekMasher/ghastoolkit)
 
 [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/GeekMasher/ghastoolkit)
 [![GitHub Actions](https://img.shields.io/github/actions/workflow/status/geekmasher/ghastoolkit/python-package.yml?style=for-the-badge)](https://github.com/GeekMasher/ghastoolkit/actions/workflows/python-package.yml?query=branch%3Amain)
