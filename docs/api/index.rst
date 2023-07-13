@@ -9,4 +9,5 @@ This part of the documentation covers all the APIs which are part of `ghastoolki
    :maxdepth: 2
    
    octokit/index
+   codeql/index
 
