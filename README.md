@@ -16,7 +16,22 @@
 [GitHub Advanced Security (GHAS)](https://github.com/features/security) Python Toolkit to make the lives of everyone that uses GHAS a little easier.
 
 
-## Usage 
+## Installing
+
+To install `ghastoolkit`, you can use `pip` or one of `pypi` family's of tools to install:
+
+```bash
+# pip 
+pip install ghastoolkit
+
+# pipenv
+pipenv install ghastoolkit
+
+# poetry
+poetry add ghastoolkit
+```
+
+## Usage
 
 To see how to use `ghastoolkit`, [take a look at the docs](https://geekmasher.github.io/ghastoolkit).
 
@@ -30,5 +45,4 @@ Please refer to [MIT](./LICENSE.md) for the full terms.
 ## Support
 
 Support is via [GitHub Issues](https://github.com/GeekMasher/ghastoolkit/issues)
-
 
