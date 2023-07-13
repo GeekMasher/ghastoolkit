@@ -21,25 +21,25 @@ class CodeAlert(OctoItem):
     _instances: Optional[list[dict]] = None
 
     @property
-    def rule_id(self):
-        return self.rule.get("id")
+    def rule_id(self) -> str:
+        return self.rule.get("id", "NA")
 
     @property
-    def description(self):
+    def description(self) -> Optional[str]:
         return self.rule.get("description")
 
     @property
-    def tool_name(self):
-        return self.tool.get("name")
+    def tool_name(self) -> str:
+        return self.tool.get("name", "NA")
 
     @property
-    def tool_fullname(self):
+    def tool_fullname(self) -> str:
         version = self.tool.get("version")
         return f"{self.tool_name}@{version}"
 
     @property
-    def severity(self):
-        return self.rule.get("severity")
+    def severity(self) -> str:
+        return self.rule.get("severity", "NA")
 
     @property
     def instances(self) -> list[dict]:
@@ -90,7 +90,7 @@ class CodeScanning:
         """
         return []
 
-    def getAlertsInPR(self, base: str) -> list[dict]:
+    def getAlertsInPR(self, base: str) -> list[CodeAlert]:
         """Get the open alerts in a Pull Request (delta / diff).
 
         Note this operation is slow due to it needing to lookup each alert instance
@@ -115,7 +115,7 @@ class CodeScanning:
     @RestRequest.restGet(
         "/repos/{owner}/{repo}/code-scanning/alerts/{alert_number}", authenticated=True
     )
-    def getAlert(self, alert_number: int) -> dict:
+    def getAlert(self, alert_number: int) -> CodeAlert:
         """Get Single Alert
         https://docs.github.com/en/rest/code-scanning#get-a-code-scanning-alert
         """
