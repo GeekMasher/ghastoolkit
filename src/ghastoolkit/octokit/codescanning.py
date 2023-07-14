@@ -94,7 +94,7 @@ class CodeScanning:
         state: str = "open",
         tool_name: Optional[str] = None,
         ref: Optional[str] = None,
-        sort: str = "created",
+        sort: Optional[str] = None,
         severity: Optional[str] = None,
     ) -> list[CodeAlert]:
         """Get all code scanning alerts
