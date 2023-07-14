@@ -10,39 +10,52 @@ logger = logging.getLogger("ghastoolkit.octokit.codescanning")
 
 @dataclass
 class CodeAlert(OctoItem):
+    """Code Alert from Code Scanning API"""
+
     number: int
+    """Unique Identifier"""
     state: str
+    """State of the alert. States can be `open`, `closed`, `dismissed`, or `fixed`."""
 
     created_at: str
+    """Alert Creation date and time"""
 
     rule: dict
+    """Rule Data (rule_id, severity, description, etc)"""
     tool: dict
+    """Tool information (name, version, guid)"""
 
     _instances: Optional[list[dict]] = None
 
     @property
     def rule_id(self) -> str:
+        """Rule Identifier"""
         return self.rule.get("id", "NA")
 
     @property
     def description(self) -> Optional[str]:
+        """Rule Description / Title"""
         return self.rule.get("description")
 
     @property
     def tool_name(self) -> str:
+        """Tool name"""
         return self.tool.get("name", "NA")
 
     @property
     def tool_fullname(self) -> str:
+        """Full tool name with version information"""
         version = self.tool.get("version")
         return f"{self.tool_name}@{version}"
 
     @property
     def severity(self) -> str:
+        """Severity of the alert using `security_severity_level`"""
         return self.rule.get("security_severity_level", "NA")
 
     @property
     def instances(self) -> list[dict]:
+        """Get list of instances of the alert"""
         if not self._instances:
             self._instances = CodeScanning().getAlertInstances(self.number)
         return self._instances
@@ -76,19 +89,31 @@ class CodeScanning:
             return results
         raise Exception(f"Error getting alerts from Organization")
 
-    @RestRequest.restGet(
-        "/repos/{owner}/{repo}/code-scanning/alerts", authenticated=True
-    )
     def getAlerts(
         self,
         state: str = "open",
         tool_name: Optional[str] = None,
         ref: Optional[str] = None,
+        sort: Optional[str] = None,
+        severity: Optional[str] = None,
     ) -> list[CodeAlert]:
         """Get all code scanning alerts
         https://docs.github.com/en/rest/code-scanning#list-code-scanning-alerts-for-a-repository
         """
-        return []
+        results = self.rest.get(
+            "/repos/{owner}/{repo}/code-scanning/alerts",
+            {
+                "state": state,
+                "tool_name": tool_name,
+                "ref": ref,
+                "sort": sort,
+                "severity": severity,
+            },
+            authenticated=True,
+        )
+        if isinstance(results, list):
+            return results
+        raise Exception(f"Error getting alerts from Repository")
 
     def getAlertsInPR(self, base: str) -> list[CodeAlert]:
         """Get the open alerts in a Pull Request (delta / diff).
@@ -116,7 +141,8 @@ class CodeScanning:
         "/repos/{owner}/{repo}/code-scanning/alerts/{alert_number}", authenticated=True
     )
     def getAlert(self, alert_number: int) -> CodeAlert:
-        """Get Single Alert
+        """Get Single Alert information from Code Scanning
+
         https://docs.github.com/en/rest/code-scanning#get-a-code-scanning-alert
         """
         return {}
@@ -124,6 +150,7 @@ class CodeScanning:
     def getAlertInstances(
         self, alert_number: int, ref: Optional[str] = None
     ) -> list[dict]:
+        """Get a list of alert instances"""
         result = self.rest.get(
             "/repos/{owner}/{repo}/code-scanning/alerts/{alert_number}/instances",
             {"alert_number": alert_number, "ref": ref},
@@ -133,7 +160,8 @@ class CodeScanning:
     def getAnalyses(
         self, reference: Optional[str] = None, tool: Optional[str] = None
     ) -> list[dict]:
-        """Get a list of analyses for a repository
+        """Get a list of all the analyses for a given repository
+
         https://docs.github.com/en/enterprise-cloud@latest/rest/code-scanning#list-code-scanning-analyses-for-a-repository
         """
         results = self.rest.get(
@@ -203,6 +231,7 @@ class CodeScanning:
 
     def getCodeQLDatabase(self, language: str) -> dict:
         """Get a CodeQL database for a repository
+
         https://docs.github.com/en/rest/code-scanning?apiVersion=2022-11-28#get-a-codeql-database-for-a-repository
         """
         return self.rest.get(
