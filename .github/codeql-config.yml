@@ -3,6 +3,9 @@ name: "CodeQL Configuration"
 packs:
   - advanced-security/codeql-python
 
+queries:
+  - uses: ./.github/codeql/PrintStatement.ql
+
 paths-ignore:
   - vendor/**
 
