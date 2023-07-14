@@ -43,6 +43,7 @@
  | <a href="#I"><strong>I</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
  | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#Q"><strong>Q</strong></a>
@@ -96,10 +97,10 @@
 </li>
       <li><a href="api/codeql/results.html#ghastoolkit.CodeLocation">CodeLocation (class in ghastoolkit)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/codeql/codeql-cli.html#ghastoolkit.CodeQL">CodeQL (class in ghastoolkit)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/codeql/databases.html#ghastoolkit.CodeQLDatabase">CodeQLDatabase (class in ghastoolkit)</a>
 </li>
       <li><a href="api/codeql/databases.html#ghastoolkit.CodeQLDatabases">CodeQLDatabases (class in ghastoolkit)</a>
@@ -110,6 +111,8 @@
 </li>
       <li><a href="api/octokit/codescanning.html#ghastoolkit.CodeScanning">CodeScanning (class in ghastoolkit)</a>
 </li>
+      <li><a href="api/octokit/codescanning.html#ghastoolkit.CodeAlert.created_at">created_at (ghastoolkit.CodeAlert attribute)</a>
+</li>
       <li><a href="api/codeql/databases.html#ghastoolkit.CodeQLDatabase.createDownloadPath">createDownloadPath() (ghastoolkit.CodeQLDatabase method)</a>
 </li>
   </ul></td>
@@ -119,6 +122,8 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/octokit/supplychain.html#ghastoolkit.DependencyGraph">DependencyGraph (class in ghastoolkit)</a>
+</li>
+      <li><a href="api/octokit/codescanning.html#ghastoolkit.CodeAlert.description">description (ghastoolkit.CodeAlert property)</a>
 </li>
       <li><a href="api/octokit/github.html#ghastoolkit.GitHub.display">display() (ghastoolkit.GitHub static method)</a>, <a href="api/octokit/octokit.html#ghastoolkit.GitHub.display">[1]</a>
 
@@ -180,7 +185,11 @@
       </ul></li>
       <li><a href="api/octokit/secretscanning.html#ghastoolkit.SecretScanning.getAlert">getAlert() (ghastoolkit.SecretScanning method)</a>
 </li>
+      <li><a href="api/octokit/codescanning.html#ghastoolkit.CodeScanning.getAlertInstances">getAlertInstances() (ghastoolkit.CodeScanning method)</a>
+</li>
       <li><a href="api/octokit/secretscanning.html#ghastoolkit.SecretScanning.getAlertLocations">getAlertLocations() (ghastoolkit.SecretScanning method)</a>
+</li>
+      <li><a href="api/octokit/codescanning.html#ghastoolkit.CodeScanning.getAlerts">getAlerts() (ghastoolkit.CodeScanning method)</a>
 </li>
       <li><a href="api/octokit/codescanning.html#ghastoolkit.CodeScanning.getAlertsInPR">getAlertsInPR() (ghastoolkit.CodeScanning method)</a>
 
@@ -204,10 +213,10 @@
 </li>
       <li><a href="api/octokit/github.html#ghastoolkit.Repository.getFile">getFile() (ghastoolkit.Repository method)</a>
 </li>
-      <li><a href="api/codeql/databases.html#ghastoolkit.CodeQLDatabases.getLanguages">getLanguages() (ghastoolkit.CodeQLDatabases method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/codeql/databases.html#ghastoolkit.CodeQLDatabases.getLanguages">getLanguages() (ghastoolkit.CodeQLDatabases method)</a>
+</li>
       <li><a href="api/octokit/codescanning.html#ghastoolkit.CodeScanning.getLatestAnalyses">getLatestAnalyses() (ghastoolkit.CodeScanning method)</a>
 </li>
       <li><a href="api/octokit/codescanning.html#ghastoolkit.CodeScanning.getOrganizationAlerts">getOrganizationAlerts() (ghastoolkit.CodeScanning method)</a>
@@ -253,9 +262,11 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/octokit/github.html#ghastoolkit.GitHub.init">init() (ghastoolkit.GitHub static method)</a>, <a href="api/octokit/octokit.html#ghastoolkit.GitHub.init">[1]</a>
 </li>
+      <li><a href="api/octokit/github.html#ghastoolkit.GitHub.instance">instance (ghastoolkit.GitHub attribute)</a>, <a href="api/octokit/octokit.html#ghastoolkit.GitHub.instance">[1]</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/octokit/github.html#ghastoolkit.GitHub.instance">instance (ghastoolkit.GitHub attribute)</a>, <a href="api/octokit/octokit.html#ghastoolkit.GitHub.instance">[1]</a>
+      <li><a href="api/octokit/codescanning.html#ghastoolkit.CodeAlert.instances">instances (ghastoolkit.CodeAlert property)</a>
 </li>
       <li><a href="api/octokit/github.html#ghastoolkit.Repository.isInPullRequest">isInPullRequest() (ghastoolkit.Repository method)</a>
 </li>
@@ -305,6 +316,14 @@
   </ul></td>
 </tr></table>
 
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/octokit/codescanning.html#ghastoolkit.CodeAlert.number">number (ghastoolkit.CodeAlert attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="O">O</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -350,14 +369,20 @@
 </li>
       <li><a href="api/octokit/github.html#ghastoolkit.GitHub.repository">repository (ghastoolkit.GitHub attribute)</a>, <a href="api/octokit/octokit.html#ghastoolkit.GitHub.repository">[1]</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/octokit/octokit.html#ghastoolkit.RestRequest.restGet">restGet() (ghastoolkit.RestRequest static method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/octokit/octokit.html#ghastoolkit.RestRequest">RestRequest (class in ghastoolkit)</a>
 </li>
-      <li><a href="api/codeql/results.html#ghastoolkit.CodeResult.rule_id">rule_id (ghastoolkit.CodeResult attribute)</a>
+      <li><a href="api/octokit/codescanning.html#ghastoolkit.CodeAlert.rule">rule (ghastoolkit.CodeAlert attribute)</a>
 </li>
+      <li><a href="api/octokit/codescanning.html#ghastoolkit.CodeAlert.rule_id">rule_id (ghastoolkit.CodeAlert property)</a>
+
+      <ul>
+        <li><a href="api/codeql/results.html#ghastoolkit.CodeResult.rule_id">(ghastoolkit.CodeResult attribute)</a>
+</li>
+      </ul></li>
       <li><a href="api/codeql/codeql-cli.html#ghastoolkit.CodeQL.runCommand">runCommand() (ghastoolkit.CodeQL method)</a>
 </li>
       <li><a href="api/codeql/codeql-cli.html#ghastoolkit.CodeQL.runQuery">runQuery() (ghastoolkit.CodeQL method)</a>
@@ -372,6 +397,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/octokit/secretscanning.html#ghastoolkit.SecretScanning">SecretScanning (class in ghastoolkit)</a>
 </li>
+      <li><a href="api/octokit/codescanning.html#ghastoolkit.CodeAlert.severity">severity (ghastoolkit.CodeAlert property)</a>
+</li>
       <li><a href="api/octokit/github.html#ghastoolkit.Repository.sha">sha (ghastoolkit.Repository attribute)</a>
 </li>
       <li><a href="api/codeql/results.html#ghastoolkit.CodeLocation.start_column">start_column (ghastoolkit.CodeLocation attribute)</a>
@@ -379,6 +406,8 @@
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/codeql/results.html#ghastoolkit.CodeLocation.start_line">start_line (ghastoolkit.CodeLocation attribute)</a>
+</li>
+      <li><a href="api/octokit/codescanning.html#ghastoolkit.CodeAlert.state">state (ghastoolkit.CodeAlert attribute)</a>
 </li>
       <li><a href="api/octokit/supplychain.html#ghastoolkit.DependencyGraph.submitDependencies">submitDependencies() (ghastoolkit.DependencyGraph method)</a>
 </li>
@@ -391,6 +420,14 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/octokit/github.html#ghastoolkit.GitHub.token">token (ghastoolkit.GitHub attribute)</a>, <a href="api/octokit/octokit.html#ghastoolkit.GitHub.token">[1]</a>
+</li>
+      <li><a href="api/octokit/codescanning.html#ghastoolkit.CodeAlert.tool">tool (ghastoolkit.CodeAlert attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/octokit/codescanning.html#ghastoolkit.CodeAlert.tool_fullname">tool_fullname (ghastoolkit.CodeAlert property)</a>
+</li>
+      <li><a href="api/octokit/codescanning.html#ghastoolkit.CodeAlert.tool_name">tool_name (ghastoolkit.CodeAlert property)</a>
 </li>
   </ul></td>
 </tr></table>
