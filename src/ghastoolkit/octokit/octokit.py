@@ -130,7 +130,7 @@ class RestRequest:
                     params[argv] = argv_value
                     args_index += 1
 
-                print(f"Request parameters :: '{params}'")
+                # print(f"Request parameters :: '{params}'")
                 result = rest.get(url, parameters=params, authenticated=authenticated)
 
                 if response:
