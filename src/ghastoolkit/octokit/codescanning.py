@@ -39,7 +39,7 @@ class CodeAlert(OctoItem):
 
     @property
     def severity(self) -> str:
-        return self.rule.get("severity", "NA")
+        return self.rule.get("security_severity_level", "NA")
 
     @property
     def instances(self) -> list[dict]:
