@@ -1,7 +1,7 @@
 __name__ = "ghastoolkit"
 __title__ = "GHAS Toolkit"
 
-__version__ = "0.4.7"
+__version__ = "0.5.0"
 
 __description__ = "GitHub Advanced Security Python Toolkit"
 __summary__ = """\
