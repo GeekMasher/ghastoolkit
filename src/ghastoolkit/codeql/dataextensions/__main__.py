@@ -28,4 +28,3 @@ logging.info(f" Sinks      :: {len(de.sinks)}")
 logging.info(f" Summaries  :: {len(de.summaries)}")
 logging.info(f" Types      :: {len(de.types)}")
 logging.info(f" Neutrals   :: {len(de.neutrals)}")
-
