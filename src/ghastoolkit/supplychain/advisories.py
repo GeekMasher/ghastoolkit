@@ -72,7 +72,7 @@ class AdvisoryAffect:
             data.get("package", {}).get("ecosystem", "NA").lower(),
             data.get("package", {}).get("name", "NA"),
             introduced=introduced,
-            fixed=fixed
+            fixed=fixed,
         )
         return adaff
 
@@ -131,7 +131,7 @@ class Advisory(OctoItem):
         """Load Advisory from path using GitHub Advisory Spec"""
         if not os.path.exists(path):
             raise Exception(f"Advisory path does not exist")
-        
+
         _, ext = os.path.splitext(path)
         if ext == ".json":
             return Advisory.loadJson(path)
@@ -210,4 +210,3 @@ class Advisories:
 
     def __len__(self) -> int:
         return len(self.advisories)
-
