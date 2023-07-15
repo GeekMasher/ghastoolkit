@@ -10,4 +10,5 @@ This part of the documentation covers all the APIs which are part of `ghastoolki
    
    octokit/index
    codeql/index
+   supplychain/index
 
