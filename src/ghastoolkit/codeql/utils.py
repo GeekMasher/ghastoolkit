@@ -1,6 +1,10 @@
+import logging
 import os
 import subprocess
 from typing import Optional
+
+
+logger = logging.getLogger("ghastoolkit.codeql")
 
 
 def findCodeBinary() -> Optional[list[str]]:
@@ -14,6 +18,6 @@ def findCodeBinary() -> Optional[list[str]]:
 
             return location
         except Exception as err:
-            print(err)
+            logger.debug(f"Failed to find codeql :: {err}")
 
     return
