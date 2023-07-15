@@ -33,7 +33,7 @@ from ghastoolkit.octokit.secretscanning import SecretScanning, SecretAlert
 from ghastoolkit.octokit.dependencygraph import DependencyGraph
 
 # Supply Chain
-from ghastoolkit.supplychain.advisories import Advisory
+from ghastoolkit.supplychain.advisories import Advisory, Advisories
 from ghastoolkit.supplychain.dependencyalert import DependencyAlert
 from ghastoolkit.supplychain.dependencies import Dependency, Dependencies
 from ghastoolkit.supplychain.licensing import Licenses
