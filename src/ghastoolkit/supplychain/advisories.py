@@ -151,6 +151,7 @@ class Advisory(OctoItem):
         advisory = Advisory(
             data.get("id", "NA"),
             data.get("database_specific", {}).get("severity", "NA").lower(),
+            aliases=data.get("aliases", []),
             summary=data.get("summary"),
             affected=affected,
         )

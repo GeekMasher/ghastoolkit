@@ -16,7 +16,9 @@ print(f"Advisory({log4shell.ghsa_id}, {log4shell.severity})")
 for aff in log4shell.affected:
     print(aff)
 
-print(f"\nDependency :: {dependency.name} ({dependency.version})")
+print("")
+print(f"Dependency :: {dependency.name} ({dependency.version})")
+print("Advisories Found:")
 for adv in advisories.check(dependency):
-    print(f" >>> Advisory({adv.ghsa_id})")
+    print(f" >>> Advisory({adv.ghsa_id}, `{','.join(adv.aliases)}`)")
 

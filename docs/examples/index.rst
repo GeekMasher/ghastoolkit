@@ -7,4 +7,5 @@ Examples
    :maxdepth: 1
 
    codescanning
+   advisories
    
