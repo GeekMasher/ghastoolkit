@@ -1,0 +1,64 @@
+
+import unittest
+from semantic_version import Version
+from ghastoolkit.supplychain.advisories import Advisory, Advisories, AdvisoryAffect, parseVersion
+from ghastoolkit.supplychain.dependencies import Dependency
+
+
+class TestAdvisories(unittest.TestCase):
+    def setUp(self) -> None:
+        self.advisories = Advisories()
+        return super().setUp()
+
+    def test_advisories(self):
+        ad = Advisory("rand", "high")
+        self.advisories.append(ad)
+        self.assertEquals(len(self.advisories), 1)
+
+    def test_advisory_check(self):
+        affected = [AdvisoryAffect("maven", "com.geekmasher.ghastoolkit", introduced="0", fixed="1")]
+        ad = Advisory("rand", "high", affected=affected)
+        self.advisories.append(ad)
+        self.assertEquals(len(self.advisories), 1)
+
+        dep = Dependency("ghastoolkit", "com.geekmasher", "0.8", "maven")
+
+        alert = self.advisories.check(dep)
+        self.assertEquals(alert, [ad])
+
+
+    def test_affect_check(self):
+        dep = Dependency("ghastoolkit", "com.geekmasher", "0.8", "maven")
+        affect = AdvisoryAffect("maven", "com.geekmasher.ghastoolkit", introduced="0", fixed="1")
+
+        self.assertTrue(affect.check(dep))
+        
+
+    def test_affect_check_version(self):
+        affect = AdvisoryAffect("", "", introduced="0.2", fixed="1")
+
+        # too early
+        self.assertFalse(affect.checkVersion("0.1"))
+        self.assertFalse(affect.checkVersion("0.1.1"))
+        # inside range
+        self.assertTrue(affect.checkVersion("0.2"))
+        self.assertTrue(affect.checkVersion("0.4.2"))
+        self.assertTrue(affect.checkVersion("0.1111"))
+
+        # fixed
+        self.assertFalse(affect.checkVersion("1"))
+        # later versions
+        self.assertFalse(affect.checkVersion("1.1"))
+        self.assertFalse(affect.checkVersion("10"))
+
+    def test_parse_version(self):
+        self.assertEqual(parseVersion("1"), "1.0.0")
+        self.assertEqual(parseVersion("1.0"), "1.0.0")
+        self.assertEqual(parseVersion("1.1.1"), "1.1.1")
+
+    def test_affect_versions(self):
+        affect = AdvisoryAffect("", "", introduced="0.2", fixed="1")
+        self.assertEqual(affect.introduced, "0.2.0")
+        self.assertEqual(affect.fixed, "1.0.0")
+
+
