@@ -16,6 +16,7 @@ def parseVersion(data: str) -> Version:
         return Version(f"{data}.0")
     return Version(data)
 
+
 @dataclass
 class AdvisoryAffect:
     """Advisory Affects"""
@@ -99,6 +100,5 @@ class Advisories:
 
     def check(self, dependency: "Dependency") -> Optional[Advisory]:
         """Check if dependency is affected by any advisory"""
-
 
         return
