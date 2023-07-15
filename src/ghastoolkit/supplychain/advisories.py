@@ -208,5 +208,11 @@ class Advisories:
 
         return results
 
+    def append(self, advisory: Advisory):
+        """Append advisory"""
+        if not isinstance(advisory, Advisory):
+            raise Exception(f"Non-Advisory type tring to be appended")
+        self.advisories.append(advisory)
+
     def __len__(self) -> int:
         return len(self.advisories)
