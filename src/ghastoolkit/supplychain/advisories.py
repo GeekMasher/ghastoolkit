@@ -1,5 +1,5 @@
-import json
 import os
+import json
 from typing import List, Optional
 from dataclasses import dataclass, field
 
@@ -58,10 +58,21 @@ class AdvisoryAffect:
 
         https://github.com/github/advisory-database
         """
-        # TODO
+        # get introduced and fixed versions
+        events = data.get("ranges", [{}])[0].get("events", [])
+        introduced = None
+        fixed = None
+        for event in events:
+            if event.get("introduced"):
+                introduced = event.get("introduced")
+            if event.get("fixed"):
+                fixed = event.get("fixed")
+
         adaff = AdvisoryAffect(
             data.get("package", {}).get("ecosystem", "NA").lower(),
             data.get("package", {}).get("name", "NA"),
+            introduced=introduced,
+            fixed=fixed
         )
         return adaff
 
@@ -101,6 +112,9 @@ class Advisory(OctoItem):
     severity: str
     """Severity level"""
 
+    aliases: List[str] = field(default_factory=list)
+    """List of aliases (CVEs)"""
+
     summary: Optional[str] = None
     """Summary / Description of the advisory"""
     url: Optional[str] = None
@@ -113,11 +127,20 @@ class Advisory(OctoItem):
     """Affected versions"""
 
     @staticmethod
-    def loadAdvisory(path: str) -> "Advisory":
+    def load(path: str) -> "Advisory":
         """Load Advisory from path using GitHub Advisory Spec"""
         if not os.path.exists(path):
             raise Exception(f"Advisory path does not exist")
+        
+        _, ext = os.path.splitext(path)
+        if ext == ".json":
+            return Advisory.loadJson(path)
 
+        raise Exception("Unsupported Advisory file type")
+
+    @staticmethod
+    def loadJson(path: str) -> "Advisory":
+        """Load Advisory from JSON file"""
         with open(path, "r") as handle:
             data = json.load(handle)
 
@@ -126,8 +149,8 @@ class Advisory(OctoItem):
             affected.append(AdvisoryAffect.loadAffect(affect))
 
         advisory = Advisory(
-            ghas_id=data.get("id", "NA"),
-            severity=data.get("database_specific", {}).get("severity", "NA").lower(),
+            data.get("id", "NA"),
+            data.get("database_specific", {}).get("severity", "NA").lower(),
             summary=data.get("summary"),
             affected=affected,
         )
@@ -141,17 +164,49 @@ class Advisory(OctoItem):
         return
 
 
-class Advisories(list):
+class Advisories:
+    def __init__(self) -> None:
+        self.advisories: List[Advisory] = []
+
+    def loadAdvisories(self, path: str):
+        """Load a single file or folder of advisories"""
+        if not os.path.exists(path):
+            raise Exception("Advisories path does not exist")
+        if os.path.isdir(path):
+            for root, dirs, files in os.walk(path):
+                for file in files:
+                    _, ext = os.path.splitext(file)
+                    if ext in [".json"]:
+                        fpath = os.path.join(root, file)
+                        self.loadAdvisory(fpath)
+        else:
+            self.loadAdvisory(path)
+
     def loadAdvisory(self, path: str):
-        """Load single advisory from file"""
-        self.append(Advisory.loadAdvisory(path))
+        """Load file with an advisory"""
+        if not os.path.exists(path):
+            raise Exception(f"Path does not exist")
+        self.advisories.append(Advisory.load(path))
+
+    def find(self, search: str) -> Optional[Advisory]:
+        """Find by id or aliases"""
+        for advisory in self.advisories:
+            if advisory.ghsa_id == search:
+                return advisory
+            if search in advisory.aliases:
+                return advisory
+        return
 
     def check(self, dependency: "Dependency") -> List[Advisory]:
         """Check if dependency is affected by any advisory"""
         results = []
-        for a in self:
+        for a in self.advisories:
             result = a.check(dependency)
             if result:
                 results.append(result)
 
         return results
+
+    def __len__(self) -> int:
+        return len(self.advisories)
+
