@@ -1,4 +1,4 @@
-# Custom Advisories
+# Custom Supply Chain Advisories
 
 First lets import and load our dependency (in our test case, `log4j-core`)
 
