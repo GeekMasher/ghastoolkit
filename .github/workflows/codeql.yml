@@ -5,6 +5,8 @@ on:
     branches: [ "main", "develop" ]
   pull_request:
     branches: [ "main", "develop" ]
+    paths:
+      - "./src"
   schedule:
     - cron: '30 22 * * 0'
   workflow_dispatch:
