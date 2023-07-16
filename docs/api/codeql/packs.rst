@@ -10,3 +10,9 @@ CodeQLPack
 .. autoclass:: CodeQLPack
    :members:
 
+CodeQLPacks
+------
+.. module:: ghastoolkit
+.. autoclass:: CodeQLPacks
+   :members:
+
