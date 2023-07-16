@@ -1,0 +1,18 @@
+
+docs:
+  - "docs/**"
+  - "examples/**"
+
+codeql:
+  - "src/ghastoolkit/codeql/**"
+  - "src/ghastoolkit/octokit/codescanning.py"
+
+supplychain:
+  - "src/ghastoolkit/supplychain/**"
+  - "src/ghastoolkit/octokit/dependabot.py"
+  - "src/ghastoolkit/octokit/dependencygraph.py"
+  - "src/ghastoolkit/octokit/clearlydefined.py"
+
+octokit:
+  - "src/ghastoolkit/octokit/**"
+
