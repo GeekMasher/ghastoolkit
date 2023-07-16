@@ -7,6 +7,7 @@ on:
     branches: [ "main", "develop" ]
   schedule:
     - cron: '30 22 * * 0'
+  workflow_dispatch:
 
 jobs:
   analyze:
@@ -30,7 +31,7 @@ jobs:
       uses: github/codeql-action/init@v2
       with:
         languages: ${{ matrix.language }}
-        config-file: ./.github/codeql-config.yml
+        config-file: geekmasher/security-codeql/config/default.yml@main
 
     - name: Autobuild
       uses: github/codeql-action/autobuild@v2
