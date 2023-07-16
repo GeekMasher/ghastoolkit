@@ -41,7 +41,8 @@ from ghastoolkit.supplychain.licensing import Licenses
 # CodeQL
 from ghastoolkit.codeql.databases import CodeQLDatabases, CodeQLDatabase
 from ghastoolkit.codeql.cli import CodeQL
-from ghastoolkit.codeql.packs.packs import CodeQLPacks, CodeQLPack
+from ghastoolkit.codeql.packs.pack import CodeQLPack
+from ghastoolkit.codeql.packs.packs import CodeQLPacks
 from ghastoolkit.codeql.results import CodeQLResults, CodeLocation, CodeResult
 
 # CodeQL Data Extensions / Models as Data
