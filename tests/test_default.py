@@ -22,6 +22,7 @@ class TestDefault(unittest.TestCase):
         dataext = DataExtensions("python")
 
         pack = CodeQLPack()
+        packs = CodeQLPacks()
 
     def test_secretscanning(self):
         ss = SecretScanning()
