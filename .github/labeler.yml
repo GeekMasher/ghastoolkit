@@ -3,6 +3,9 @@ docs:
   - "docs/**"
   - "examples/**"
 
+version:
+  - "pyproject.toml"
+
 codeql:
   - "src/ghastoolkit/codeql/**"
   - "src/ghastoolkit/octokit/codescanning.py"

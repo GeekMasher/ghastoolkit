@@ -1,9 +1,7 @@
 [project]
 name = "ghastoolkit"
-version = "0.5.0"
-authors = [
-  { name="GeekMasher" },
-]
+version = "0.5.1"
+authors = [{ name = "GeekMasher" }]
 description = "GitHub Advanced Security Python Toolkit"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -23,7 +21,7 @@ dependencies = [
     "PyYAML==6.0",
     "ratelimit==2.2.1",
     "requests==2.31.0",
-    "urllib3==2.0.3"
+    "urllib3==2.0.3",
 ]
 
 [project.urls]
@@ -33,4 +31,3 @@ dependencies = [
 [build-system]
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
-
