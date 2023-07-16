@@ -33,7 +33,6 @@ class CodeQLPack:
 
         if path:
             self.path = os.path.realpath(os.path.expanduser(path))
-            print(self.path)
             self.load()
 
     @property
@@ -52,6 +51,7 @@ class CodeQLPack:
         if not os.path.exists(self.qlpack):
             raise Exception(f"Failed to find qlpack file")
 
+        logger.debug(f"Loading Pack from path :: {self.path}")
         with open(self.qlpack, "r") as handle:
             data = yaml.safe_load(handle)
 
