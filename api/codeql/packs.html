@@ -33,8 +33,8 @@
             
   <section id="codeql-packs">
 <span id="id1"></span><h1>CodeQL Packs<a class="headerlink" href="#codeql-packs" title="Permalink to this heading">¶</a></h1>
-<section id="codeqlpack">
-<h2>CodeQLPack<a class="headerlink" href="#codeqlpack" title="Permalink to this heading">¶</a></h2>
+<section id="codeql-pack">
+<h2>CodeQL Pack<a class="headerlink" href="#codeql-pack" title="Permalink to this heading">¶</a></h2>
 <span class="target" id="module-ghastoolkit"></span><dl class="py class">
 <dt class="sig sig-object py" id="ghastoolkit.CodeQLPack">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ghastoolkit.</span></span><span class="sig-name descname"><span class="pre">CodeQLPack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cli</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="codeql-cli.html#ghastoolkit.CodeQL" title="ghastoolkit.codeql.cli.CodeQL"><span class="pre">CodeQL</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ghastoolkit.CodeQLPack" title="Permalink to this definition">¶</a></dt>
@@ -65,7 +65,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.CodeQLPack.download">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">download</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#ghastoolkit.CodeQLPack" title="ghastoolkit.codeql.packs.CodeQLPack"><span class="pre">CodeQLPack</span></a></span></span><a class="headerlink" href="#ghastoolkit.CodeQLPack.download" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">download</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#ghastoolkit.CodeQLPack" title="ghastoolkit.codeql.packs.pack.CodeQLPack"><span class="pre">CodeQLPack</span></a></span></span><a class="headerlink" href="#ghastoolkit.CodeQLPack.download" title="Permalink to this definition">¶</a></dt>
 <dd><p>Download a CodeQL Pack.</p>
 </dd></dl>
 
@@ -109,6 +109,45 @@
 <dt class="sig sig-object py" id="ghastoolkit.CodeQLPack.validate">
 <span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#ghastoolkit.CodeQLPack.validate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Validate and check if the path is a valid CodeQL Pack.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="id2">
+<h2>CodeQL Packs<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h2>
+<span class="target" id="module-0"></span><dl class="py class">
+<dt class="sig sig-object py" id="ghastoolkit.CodeQLPacks">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ghastoolkit.</span></span><span class="sig-name descname"><span class="pre">CodeQLPacks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ghastoolkit.CodeQLPacks" title="Permalink to this definition">¶</a></dt>
+<dd><p>CodeQL List of Packs.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.CodeQLPacks.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#ghastoolkit.CodeQLPacks.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialise CodeQLPacks.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.CodeQLPacks.__len__">
+<span class="sig-name descname"><span class="pre">__len__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#ghastoolkit.CodeQLPacks.__len__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get length / amount of loaded packs.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.CodeQLPacks.__str__">
+<span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#ghastoolkit.CodeQLPacks.__str__" title="Permalink to this definition">¶</a></dt>
+<dd><p>To String.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.CodeQLPacks.append">
+<span class="sig-name descname"><span class="pre">append</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pack</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#ghastoolkit.CodeQLPack" title="ghastoolkit.codeql.packs.pack.CodeQLPack"><span class="pre">CodeQLPack</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ghastoolkit.CodeQLPacks.append" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append a CodeQLPack.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.CodeQLPacks.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ghastoolkit.CodeQLPacks.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load packs from path.</p>
 </dd></dl>
 
 </dd></dl>

@@ -34,7 +34,7 @@
 <h1>CodeQL Pack<a class="headerlink" href="#codeql-pack" title="Permalink to this heading">¶</a></h1>
 <p>First lets import and download the <code class="docutils literal notranslate"><span class="pre">codeql/python-queries</span></code> pack with the version
 set to <code class="docutils literal notranslate"><span class="pre">0.8.0</span></code>. This will automatically download the pack for us.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ghastoolkit</span> <span class="kn">import</span> <span class="n">CodeQLPack</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ghastoolkit</span> <span class="kn">import</span> <span class="n">CodeQLPack</span><span class="p">,</span> <span class="n">CodeQLPacks</span>
 
 <span class="n">pack</span> <span class="o">=</span> <span class="n">CodeQLPack</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s2">&quot;codeql/python-queries&quot;</span><span class="p">,</span> <span class="s2">&quot;0.8.0&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Pack :: </span><span class="si">{</span><span class="n">pack</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -43,6 +43,13 @@ set to <code class="docutils literal notranslate"><span class="pre">0.8.0</span>
 <p>Otherwise you can load via a path</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pack</span> <span class="o">=</span> <span class="n">CodeQLPack</span><span class="p">(</span><span class="s2">&quot;~/.codeql/packages/codeql/python-queries/0.8.0&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Pack :: </span><span class="si">{</span><span class="n">pack</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Or load a collection of packs using the <code class="docutils literal notranslate"><span class="pre">CodeQLPacks</span></code> API.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">packs</span> <span class="o">=</span> <span class="n">CodeQLPacks</span><span class="p">(</span><span class="s2">&quot;~/.codeql/packages&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Packs :: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">packs</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">pack</span> <span class="ow">in</span> <span class="n">packs</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; -&gt; </span><span class="si">{</span><span class="n">pack</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <section id="custom-packs">

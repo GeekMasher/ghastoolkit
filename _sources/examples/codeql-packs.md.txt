@@ -4,7 +4,7 @@ First lets import and download the `codeql/python-queries` pack with the version
 set to `0.8.0`. This will automatically download the pack for us.
 
 ```python
-from ghastoolkit import CodeQLPack
+from ghastoolkit import CodeQLPack, CodeQLPacks
 
 pack = CodeQLPack.download("codeql/python-queries", "0.8.0")
 print(f"Pack :: {pack}")
@@ -15,6 +15,15 @@ Otherwise you can load via a path
 ```python
 pack = CodeQLPack("~/.codeql/packages/codeql/python-queries/0.8.0")
 print(f"Pack :: {pack}")
+```
+
+Or load a collection of packs using the `CodeQLPacks` API.
+
+```python
+packs = CodeQLPacks("~/.codeql/packages")
+print(f"Packs :: {len(packs)}")
+for pack in packs:
+    print(f" -> {pack}")
 ```
 
 ## Custom Packs
