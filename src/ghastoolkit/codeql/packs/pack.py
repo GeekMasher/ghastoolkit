@@ -32,6 +32,10 @@ class CodeQLPack:
         self.dependencies = []
 
         if path:
+            # if its a file
+            if os.path.isfile(path) and path.endswith("qlpack.yml"):
+                path = os.path.realpath(os.path.dirname(path))
+
             self.path = os.path.realpath(os.path.expanduser(path))
             self.load()
 
@@ -109,5 +113,5 @@ class CodeQLPack:
     def __str__(self) -> str:
         """To String."""
         if self.name != "":
-            return f"CodeQLPack({self.name}, {self.version})"
-        return f"CodeQLPack({self.path})"
+            return f"CodeQLPack('{self.name}', '{self.version}')"
+        return f"CodeQLPack('{self.path}')"
