@@ -1,6 +1,5 @@
 # Code Scanning API Examples
 
-
 ### Get Code Scanning Alerts
 
 ```python
@@ -16,4 +15,3 @@ alerts = cs.getAlerts("open")
 
 print(f"Alerts :: {alerts}")
 ```
-
