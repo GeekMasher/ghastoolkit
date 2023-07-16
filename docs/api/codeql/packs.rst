@@ -4,13 +4,14 @@ CodeQL Packs
 =============
 
 
-CodeQLPack
+CodeQL Pack
 ------
 .. module:: ghastoolkit
 .. autoclass:: CodeQLPack
    :members:
 
-CodeQLPacks
+
+CodeQL Packs
 ------
 .. module:: ghastoolkit
 .. autoclass:: CodeQLPacks
