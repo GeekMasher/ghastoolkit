@@ -8,4 +8,6 @@ Examples
 
    codescanning
    advisories
+
+   codeql-packs
    

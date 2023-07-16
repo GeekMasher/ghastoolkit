@@ -9,5 +9,6 @@ CodeQL
    
    codeql-cli
    databases
+   packs
    results
 

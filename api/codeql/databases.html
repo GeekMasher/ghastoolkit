@@ -13,7 +13,7 @@
     <script src="../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="CodeQL Result Models" href="results.html" />
+    <link rel="next" title="CodeQL Packs" href="packs.html" />
     <link rel="prev" title="CodeQL CLI" href="codeql-cli.html" />
    
   <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
@@ -37,8 +37,9 @@
 <h2>CodeQLDatabase<a class="headerlink" href="#codeqldatabase" title="Permalink to this heading">¶</a></h2>
 <span class="target" id="module-ghastoolkit"></span><dl class="py class">
 <dt class="sig sig-object py" id="ghastoolkit.CodeQLDatabase">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ghastoolkit.</span></span><span class="sig-name descname"><span class="pre">CodeQLDatabase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">language</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repository</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../octokit/github.html#ghastoolkit.Repository" title="ghastoolkit.octokit.github.Repository"><span class="pre">ghastoolkit.octokit.github.Repository</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_download</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loc_baseline</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime.datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ghastoolkit.CodeQLDatabase" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="py method">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ghastoolkit.</span></span><span class="sig-name descname"><span class="pre">CodeQLDatabase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">language</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repository</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../octokit/github.html#ghastoolkit.Repository" title="ghastoolkit.octokit.github.Repository"><span class="pre">Repository</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_download</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loc_baseline</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ghastoolkit.CodeQLDatabase" title="Permalink to this definition">¶</a></dt>
+<dd><p>CodeQL Database Abstraction to make our lives easier</p>
+<dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.CodeQLDatabase.check">
 <span class="sig-name descname"><span class="pre">check</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#ghastoolkit.CodeQLDatabase.check" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check if the current database path is a real CodeQL DB</p>
@@ -51,27 +52,101 @@
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.CodeQLDatabase.createPath">
+<span class="sig-name descname"><span class="pre">createPath</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#ghastoolkit.CodeQLDatabase.createPath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a path for CodeQL Database</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ghastoolkit.CodeQLDatabase.created">
+<span class="sig-name descname"><span class="pre">created</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ghastoolkit.CodeQLDatabase.created" title="Permalink to this definition">¶</a></dt>
+<dd><p>Created datetime infomation</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ghastoolkit.CodeQLDatabase.database_folder">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">database_folder</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#ghastoolkit.CodeQLDatabase.database_folder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get CodeQL Database folder</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ghastoolkit.CodeQLDatabase.default_pack">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">default_pack</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#ghastoolkit.CodeQLDatabase.default_pack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the default query pack for language</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.CodeQLDatabase.display_name">
 <span class="sig-name descname"><span class="pre">display_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">owner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#ghastoolkit.CodeQLDatabase.display_name" title="Permalink to this definition">¶</a></dt>
-<dd><p>Display Name</p>
+<dd><p>Get the display name</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.CodeQLDatabase.downloadDatabase">
 <span class="sig-name descname"><span class="pre">downloadDatabase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#ghastoolkit.CodeQLDatabase.downloadDatabase" title="Permalink to this definition">¶</a></dt>
-<dd><p>Download CodeQL database</p>
+<dd><p>Download CodeQL Database</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.CodeQLDatabase.exists">
+<span class="sig-name descname"><span class="pre">exists</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#ghastoolkit.CodeQLDatabase.exists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if the CodeQL Database exists</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.CodeQLDatabase.getSuite">
+<span class="sig-name descname"><span class="pre">getSuite</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#ghastoolkit.CodeQLDatabase.getSuite" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets suite based on default pack</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ghastoolkit.CodeQLDatabase.language">
+<span class="sig-name descname"><span class="pre">language</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#ghastoolkit.CodeQLDatabase.language" title="Permalink to this definition">¶</a></dt>
+<dd><p>CodeQL Langauge</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.CodeQLDatabase.loadDatabaseYml">
 <span class="sig-name descname"><span class="pre">loadDatabaseYml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ghastoolkit.CodeQLDatabase.loadDatabaseYml" title="Permalink to this definition">¶</a></dt>
-<dd><p>Load content from YML</p>
+<dd><p>Load content from YML file</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.CodeQLDatabase.loadFromYml">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">loadFromYml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#ghastoolkit.CodeQLDatabase" title="ghastoolkit.codeql.databases.CodeQLDatabase"><span class="pre">CodeQLDatabase</span></a></span></span><a class="headerlink" href="#ghastoolkit.CodeQLDatabase.loadFromYml" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load from YAML / YML file</p>
+<p><strong>Example:</strong>
+&gt;&gt;&gt; db = CodeQLDatabase.loadFromYml(“codeql-db”)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ghastoolkit.CodeQLDatabase.loc_baseline">
+<span class="sig-name descname"><span class="pre">loc_baseline</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#ghastoolkit.CodeQLDatabase.loc_baseline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lines of Code baseline in DB</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ghastoolkit.CodeQLDatabase.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#ghastoolkit.CodeQLDatabase.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ghastoolkit.CodeQLDatabase.path">
+<span class="sig-name descname"><span class="pre">path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ghastoolkit.CodeQLDatabase.path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Path to the CodeQL Database</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ghastoolkit.CodeQLDatabase.path_download">
+<span class="sig-name descname"><span class="pre">path_download</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ghastoolkit.CodeQLDatabase.path_download" title="Permalink to this definition">¶</a></dt>
+<dd><p>Path to download CodeQL DB if not path is set</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ghastoolkit.CodeQLDatabase.repository">
+<span class="sig-name descname"><span class="pre">repository</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../octokit/github.html#ghastoolkit.Repository" title="ghastoolkit.octokit.github.Repository"><span class="pre">Repository</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ghastoolkit.CodeQLDatabase.repository" title="Permalink to this definition">¶</a></dt>
+<dd><p>GitHub Repository (optional)</p>
 </dd></dl>
 
 </dd></dl>
@@ -161,6 +236,7 @@
 <li class="toctree-l2 current"><a class="reference internal" href="index.html">CodeQL</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="codeql-cli.html">CodeQL CLI</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">CodeQL Databases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packs.html">CodeQL Packs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="results.html">CodeQL Result Models</a></li>
 </ul>
 </li>
@@ -179,7 +255,7 @@
   <li><a href="../index.html">API Reference</a><ul>
   <li><a href="index.html">CodeQL</a><ul>
       <li>Previous: <a href="codeql-cli.html" title="previous chapter">CodeQL CLI</a></li>
-      <li>Next: <a href="results.html" title="next chapter">CodeQL Result Models</a></li>
+      <li>Next: <a href="packs.html" title="next chapter">CodeQL Packs</a></li>
   </ul></li>
   </ul></li>
   </ul></li>
