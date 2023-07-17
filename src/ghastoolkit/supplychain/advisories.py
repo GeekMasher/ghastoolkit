@@ -46,7 +46,7 @@ class AdvisoryAffect:
             namespace = None
             name = self.package
 
-        self.package_dependency = Dependency(name, namespace, manager="maven")
+        self.package_dependency = Dependency(name, namespace, manager=self.ecosystem)
 
         if self.introduced:
             self.introduced = parseVersion(self.introduced)
