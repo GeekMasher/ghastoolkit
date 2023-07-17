@@ -20,26 +20,65 @@ class SecurityAdvisories:
 
     def getAdvisories(self) -> Advisories:
         """Get list of security advisories from a repository."""
-        return Advisories()
+        results = self.rest.get(
+            "/repos/{owner}/{repo}/security-advisories", authenticated=True
+        )
+        if isinstance(results, list):
+            advisories = Advisories()
+            for advisory in results:
+                aliases = []
 
-    def getAdvisory(self, ghsa_id: str) -> Optional[Advisory]:
+                if advisory.get("cve_id"):
+                    aliases.append(advisory.get("cve_id"))
+
+                advisories.append(
+                    Advisory(
+                        ghsa_id=advisory.get("ghsa_id"),
+                        severity=advisory.get("severity"),
+                        aliases=aliases,
+                        summary=advisory.get("summary"),
+                        cwes=advisory.get("cwe_ids", []),
+                    )
+                )
+            return advisories
+        raise Exception(f"Error getting advisories from repository")
+
+    def getAdvisory(self, ghsa_id: str) -> Advisory:
         """Get advisory by ghsa id."""
-        return
+        result = self.rest.get(
+            "/repos/{owner}/{repo}/security-advisories/{ghsa_id}",
+            {"ghsa_id": ghsa_id},
+            authenticated=True,
+        )
+        if isinstance(result, dict):
+            aliases = []
+
+            if result.get("cve_id"):
+                aliases.append(result.get("cve_id"))
+
+            return Advisory(
+                ghsa_id=result.get("ghsa_id", ""),
+                severity=result.get("severity", "NA"),
+                aliases=aliases,
+                summary=result.get("summary"),
+                cwes=result.get("cwe_ids", []),
+            )
+        raise Exception(f"Error getting advisory by id")
 
     def createAdvisory(
         self, advisory: Advisory, repository: Optional[Repository] = None
     ):
         """Create a GitHub Security Advisories for a repository."""
-        return
+        raise Exception("Unsupported feature")
 
     def createPrivateAdvisory(
         self, advisory: Advisory, repository: Optional[Repository] = None
     ):
         """Create a GitHub Security Advisories for a repository."""
-        return
+        raise Exception("Unsupported feature")
 
     def updateAdvisory(
         self, advisory: Advisory, repository: Optional[Repository] = None
     ):
         """Update GitHub Security Advisory."""
-        return
+        raise Exception("Unsupported feature")
