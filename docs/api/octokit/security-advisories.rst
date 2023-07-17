@@ -1,7 +1,7 @@
 .. _security_advisories:
 
-GitHub Security Advisories
-==========================
+Security Advisories
+===================
 
 
 SecurityAdvisories
@@ -9,3 +9,4 @@ SecurityAdvisories
 .. module:: ghastoolkit
 .. autoclass:: SecurityAdvisories
    :members:
+
