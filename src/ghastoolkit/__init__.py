@@ -1,7 +1,7 @@
 __name__ = "ghastoolkit"
 __title__ = "GHAS Toolkit"
 
-__version__ = "0.5.2"
+__version__ = "0.5.3"
 
 __description__ = "GitHub Advanced Security Python Toolkit"
 __summary__ = """\
@@ -32,6 +32,7 @@ from ghastoolkit.octokit.codescanning import CodeScanning, CodeAlert
 from ghastoolkit.octokit.secretscanning import SecretScanning, SecretAlert
 from ghastoolkit.octokit.dependencygraph import DependencyGraph
 from ghastoolkit.octokit.dependabot import Dependabot
+from ghastoolkit.octokit.advisories import SecurityAdvisories
 
 # Supply Chain
 from ghastoolkit.supplychain.advisories import Advisory, Advisories
