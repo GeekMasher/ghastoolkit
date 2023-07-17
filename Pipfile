@@ -28,5 +28,6 @@ test = "python -m unittest discover -v -s ./tests -p 'test_*.py'"
 fmt = "black ./src/ghastoolkit"
 lint = "black --check ./src/ghastoolkit"
 # docs
-docs = "sphinx-build -b html ./docs ./public -W"
+docs = "sphinx-build -b html ./docs ./public"
+docs-check = "sphinx-build -b html ./docs ./public -W"
 #
