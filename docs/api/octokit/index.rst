@@ -1,4 +1,4 @@
-.. _octokit:
+.. _octokit_apis:
 
 Octokit
 =============
@@ -9,6 +9,7 @@ This part of the documentation covers all the `octokit` APIs.
    :maxdepth: 2
     
    github
+   repository
    codescanning
    supplychain
    secretscanning

@@ -1,39 +1,34 @@
 .. _octokitclass:
 
-Octokit
+Octokit (internals)
 =============
 
 This part of the documentation covers all the `octokit` APIs.
 
 
-Octokit
+RestRequest API
 ------
-.. module:: ghastoolkit
-.. autoclass:: GitHub
-   :members:
-   :undoc-members:
 
+`RestRequest` is for all the Octokit APIs that require a REST interface with GitHub.
 
-OctoItem
-------
-.. module:: ghastoolkit
-.. autoclass:: OctoItem 
-   :members:
-   :undoc-members:
-
-
-RestRequest
-------
 .. module:: ghastoolkit
 .. autoclass:: RestRequest 
    :members:
-   :undoc-members:
 
 
-GraphQLRequest
+GraphQLRequest API
 ------
+
+`GraphQLRequest` is for all the Octokit APIs that require a GraphQL interface with GitHub.
+
 .. module:: ghastoolkit
 .. autoclass:: GraphQLRequest 
    :members:
-   :undoc-members:
+
+OctoItem Class
+------
+
+.. module:: ghastoolkit.octokit.octokit
+.. autoclass:: OctoItem 
+   :members:
 
