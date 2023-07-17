@@ -13,6 +13,6 @@ This part of the documentation covers all the `octokit` APIs.
    codescanning
    supplychain
    secretscanning
-   advisories
+   security-advisories
    octokit
 
