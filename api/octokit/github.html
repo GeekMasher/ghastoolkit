@@ -13,7 +13,7 @@
     <script src="../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Code Scanning" href="codescanning.html" />
+    <link rel="next" title="GitHub Repository" href="repository.html" />
     <link rel="prev" title="Octokit" href="index.html" />
    
   <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
@@ -85,7 +85,7 @@ apis. Its a standard interface across all projects.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ghastoolkit.GitHub.repository">
-<span class="sig-name descname"><span class="pre">repository</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#ghastoolkit.Repository" title="ghastoolkit.octokit.github.Repository"><span class="pre">Repository</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">GeekMasher/ghastoolkit</span></em><a class="headerlink" href="#ghastoolkit.GitHub.repository" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">repository</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="repository.html#ghastoolkit.Repository" title="ghastoolkit.octokit.github.Repository"><span class="pre">Repository</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">GeekMasher/ghastoolkit</span></em><a class="headerlink" href="#ghastoolkit.GitHub.repository" title="Permalink to this definition">¶</a></dt>
 <dd><p>Repository</p>
 </dd></dl>
 
@@ -93,113 +93,6 @@ apis. Its a standard interface across all projects.</p>
 <dt class="sig sig-object py" id="ghastoolkit.GitHub.token">
 <span class="sig-name descname"><span class="pre">token</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ghastoolkit.GitHub.token" title="Permalink to this definition">¶</a></dt>
 <dd><p>GitHub Access Token</p>
-</dd></dl>
-
-</dd></dl>
-
-</section>
-<section id="repository">
-<h2>Repository<a class="headerlink" href="#repository" title="Permalink to this heading">¶</a></h2>
-<span class="target" id="module-0"></span><dl class="py class">
-<dt class="sig sig-object py" id="ghastoolkit.Repository">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ghastoolkit.</span></span><span class="sig-name descname"><span class="pre">Repository</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">owner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__prinfo__</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clone_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ghastoolkit.Repository" title="Permalink to this definition">¶</a></dt>
-<dd><p>GitHub Repository</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ghastoolkit.Repository.branch">
-<span class="sig-name descname"><span class="pre">branch</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ghastoolkit.Repository.branch" title="Permalink to this definition">¶</a></dt>
-<dd><p>Branch / Tab name</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="ghastoolkit.Repository.clone">
-<span class="sig-name descname"><span class="pre">clone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clobber</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ghastoolkit.Repository.clone" title="Permalink to this definition">¶</a></dt>
-<dd><p>Clone Repository
-The clone path if left None will create a tmp folder for you</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ghastoolkit.Repository.clone_path">
-<span class="sig-name descname"><span class="pre">clone_path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ghastoolkit.Repository.clone_path" title="Permalink to this definition">¶</a></dt>
-<dd><p>Clone Path</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="ghastoolkit.Repository.clone_url">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">clone_url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#ghastoolkit.Repository.clone_url" title="Permalink to this definition">¶</a></dt>
-<dd><p>Repository clone URL</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="ghastoolkit.Repository.display">
-<span class="sig-name descname"><span class="pre">display</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#ghastoolkit.Repository.display" title="Permalink to this definition">¶</a></dt>
-<dd><p>Display the repository as a string</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="ghastoolkit.Repository.getFile">
-<span class="sig-name descname"><span class="pre">getFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#ghastoolkit.Repository.getFile" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get a path relative from the base of the cloned repository</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="ghastoolkit.Repository.getPullRequestCommits">
-<span class="sig-name descname"><span class="pre">getPullRequestCommits</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ghastoolkit.Repository.getPullRequestCommits" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get Pull Request Commits</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="ghastoolkit.Repository.getPullRequestInfo">
-<span class="sig-name descname"><span class="pre">getPullRequestInfo</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#ghastoolkit.Repository.getPullRequestInfo" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get information for the current pull request</p>
-<p><a class="reference external" href="https://docs.github.com/en/enterprise-cloud&#64;latest/rest/pulls/pulls#get-a-pull-request">https://docs.github.com/en/enterprise-cloud&#64;latest/rest/pulls/pulls#get-a-pull-request</a></p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="ghastoolkit.Repository.getPullRequestNumber">
-<span class="sig-name descname"><span class="pre">getPullRequestNumber</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#ghastoolkit.Repository.getPullRequestNumber" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get Pull Request Number</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="ghastoolkit.Repository.gitsha">
-<span class="sig-name descname"><span class="pre">gitsha</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#ghastoolkit.Repository.gitsha" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the Git SHA</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="ghastoolkit.Repository.isInPullRequest">
-<span class="sig-name descname"><span class="pre">isInPullRequest</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#ghastoolkit.Repository.isInPullRequest" title="Permalink to this definition">¶</a></dt>
-<dd><p>Is in Pull Request?</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ghastoolkit.Repository.owner">
-<span class="sig-name descname"><span class="pre">owner</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#ghastoolkit.Repository.owner" title="Permalink to this definition">¶</a></dt>
-<dd><p>Owner</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="ghastoolkit.Repository.parseRepository">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parseRepository</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#ghastoolkit.Repository" title="ghastoolkit.octokit.github.Repository"><span class="pre">Repository</span></a></span></span><a class="headerlink" href="#ghastoolkit.Repository.parseRepository" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parse the repository name</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ghastoolkit.Repository.reference">
-<span class="sig-name descname"><span class="pre">reference</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ghastoolkit.Repository.reference" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reference (<cite>refs/heads/main</cite>)</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ghastoolkit.Repository.repo">
-<span class="sig-name descname"><span class="pre">repo</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#ghastoolkit.Repository.repo" title="Permalink to this definition">¶</a></dt>
-<dd><p>Repository name</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ghastoolkit.Repository.sha">
-<span class="sig-name descname"><span class="pre">sha</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ghastoolkit.Repository.sha" title="Permalink to this definition">¶</a></dt>
-<dd><p>Git SHA</p>
 </dd></dl>
 
 </dd></dl>
@@ -231,10 +124,11 @@ The clone path if left None will create a tmp folder for you</p>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="index.html">Octokit</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">GitHub</a></li>
+<li class="toctree-l3"><a class="reference internal" href="repository.html">GitHub Repository</a></li>
 <li class="toctree-l3"><a class="reference internal" href="codescanning.html">Code Scanning</a></li>
 <li class="toctree-l3"><a class="reference internal" href="supplychain.html">Supply Chain</a></li>
 <li class="toctree-l3"><a class="reference internal" href="secretscanning.html">Secret Scanning</a></li>
-<li class="toctree-l3"><a class="reference internal" href="octokit.html">Octokit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="octokit.html">Octokit (internals)</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../codeql/index.html">CodeQL</a></li>
@@ -253,7 +147,7 @@ The clone path if left None will create a tmp folder for you</p>
   <li><a href="../index.html">API Reference</a><ul>
   <li><a href="index.html">Octokit</a><ul>
       <li>Previous: <a href="index.html" title="previous chapter">Octokit</a></li>
-      <li>Next: <a href="codescanning.html" title="next chapter">Code Scanning</a></li>
+      <li>Next: <a href="repository.html" title="next chapter">GitHub Repository</a></li>
   </ul></li>
   </ul></li>
   </ul></li>
