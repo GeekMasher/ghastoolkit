@@ -1,5 +1,5 @@
 """GitHub Security Advisories API."""
-from typing import Optional
+from typing import Dict, Optional
 from ghastoolkit.octokit.github import GitHub, Repository
 from ghastoolkit.octokit.octokit import RestRequest
 from ghastoolkit.supplychain.advisories import Advisories, Advisory
@@ -26,20 +26,7 @@ class SecurityAdvisories:
         if isinstance(results, list):
             advisories = Advisories()
             for advisory in results:
-                aliases = []
-
-                if advisory.get("cve_id"):
-                    aliases.append(advisory.get("cve_id"))
-
-                advisories.append(
-                    Advisory(
-                        ghsa_id=advisory.get("ghsa_id"),
-                        severity=advisory.get("severity"),
-                        aliases=aliases,
-                        summary=advisory.get("summary"),
-                        cwes=advisory.get("cwe_ids", []),
-                    )
-                )
+                advisories.append(self.loadAdvisoryData(advisory))
             return advisories
         raise Exception(f"Error getting advisories from repository")
 
@@ -51,18 +38,7 @@ class SecurityAdvisories:
             authenticated=True,
         )
         if isinstance(result, dict):
-            aliases = []
-
-            if result.get("cve_id"):
-                aliases.append(result.get("cve_id"))
-
-            return Advisory(
-                ghsa_id=result.get("ghsa_id", ""),
-                severity=result.get("severity", "NA"),
-                aliases=aliases,
-                summary=result.get("summary"),
-                cwes=result.get("cwe_ids", []),
-            )
+            return self.loadAdvisoryData(result)
         raise Exception(f"Error getting advisory by id")
 
     def createAdvisory(
@@ -82,3 +58,24 @@ class SecurityAdvisories:
     ):
         """Update GitHub Security Advisory."""
         raise Exception("Unsupported feature")
+
+    def loadAdvisoryData(self, data: Dict) -> Advisory:
+        """Load Advisory from API data."""
+        ghsa_id = data.get("ghsa_id")
+        severity = data.get("severity")
+
+        if not ghsa_id or not severity:
+            raise Exception("Data is not an advisory")
+
+        aliases = []
+        if data.get("cve_id"):
+            aliases.append(data.get("cve_id"))
+
+        adv = Advisory(
+            ghsa_id,
+            severity,
+            aliases=aliases,
+            summary=data.get("summary", ""),
+            cwes=data.get("cwe_ids", []),
+        )
+        return adv
