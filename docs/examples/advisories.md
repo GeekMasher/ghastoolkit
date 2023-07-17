@@ -46,11 +46,10 @@ for adv in advisories.check(dependency):
 
 In our case, it shows the following:
 
-```log
+```text
 Dependency :: log4j:log4j-core (1.12.0)
 Advisories Found:
  >>> Advisory(GHSA-jfh8-c2jp-5v3q, `CVE-2021-44228`)
 ```
 
 See all [examples here](https://github.com/GeekMasher/ghastoolkit/tree/main/examples)
-
