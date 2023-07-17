@@ -31,6 +31,7 @@ from ghastoolkit.octokit.octokit import Octokit, RestRequest, GraphQLRequest
 from ghastoolkit.octokit.codescanning import CodeScanning, CodeAlert
 from ghastoolkit.octokit.secretscanning import SecretScanning, SecretAlert
 from ghastoolkit.octokit.dependencygraph import DependencyGraph
+from ghastoolkit.octokit.dependabot import Dependabot
 
 # Supply Chain
 from ghastoolkit.supplychain.advisories import Advisory, Advisories
