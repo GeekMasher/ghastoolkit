@@ -48,3 +48,9 @@ jobs:
       run: |
         export PYTHONPATH=$PWD/src
         pipenv run test
+
+    - name: Build Docs 
+      run: | 
+        export PYTHONPATH=$PWD/src
+        pipenv run docs
+
