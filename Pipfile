@@ -24,10 +24,10 @@ publish = "python -m twine upload dist/*"
 clean = "rm -r ./src/ghastoolkit.egg-info/ && rm -r ./dist"
 # tests
 test = "python -m unittest discover -v -s ./tests -p 'test_*.py'"
-test-docs = "python -m doctest"
 # formatting
 fmt = "black ./src/ghastoolkit"
 lint = "black --check ./src/ghastoolkit"
 # docs
 docs = "sphinx-build -b html ./docs ./public"
+docs-check = "sphinx-build -b html ./docs ./public -W"
 #

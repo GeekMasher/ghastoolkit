@@ -12,10 +12,3 @@ GitHub
 .. autoclass:: GitHub
    :members:
 
-
-Repository
-------
-.. module:: ghastoolkit
-.. autoclass:: Repository
-   :members:
-
