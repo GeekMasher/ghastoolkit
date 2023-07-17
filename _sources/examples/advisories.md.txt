@@ -22,7 +22,19 @@ advisories.loadAdvisories(".")
 print(f"Advisories :: {len(advisories)}")
 ```
 
-Lets now just find and display the advisory to make sure its loaded.
+Another option is to have your advisories in a repository and pull them from
+GitHub using `SecurityAdvisories`.
+
+```python
+# initialise SecurityAdvisories
+security_advisories = SecurityAdvisories()
+# get all the remote advisories
+advisories = security_advisories.getAdvisories()
+
+print(f"Advisories :: {len(advisories)}")
+```
+
+Now lets find and display the advisory to make sure its found.
 
 ```python
 # find an advisories by GHSA ID ('CVE-2021-44228' would be the same)
@@ -31,7 +43,8 @@ log4shell: Advisory = advisories.find("GHSA-jfh8-c2jp-5v3q")
 print(f"Advisory({log4shell.ghsa_id}, {log4shell.severity})")
 ```
 
-Finally, lets check to see if the dependency has a known advisories associated with it.
+Finally, lets check to see if the dependency has a known advisories associated
+with it.
 
 ```python
 print(f"Dependency :: {dependency.name} ({dependency.version})")

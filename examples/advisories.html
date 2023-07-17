@@ -51,14 +51,25 @@
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Advisories :: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">advisories</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Lets now just find and display the advisory to make sure its loaded.</p>
+<p>Another option is to have your advisories in a repository and pull them from
+GitHub using <code class="docutils literal notranslate"><span class="pre">SecurityAdvisories</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># initialise SecurityAdvisories</span>
+<span class="n">security_advisories</span> <span class="o">=</span> <span class="n">SecurityAdvisories</span><span class="p">()</span>
+<span class="c1"># get all the remote advisories</span>
+<span class="n">advisories</span> <span class="o">=</span> <span class="n">security_advisories</span><span class="o">.</span><span class="n">getAdvisories</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Advisories :: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">advisories</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now lets find and display the advisory to make sure its found.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># find an advisories by GHSA ID (&#39;CVE-2021-44228&#39; would be the same)</span>
 <span class="n">log4shell</span><span class="p">:</span> <span class="n">Advisory</span> <span class="o">=</span> <span class="n">advisories</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;GHSA-jfh8-c2jp-5v3q&quot;</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Advisory(</span><span class="si">{</span><span class="n">log4shell</span><span class="o">.</span><span class="n">ghsa_id</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">log4shell</span><span class="o">.</span><span class="n">severity</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Finally, lets check to see if the dependency has a known advisories associated with it.</p>
+<p>Finally, lets check to see if the dependency has a known advisories associated
+with it.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dependency :: </span><span class="si">{</span><span class="n">dependency</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">dependency</span><span class="o">.</span><span class="n">version</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
 
 <span class="c1"># check in the advisories list if dependency is affected</span>
