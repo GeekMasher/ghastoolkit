@@ -1,7 +1,11 @@
-
 import unittest
 from semantic_version import Version
-from ghastoolkit.supplychain.advisories import Advisory, Advisories, AdvisoryAffect, parseVersion
+from ghastoolkit.supplychain.advisories import (
+    Advisory,
+    Advisories,
+    AdvisoryAffect,
+    parseVersion,
+)
 from ghastoolkit.supplychain.dependencies import Dependency
 
 
@@ -16,7 +20,11 @@ class TestAdvisories(unittest.TestCase):
         self.assertEquals(len(self.advisories), 1)
 
     def test_advisory_check(self):
-        affected = [AdvisoryAffect("maven", "com.geekmasher.ghastoolkit", introduced="0", fixed="1")]
+        affected = [
+            AdvisoryAffect(
+                "maven", "com.geekmasher.ghastoolkit", introduced="0", fixed="1"
+            )
+        ]
         ad = Advisory("rand", "high", affected=affected)
         self.advisories.append(ad)
         self.assertEquals(len(self.advisories), 1)
@@ -26,13 +34,32 @@ class TestAdvisories(unittest.TestCase):
         alert = self.advisories.check(dep)
         self.assertEquals(alert, [ad])
 
-
     def test_affect_check(self):
         dep = Dependency("ghastoolkit", "com.geekmasher", "0.8", "maven")
-        affect = AdvisoryAffect("maven", "com.geekmasher.ghastoolkit", introduced="0", fixed="1")
+        affect = AdvisoryAffect(
+            "maven", "com.geekmasher.ghastoolkit", introduced="0", fixed="1"
+        )
 
         self.assertTrue(affect.check(dep))
-        
+
+    def test_post_init(self):
+        affect = AdvisoryAffect(
+            "maven", "com.geekmasher.ghastoolkit", introduced="0", fixed="1"
+        )
+        self.assertIsNotNone(affect.introduced)
+        self.assertIsNotNone(affect.fixed)
+        if affect.package_dependency:
+            self.assertEqual(affect.package_dependency.name, "ghastoolkit")
+            self.assertEqual(affect.package_dependency.namespace, "com.geekmasher")
+        else:
+            self.assertIsNotNone(affect.package_dependency)
+
+        affect = AdvisoryAffect("pypi", "ghastoolkit", introduced="0", fixed="1")
+        if affect.package_dependency:
+            self.assertEqual(affect.package_dependency.name, "ghastoolkit")
+            self.assertIsNone(affect.package_dependency.namespace)
+        else:
+            self.assertIsNotNone(affect.package_dependency)
 
     def test_affect_check_version(self):
         affect = AdvisoryAffect("", "", introduced="0.2", fixed="1")
@@ -60,5 +87,3 @@ class TestAdvisories(unittest.TestCase):
         affect = AdvisoryAffect("", "", introduced="0.2", fixed="1")
         self.assertEqual(affect.introduced, "0.2.0")
         self.assertEqual(affect.fixed, "1.0.0")
-
-

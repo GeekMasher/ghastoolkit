@@ -9,6 +9,7 @@ from ghastoolkit.octokit.octokit import OctoItem
 
 
 def parseVersion(data: str) -> str:
+    """Parse Version to help semantic_version process the version."""
     stack = data.split(".")
     if len(stack) == 1:
         return f"{data}.0.0"
@@ -19,7 +20,7 @@ def parseVersion(data: str) -> str:
 
 @dataclass
 class AdvisoryAffect:
-    """Advisory Affected"""
+    """Advisory Affected."""
 
     ecosystem: str
     """Ecosystem / Dependency Manager / PURL type"""
@@ -45,7 +46,7 @@ class AdvisoryAffect:
             namespace = None
             name = self.package
 
-        self.package_dependency = Dependency(name, namespace, manager="maven")
+        self.package_dependency = Dependency(name, namespace, manager=self.ecosystem)
 
         if self.introduced:
             self.introduced = parseVersion(self.introduced)
@@ -54,7 +55,7 @@ class AdvisoryAffect:
 
     @staticmethod
     def loadAffect(data: dict) -> "AdvisoryAffect":
-        """Load affects from data
+        """Load affects from data.
 
         https://github.com/github/advisory-database
         """
@@ -77,7 +78,7 @@ class AdvisoryAffect:
         return adaff
 
     def check(self, dependency: "Dependency") -> bool:
-        """Check if version is in range"""
+        """Check to see in the dependency is affected by the advisory."""
 
         from ghastoolkit import Dependency
 
@@ -95,7 +96,7 @@ class AdvisoryAffect:
         return self.checkVersion(dependency.version)
 
     def checkVersion(self, version: str) -> bool:
-        """Check version data with"""
+        """Check version data."""
         if not self.introduced or not self.fixed:
             return False
         # print(f"- {self.introduced} > {parseVersion(version)} < {self.fixed}")
@@ -105,7 +106,7 @@ class AdvisoryAffect:
 
 @dataclass
 class Advisory(OctoItem):
-    """GitHub Advisory"""
+    """GitHub Advisory."""
 
     ghsa_id: str
     """GitHub Security Advisory Identifier"""
@@ -128,7 +129,7 @@ class Advisory(OctoItem):
 
     @staticmethod
     def load(path: str) -> "Advisory":
-        """Load Advisory from path using GitHub Advisory Spec"""
+        """Load Advisory from path using GitHub Advisory Spec."""
         if not os.path.exists(path):
             raise Exception(f"Advisory path does not exist")
 
@@ -140,7 +141,7 @@ class Advisory(OctoItem):
 
     @staticmethod
     def loadJson(path: str) -> "Advisory":
-        """Load Advisory from JSON file"""
+        """Load Advisory from JSON file."""
         with open(path, "r") as handle:
             data = json.load(handle)
 
@@ -158,7 +159,7 @@ class Advisory(OctoItem):
         return advisory
 
     def check(self, dependency: "Dependency") -> Optional["Advisory"]:
-        """Check if dependency is affected by advisory"""
+        """Check if dependency is affected by advisory."""
         for affect in self.affected:
             if affect.check(dependency):
                 return self
@@ -166,11 +167,14 @@ class Advisory(OctoItem):
 
 
 class Advisories:
+    """GitHub Advisory List."""
+
     def __init__(self) -> None:
+        """Initialise Advisories."""
         self.advisories: List[Advisory] = []
 
     def loadAdvisories(self, path: str):
-        """Load a single file or folder of advisories"""
+        """Load a single file or folder of advisories."""
         if not os.path.exists(path):
             raise Exception("Advisories path does not exist")
         if os.path.isdir(path):
@@ -184,13 +188,13 @@ class Advisories:
             self.loadAdvisory(path)
 
     def loadAdvisory(self, path: str):
-        """Load file with an advisory"""
+        """Load file with an advisory."""
         if not os.path.exists(path):
             raise Exception(f"Path does not exist")
         self.advisories.append(Advisory.load(path))
 
     def find(self, search: str) -> Optional[Advisory]:
-        """Find by id or aliases"""
+        """Find by id or aliases."""
         for advisory in self.advisories:
             if advisory.ghsa_id == search:
                 return advisory
@@ -199,7 +203,7 @@ class Advisories:
         return
 
     def check(self, dependency: "Dependency") -> List[Advisory]:
-        """Check if dependency is affected by any advisory"""
+        """Check if dependency is affected by any advisory in the list of advisories."""
         results = []
         for a in self.advisories:
             result = a.check(dependency)
@@ -209,10 +213,11 @@ class Advisories:
         return results
 
     def append(self, advisory: Advisory):
-        """Append advisory"""
+        """Append advisory."""
         if not isinstance(advisory, Advisory):
             raise Exception(f"Non-Advisory type tring to be appended")
         self.advisories.append(advisory)
 
     def __len__(self) -> int:
+        """To String."""
         return len(self.advisories)
