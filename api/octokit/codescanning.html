@@ -39,30 +39,31 @@
 <span class="target" id="module-ghastoolkit"></span><dl class="py class">
 <dt class="sig sig-object py" id="ghastoolkit.CodeScanning">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ghastoolkit.</span></span><span class="sig-name descname"><span class="pre">CodeScanning</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">repository</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="repository.html#ghastoolkit.Repository" title="ghastoolkit.octokit.github.Repository"><span class="pre">Repository</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ghastoolkit.CodeScanning" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="py method">
+<dd><p>Code Scanning.</p>
+<dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.CodeScanning.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">repository</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="repository.html#ghastoolkit.Repository" title="ghastoolkit.octokit.github.Repository"><span class="pre">Repository</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#ghastoolkit.CodeScanning.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>GitHub Code Scanning REST API</p>
+<dd><p>Code Scanning REST API.</p>
 <p><a class="reference external" href="https://docs.github.com/en/rest/code-scanning">https://docs.github.com/en/rest/code-scanning</a></p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.CodeScanning.downloadSARIF">
 <span class="sig-name descname"><span class="pre">downloadSARIF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sarif_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#ghastoolkit.CodeScanning.downloadSARIF" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get SARIF by ID (UUID)</p>
+<dd><p>Get SARIF by ID (UUID).</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.CodeScanning.getAlertInstances">
 <span class="sig-name descname"><span class="pre">getAlertInstances</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alert_number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ghastoolkit.CodeScanning.getAlertInstances" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get a list of alert instances</p>
+<dd><p>Get a list of alert instances.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.CodeScanning.getAlerts">
 <span class="sig-name descname"><span class="pre">getAlerts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'open'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tool_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">severity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#ghastoolkit.CodeAlert" title="ghastoolkit.octokit.codescanning.CodeAlert"><span class="pre">ghastoolkit.octokit.codescanning.CodeAlert</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ghastoolkit.CodeScanning.getAlerts" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get all code scanning alerts
-<a class="reference external" href="https://docs.github.com/en/rest/code-scanning#list-code-scanning-alerts-for-a-repository">https://docs.github.com/en/rest/code-scanning#list-code-scanning-alerts-for-a-repository</a></p>
+<dd><p>Get all code scanning alerts.</p>
+<p><a class="reference external" href="https://docs.github.com/en/rest/code-scanning#list-code-scanning-alerts-for-a-repository">https://docs.github.com/en/rest/code-scanning#list-code-scanning-alerts-for-a-repository</a></p>
 </dd></dl>
 
 <dl class="py method">
@@ -78,47 +79,47 @@ information.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.CodeScanning.getAnalyses">
 <span class="sig-name descname"><span class="pre">getAnalyses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reference</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tool</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ghastoolkit.CodeScanning.getAnalyses" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get a list of all the analyses for a given repository</p>
+<dd><p>Get a list of all the analyses for a given repository.</p>
 <p><a class="reference external" href="https://docs.github.com/en/enterprise-cloud&#64;latest/rest/code-scanning#list-code-scanning-analyses-for-a-repository">https://docs.github.com/en/enterprise-cloud&#64;latest/rest/code-scanning#list-code-scanning-analyses-for-a-repository</a></p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.CodeScanning.getCodeQLDatabase">
 <span class="sig-name descname"><span class="pre">getCodeQLDatabase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">language</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#ghastoolkit.CodeScanning.getCodeQLDatabase" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get a CodeQL database for a repository</p>
+<dd><p>Get a CodeQL database for a repository.</p>
 <p><a class="reference external" href="https://docs.github.com/en/rest/code-scanning?apiVersion=2022-11-28#get-a-codeql-database-for-a-repository">https://docs.github.com/en/rest/code-scanning?apiVersion=2022-11-28#get-a-codeql-database-for-a-repository</a></p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.CodeScanning.getCodeQLDatabases">
 <span class="sig-name descname"><span class="pre">getCodeQLDatabases</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ghastoolkit.CodeScanning.getCodeQLDatabases" title="Permalink to this definition">¶</a></dt>
-<dd><p>List CodeQL databases for a repository</p>
+<dd><p>List CodeQL databases for a repository.</p>
 <p><a class="reference external" href="https://docs.github.com/en/rest/code-scanning?apiVersion=2022-11-28#list-codeql-databases-for-a-repository">https://docs.github.com/en/rest/code-scanning?apiVersion=2022-11-28#list-codeql-databases-for-a-repository</a></p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.CodeScanning.getLatestAnalyses">
 <span class="sig-name descname"><span class="pre">getLatestAnalyses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reference</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tool</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ghastoolkit.CodeScanning.getLatestAnalyses" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get Latest Analyses for every tool</p>
+<dd><p>Get Latest Analyses for every tool.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.CodeScanning.getOrganizationAlerts">
 <span class="sig-name descname"><span class="pre">getOrganizationAlerts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'open'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ghastoolkit.CodeScanning.getOrganizationAlerts" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get Organization Alerts</p>
+<dd><p>Get Organization Alerts.</p>
 <p><a class="reference external" href="https://docs.github.com/en/rest/code-scanning#list-code-scanning-alerts-for-an-organization">https://docs.github.com/en/rest/code-scanning#list-code-scanning-alerts-for-an-organization</a></p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.CodeScanning.getSarifId">
 <span class="sig-name descname"><span class="pre">getSarifId</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#ghastoolkit.CodeScanning.getSarifId" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the latest SARIF ID from a URL</p>
+<dd><p>Get the latest SARIF ID from a URL.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.CodeScanning.getTools">
 <span class="sig-name descname"><span class="pre">getTools</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reference</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ghastoolkit.CodeScanning.getTools" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get list of tools from the latest analyses</p>
+<dd><p>Get list of tools from the latest analyses.</p>
 </dd></dl>
 
 </dd></dl>
@@ -129,23 +130,29 @@ information.</p>
 <span class="target" id="module-0"></span><dl class="py class">
 <dt class="sig sig-object py" id="ghastoolkit.CodeAlert">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ghastoolkit.</span></span><span class="sig-name descname"><span class="pre">CodeAlert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created_at</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rule</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tool</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_instances</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ghastoolkit.CodeAlert" title="Permalink to this definition">¶</a></dt>
-<dd><p>Code Alert from Code Scanning API</p>
+<dd><p>Code Alert from Code Scanning API.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.CodeAlert.__str__">
+<span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#ghastoolkit.CodeAlert.__str__" title="Permalink to this definition">¶</a></dt>
+<dd><p>To String.</p>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ghastoolkit.CodeAlert.created_at">
 <span class="sig-name descname"><span class="pre">created_at</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#ghastoolkit.CodeAlert.created_at" title="Permalink to this definition">¶</a></dt>
-<dd><p>Alert Creation date and time</p>
+<dd><p>Alert Creation date and time.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="ghastoolkit.CodeAlert.description">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ghastoolkit.CodeAlert.description" title="Permalink to this definition">¶</a></dt>
-<dd><p>Rule Description / Title</p>
+<dd><p>Rule Description / Title.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="ghastoolkit.CodeAlert.instances">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">instances</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#ghastoolkit.CodeAlert.instances" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get list of instances of the alert</p>
+<dd><p>Get list of instances of the alert.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -157,19 +164,19 @@ information.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ghastoolkit.CodeAlert.rule">
 <span class="sig-name descname"><span class="pre">rule</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#ghastoolkit.CodeAlert.rule" title="Permalink to this definition">¶</a></dt>
-<dd><p>Rule Data (rule_id, severity, description, etc)</p>
+<dd><p>Rule Data (rule_id, severity, description, etc).</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="ghastoolkit.CodeAlert.rule_id">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rule_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#ghastoolkit.CodeAlert.rule_id" title="Permalink to this definition">¶</a></dt>
-<dd><p>Rule Identifier</p>
+<dd><p>Rule Identifier.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="ghastoolkit.CodeAlert.severity">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">severity</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#ghastoolkit.CodeAlert.severity" title="Permalink to this definition">¶</a></dt>
-<dd><p>Severity of the alert using <cite>security_severity_level</cite></p>
+<dd><p>Severity of the alert using <cite>security_severity_level</cite>.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -181,19 +188,19 @@ information.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ghastoolkit.CodeAlert.tool">
 <span class="sig-name descname"><span class="pre">tool</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#ghastoolkit.CodeAlert.tool" title="Permalink to this definition">¶</a></dt>
-<dd><p>Tool information (name, version, guid)</p>
+<dd><p>Tool information (name, version, guid).</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="ghastoolkit.CodeAlert.tool_fullname">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tool_fullname</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#ghastoolkit.CodeAlert.tool_fullname" title="Permalink to this definition">¶</a></dt>
-<dd><p>Full tool name with version information</p>
+<dd><p>Full tool name with version information.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="ghastoolkit.CodeAlert.tool_name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tool_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#ghastoolkit.CodeAlert.tool_name" title="Permalink to this definition">¶</a></dt>
-<dd><p>Tool name</p>
+<dd><p>Tool name.</p>
 </dd></dl>
 
 </dd></dl>
