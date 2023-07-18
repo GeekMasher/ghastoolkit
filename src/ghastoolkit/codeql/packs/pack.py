@@ -110,6 +110,24 @@ class CodeQLPack:
                 results.extend(list(queries.keys()))
         return results
 
+    @property
+    def remote_version(self) -> Optional[str]:
+        """Gets the remote version of the pack if possible."""
+        from ghastoolkit import CodeScanning
+
+        try:
+            cs = CodeScanning()
+            latest_remote = cs.getLatestPackVersion(self.name)
+            latest_version = (
+                latest_remote.get("metadata", {})
+                .get("container", {})
+                .get("tags", ["NA"])[0]
+            )
+            return latest_version
+        except Exception:
+            logging.debug(f"Error getting remote version")
+        return None
+
     def __str__(self) -> str:
         """To String."""
         if self.name != "":
