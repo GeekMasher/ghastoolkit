@@ -68,6 +68,17 @@ class SecretScanning:
             return saa.get("secret_scanning", {}).get("status", adsec) == "enabled"
         return False
 
+    def isPushProtectionEnabled(self) -> bool:
+        """Check if Push Protection is enabled"""
+        result = self.rest.get("get/repos/{owner}/{repo}")
+        if isinstance(result, dict):
+            saa = result.get("source", {}).get("security_and_analysis", {})
+            status = saa.get("secret_scanning_push_protection", {}).get(
+                "status", "disabled"
+            )
+            return status == "enabled"
+        return False
+
     def getOrganizationAlerts(self, state: Optional[str] = None) -> list[dict]:
         """Get Organization Alerts.
 
