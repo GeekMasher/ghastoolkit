@@ -240,6 +240,43 @@ class CodeScanning:
         https://docs.github.com/en/rest/code-scanning?apiVersion=2022-11-28#get-a-codeql-database-for-a-repository
         """
         return self.rest.get(
-            "/repos/{owner}/{repo}/code-scanning/codeql/databases/{language}",
+            "/repos/{oner}/{repo}/code-scanning/codeql/databases/{language}",
             {"language": language},
         )
+
+    def getPacks(self, visibility: str = "internal") -> List[dict]:
+        """Get all CodeQL Packs from remote GitHub instance.
+
+        CodeQL Packs are stored in GitHub's container registry so this function might
+        return other container images.
+        """
+        result = self.rest.get(
+            "/orgs/{org}/packages",
+            {"package_type": "container", "visibility": visibility},
+        )
+        if isinstance(result, list):
+            return result
+        return []
+
+    def getPackVersions(self, pack_name: str) -> list[dict]:
+        """Get a list of all remote pack versions."""
+        if "/" in pack_name:
+            # full name
+            org, pack_name = pack_name.split("/")
+        else:
+            org = self.repository.owner
+
+        result = self.rest.get(
+            "/orgs/{pack_org}/packages/{package_type}/{package_name}/versions",
+            {"pack_org": org, "package_type": "container", "package_name": pack_name},
+        )
+        if isinstance(result, list):
+            return result
+        return []
+
+    def getLatestPackVersion(self, pack_name: str) -> dict:
+        """Get the current remote CodeQL pack version."""
+        versions = self.getPackVersions(pack_name)
+        if len(versions) != 0:
+            return versions[0]
+        return {}

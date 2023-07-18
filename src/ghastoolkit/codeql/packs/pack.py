@@ -4,7 +4,9 @@ import os
 import json
 import glob
 import logging
-from typing import List, Optional
+from typing import Any, List, Optional
+from collections import OrderedDict
+from semantic_version import Version
 import yaml
 
 from ghastoolkit.codeql.cli import CodeQL
@@ -20,16 +22,22 @@ class CodeQLPack:
     """CodeQL Packages Location"""
 
     def __init__(
-        self, path: Optional[str] = None, cli: Optional[CodeQL] = None
+        self,
+        path: Optional[str] = None,
+        library: Optional[bool] = None,
+        name: Optional[str] = None,
+        version: Optional[str] = None,
+        cli: Optional[CodeQL] = None,
     ) -> None:
         """Initialise CodeQL Pack."""
         self.cli = cli or CodeQL()
 
         self.path = path
-        self.library = False
-        self.name = ""
-        self.version = ""
-        self.dependencies = []
+        self.library: bool = library or False
+        self.name: str = name or ""
+        self.version: str = version or "0.0.0"
+        self.dependencies: List["CodeQLPack"] = []
+        self.default_suite: Optional[str] = None
 
         if path:
             # if its a file
@@ -38,6 +46,8 @@ class CodeQLPack:
 
             self.path = os.path.realpath(os.path.expanduser(path))
             self.load()
+
+        logger.debug(f"Finished loading Pack :: {self}")
 
     @property
     def qlpack(self) -> str:
@@ -62,7 +72,10 @@ class CodeQLPack:
         self.library = bool(data.get("library"))
         self.name = data.get("name", "")
         self.version = data.get("version", "")
-        self.dependencies.extend(data.get("dependencies", []))
+        self.default_suite = data.get("defaultSuiteFile")
+
+        for name, version in data.get("dependencies", {}).items():
+            self.dependencies.append(CodeQLPack(name=name, version=version))
 
     def run(self, *args, display: bool = False) -> Optional[str]:
         """Run Pack command."""
@@ -109,6 +122,60 @@ class CodeQLPack:
             for _, queries in json.loads(result).get("byLanguage", {}).items():
                 results.extend(list(queries.keys()))
         return results
+
+    @property
+    def remote_version(self) -> Optional[str]:
+        """Gets the remote version of the pack if possible."""
+        from ghastoolkit import CodeScanning
+
+        try:
+            cs = CodeScanning()
+            latest_remote = cs.getLatestPackVersion(self.name)
+            latest_version = (
+                latest_remote.get("metadata", {})
+                .get("container", {})
+                .get("tags", ["NA"])[0]
+            )
+            return latest_version
+        except Exception:
+            logging.debug(f"Error getting remote version")
+        return None
+
+    def updatePack(self) -> dict[str, Any]:
+        """Update Local CodeQL Pack."""
+        data = {
+            "library": self.library,
+            "name": self.name,
+            "version": self.version,
+        }
+
+        if self.dependencies:
+            data["dependencies"] = {}
+            for dep in self.dependencies:
+                data["dependencies"][dep.name] = dep.version
+
+        if self.path:
+            logger.debug(f"Saving pack to path :: {self.path}")
+            with open(self.qlpack, "w") as handle:
+                yaml.safe_dump(data, handle, sort_keys=False)
+
+        return data
+
+    def updateVersion(self, name: str = "patch", version: Optional[str] = None) -> str:
+        """Update CodeQL Pack version."""
+        if version:
+            self.version = version
+            return version
+
+        v = Version(self.version)
+        if name == "major":
+            v = v.next_major()
+        elif name == "minor":
+            v = v.next_minor()
+        elif name == "patch":
+            v = v.next_patch()
+        self.version = str(v)
+        return self.version
 
     def __str__(self) -> str:
         """To String."""
