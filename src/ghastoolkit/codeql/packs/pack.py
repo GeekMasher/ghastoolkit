@@ -75,7 +75,6 @@ class CodeQLPack:
         self.default_suite = data.get("defaultSuiteFile")
 
         for name, version in data.get("dependencies", {}).items():
-            print(f" >> {name} == {version}")
             self.dependencies.append(CodeQLPack(name=name, version=version))
 
     def run(self, *args, display: bool = False) -> Optional[str]:
@@ -156,7 +155,7 @@ class CodeQLPack:
                 data["dependencies"][dep.name] = dep.version
 
         if self.path:
-            logger.info(f"Saving pack to path :: {self.path}")
+            logger.debug(f"Saving pack to path :: {self.path}")
             with open(self.qlpack, "w") as handle:
                 yaml.safe_dump(data, handle, sort_keys=False)
 
