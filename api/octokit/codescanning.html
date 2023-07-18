@@ -104,10 +104,30 @@ information.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.CodeScanning.getLatestPackVersion">
+<span class="sig-name descname"><span class="pre">getLatestPackVersion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pack_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#ghastoolkit.CodeScanning.getLatestPackVersion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current remote CodeQL pack version.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.CodeScanning.getOrganizationAlerts">
 <span class="sig-name descname"><span class="pre">getOrganizationAlerts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'open'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ghastoolkit.CodeScanning.getOrganizationAlerts" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get Organization Alerts.</p>
 <p><a class="reference external" href="https://docs.github.com/en/rest/code-scanning#list-code-scanning-alerts-for-an-organization">https://docs.github.com/en/rest/code-scanning#list-code-scanning-alerts-for-an-organization</a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.CodeScanning.getPackVersions">
+<span class="sig-name descname"><span class="pre">getPackVersions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pack_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ghastoolkit.CodeScanning.getPackVersions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a list of all remote pack versions.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.CodeScanning.getPacks">
+<span class="sig-name descname"><span class="pre">getPacks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">visibility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'internal'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ghastoolkit.CodeScanning.getPacks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all CodeQL Packs from remote GitHub instance.</p>
+<p>CodeQL Packs are stored in GitHub’s container registry so this function might
+return other container images.</p>
 </dd></dl>
 
 <dl class="py method">
