@@ -59,25 +59,31 @@ class SecretScanning:
 
         self.rest = RestRequest(self.repository)
 
+        self.state = None
+
     def isEnabled(self) -> bool:
         """Check to see if Secret Scanning is enabled or not."""
-        result = self.rest.get("get/repos/{owner}/{repo}")
-        if isinstance(result, dict):
-            saa = result.get("source", {}).get("security_and_analysis", {})
-            adsec = saa.get("advanced_security", {}).get("status", "disabled")
-            return saa.get("secret_scanning", {}).get("status", adsec) == "enabled"
-        return False
+        if not self.state:
+            self.state = self.getStatus()
+        # if advanced_security is disabled, secret scanning will be
+        adsec = self.state.get("advanced_security", {}).get("status", "disabled")
+        return self.state.get("secret_scanning", {}).get("status", adsec) == "enabled"
 
     def isPushProtectionEnabled(self) -> bool:
-        """Check if Push Protection is enabled"""
+        """Check if Push Protection is enabled."""
+        if not self.state:
+            self.state = self.getStatus()
+        status = self.state.get("secret_scanning_push_protection", {}).get(
+            "status", "disabled"
+        )
+        return status == "enabled"
+
+    def getStatus(self) -> dict:
+        """Get Status of GitHub Advanced Security."""
         result = self.rest.get("get/repos/{owner}/{repo}")
         if isinstance(result, dict):
-            saa = result.get("source", {}).get("security_and_analysis", {})
-            status = saa.get("secret_scanning_push_protection", {}).get(
-                "status", "disabled"
-            )
-            return status == "enabled"
-        return False
+            return result.get("source", {}).get("security_and_analysis", {})
+        raise Exception("Failed to get the current state of secret scanning")
 
     def getOrganizationAlerts(self, state: Optional[str] = None) -> list[dict]:
         """Get Organization Alerts.
