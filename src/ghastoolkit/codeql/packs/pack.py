@@ -144,16 +144,16 @@ class CodeQLPack:
 
     def updatePack(self) -> dict[str, Any]:
         """Update Local CodeQL Pack."""
-        deps = {}
-        for dep in self.dependencies:
-            deps[dep.name] = dep.version
-
         data = {
             "library": self.library,
             "name": self.name,
             "version": self.version,
-            "dependencies": deps,
         }
+
+        if self.dependencies:
+            data["dependencies"] = {}
+            for dep in self.dependencies:
+                data["dependencies"][dep.name] = dep.version
 
         if self.path:
             logger.info(f"Saving pack to path :: {self.path}")
