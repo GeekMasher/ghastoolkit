@@ -55,6 +55,17 @@ class TestRepository(unittest.TestCase):
         self.assertEqual(repo.reference, "refs/heads/main")
         self.assertEqual(repo.branch, "main")
 
+        repo = Repository(
+            "GeekMasher", "ghastoolkit", reference="refs/heads/random-branch/name"
+        )
+        self.assertEqual(repo.reference, "refs/heads/random-branch/name")
+        self.assertEqual(repo.branch, "random-branch/name")
+
+    def test_branch_tag(self):
+        repo = Repository("GeekMasher", "ghastoolkit", reference="refs/tags/0.4.0")
+        self.assertEqual(repo.reference, "refs/tags/0.4.0")
+        self.assertEqual(repo.branch, "0.4.0")
+
     def test_pull_request(self):
         repo = Repository("GeekMasher", "ghastoolkit", reference="refs/heads/main")
         self.assertFalse(repo.isInPullRequest())
