@@ -39,46 +39,54 @@
 <span class="target" id="module-ghastoolkit"></span><dl class="py class">
 <dt class="sig sig-object py" id="ghastoolkit.DependencyGraph">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ghastoolkit.</span></span><span class="sig-name descname"><span class="pre">DependencyGraph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">repository</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="repository.html#ghastoolkit.Repository" title="ghastoolkit.octokit.github.Repository"><span class="pre">Repository</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_graphql</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_clearlydefined</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ghastoolkit.DependencyGraph" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="py method">
+<dd><p>Dependency Graph API.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.DependencyGraph.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">repository</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="repository.html#ghastoolkit.Repository" title="ghastoolkit.octokit.github.Repository"><span class="pre">Repository</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_graphql</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_clearlydefined</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#ghastoolkit.DependencyGraph.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialise Dependency Graph.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.DependencyGraph.exportBOM">
 <span class="sig-name descname"><span class="pre">exportBOM</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dependencies</span></span></span><a class="headerlink" href="#ghastoolkit.DependencyGraph.exportBOM" title="Permalink to this definition">¶</a></dt>
-<dd><p>Download / Export DependencyGraph SBOM</p>
+<dd><p>Download / Export DependencyGraph SBOM.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.DependencyGraph.getDependencies">
 <span class="sig-name descname"><span class="pre">getDependencies</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dependencies</span></span></span><a class="headerlink" href="#ghastoolkit.DependencyGraph.getDependencies" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get Dependencies</p>
+<dd><p>Get Dependencies.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.DependencyGraph.getDependenciesGraphQL">
 <span class="sig-name descname"><span class="pre">getDependenciesGraphQL</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dependencies</span></span></span><a class="headerlink" href="#ghastoolkit.DependencyGraph.getDependenciesGraphQL" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get Dependencies from GraphQL</p>
+<dd><p>Get Dependencies from GraphQL.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.DependencyGraph.getDependenciesInPR">
 <span class="sig-name descname"><span class="pre">getDependenciesInPR</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">head</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dependencies</span></span></span><a class="headerlink" href="#ghastoolkit.DependencyGraph.getDependenciesInPR" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get all the dependencies from a Pull Request</p>
+<dd><p>Get all the dependencies from a Pull Request.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.DependencyGraph.getDependenciesSbom">
 <span class="sig-name descname"><span class="pre">getDependenciesSbom</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dependencies</span></span></span><a class="headerlink" href="#ghastoolkit.DependencyGraph.getDependenciesSbom" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get Dependencies from SBOM</p>
+<dd><p>Get Dependencies from SBOM.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.DependencyGraph.submitDependencies">
 <span class="sig-name descname"><span class="pre">submitDependencies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dependencies</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dependencies</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tool</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'0.0.0'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ghastoolkit.DependencyGraph.submitDependencies" title="Permalink to this definition">¶</a></dt>
-<dd><p><a class="reference external" href="https://docs.github.com/en/rest/dependency-graph/dependency-submission?apiVersion=2022-11-28#create-a-snapshot-of-dependencies-for-a-repository">https://docs.github.com/en/rest/dependency-graph/dependency-submission?apiVersion=2022-11-28#create-a-snapshot-of-dependencies-for-a-repository</a></p>
+<dd><p>Submit dependencies to GitHub Dependency Graph snapshots API.</p>
+<p><a class="reference external" href="https://docs.github.com/en/rest/dependency-graph/dependency-submission?apiVersion=2022-11-28#create-a-snapshot-of-dependencies-for-a-repository">https://docs.github.com/en/rest/dependency-graph/dependency-submission?apiVersion=2022-11-28#create-a-snapshot-of-dependencies-for-a-repository</a></p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.DependencyGraph.submitSbom">
 <span class="sig-name descname"><span class="pre">submitSbom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sbom</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ghastoolkit.DependencyGraph.submitSbom" title="Permalink to this definition">¶</a></dt>
-<dd><p>Submit SBOM</p>
+<dd><p>Submit SBOM.</p>
 </dd></dl>
 
 </dd></dl>
@@ -89,10 +97,17 @@
 <span class="target" id="module-0"></span><dl class="py class">
 <dt class="sig sig-object py" id="ghastoolkit.Dependabot">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ghastoolkit.</span></span><span class="sig-name descname"><span class="pre">Dependabot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">repository</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="repository.html#ghastoolkit.Repository" title="ghastoolkit.octokit.github.Repository"><span class="pre">Repository</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ghastoolkit.Dependabot" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="py method">
+<dd><p>Dependabot API instance.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.Dependabot.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">repository</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="repository.html#ghastoolkit.Repository" title="ghastoolkit.octokit.github.Repository"><span class="pre">Repository</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#ghastoolkit.Dependabot.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialise Dependabot API class.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.Dependabot.getAlerts">
 <span class="sig-name descname"><span class="pre">getAlerts</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">ghastoolkit.supplychain.dependencyalert.DependencyAlert</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ghastoolkit.Dependabot.getAlerts" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get Dependabot alerts from GraphQL API</p>
+<dd><p>Get All Dependabot alerts from GraphQL API using the <cite>GetDependencyAlerts</cite> query.</p>
 </dd></dl>
 
 </dd></dl>
