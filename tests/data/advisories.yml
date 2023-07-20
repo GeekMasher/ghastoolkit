@@ -1,0 +1,9 @@
+
+- ghas_id: "test1"
+  severity: "high"
+  affected:
+    - ecosystem: "maven"
+      package: "com.geekmasher.ghastoolkit"
+      affected:
+        - ">=0.1"
+
