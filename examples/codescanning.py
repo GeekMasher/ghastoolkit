@@ -1,4 +1,5 @@
-
+"""Example showing how to connect and use the Code Scanning API.
+"""
 import os
 from ghastoolkit import GitHub, CodeScanning
 
@@ -21,11 +22,13 @@ else:
     alerts = cs.getAlerts("open")
     print(f"Alert Count :: {len(alerts)}")
 
-# get latest analyses for each tool 
+for alert in alerts:
+    print(f" >> {alert} ({alert.severity})")
+
+# get latest analyses for each tool
 analyses = cs.getLatestAnalyses()
 print(f"Analyses :: {len(analyses)}")
 
 # get list of tools
 tools = cs.getTools()
 print(f"Tools :: {tools}")
-
