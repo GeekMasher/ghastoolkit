@@ -55,7 +55,9 @@ class TestRepository(unittest.TestCase):
         self.assertEqual(repo.reference, "refs/heads/main")
         self.assertEqual(repo.branch, "main")
 
-        repo = Repository("GeekMasher", "ghastoolkit", reference="refs/heads/random-branch/name")
+        repo = Repository(
+            "GeekMasher", "ghastoolkit", reference="refs/heads/random-branch/name"
+        )
         self.assertEqual(repo.reference, "refs/heads/random-branch/name")
         self.assertEqual(repo.branch, "random-branch/name")
 
