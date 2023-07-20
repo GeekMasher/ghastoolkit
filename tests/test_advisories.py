@@ -1,5 +1,4 @@
 import unittest
-from semantic_version import Version
 from ghastoolkit.supplychain.advisories import (
     Advisory,
     Advisories,
