@@ -99,6 +99,53 @@ class Repository:
                 result.append(commit.get("sha"))
         return result
 
+    def getPullRequestComments(self) -> list[dict[str, int | str]]:
+        """Get list of Pull Request comments."""
+        result = []
+        if self.isInPullRequest():
+            from ghastoolkit.octokit.octokit import RestRequest
+
+            issue_number = self.getPullRequestNumber()
+            response = RestRequest().get(
+                "/repos/{owner}/{repo}/issues/{issue_number}/comments",
+                {"issue_number": issue_number},
+            )
+            for comment in response:
+                result.append(
+                    {
+                        "id": comment.get("id"),
+                        "body": comment.get("body", ""),
+                    }
+                )
+        return result
+
+    def createPullRequestComment(self, comment_body: str) -> None:
+        """Create a new Pull Request comment."""
+        if self.isInPullRequest():
+            from ghastoolkit.octokit.octokit import RestRequest
+
+            issue_number = self.getPullRequestNumber()
+            RestRequest().postJson(
+                "/repos/{owner}/{repo}/issues/{issue_number}/comments",
+                {"body": comment_body},
+                expected=201,
+                parameters={"issue_number": issue_number},
+            )
+        return
+
+    def updatePullRequestComment(self, comment_id: int, comment_body: str) -> None:
+        """Update an existing Pull Request comment."""
+        if self.isInPullRequest():
+            from ghastoolkit.octokit.octokit import RestRequest
+
+            RestRequest().patchJson(
+                "/repos/{owner}/{repo}/issues/comments{comment_id}",
+                {"body": comment_body},
+                expected=200,
+                parameters={"comment_id": comment_id},
+            )
+        return
+
     @property
     def clone_url(self) -> str:
         """Repository clone URL."""

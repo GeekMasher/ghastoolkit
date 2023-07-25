@@ -229,12 +229,14 @@ class RestRequest:
 
         return result
 
-    def postJson(self, path: str, data: dict, expected: int = 200) -> dict:
+    def postJson(
+        self, path: str, data: dict, expected: int = 200, parameters={}
+    ) -> dict:
         repo = self.repository or GitHub.repository
         if not repo:
             raise Exception("Repository needs to be set")
 
-        url = Octokit.route(path, repo, rtype="rest")
+        url = Octokit.route(path, repo, rtype="rest", **parameters)
         logger.debug(f"Posting content from URL :: {url}")
 
         response = self.session.post(url, json=data)
@@ -246,6 +248,28 @@ class RestRequest:
             if known_error:
                 raise Exception(known_error)
             raise Exception(f"Failed to post data")
+
+        return response.json()
+    
+    def patchJson(
+        self, path: str, data: dict, expected: int = 200, parameters={}
+    ) -> dict:
+        repo = self.repository or GitHub.repository
+        if not repo:
+            raise Exception("Repository needs to be set")
+
+        url = Octokit.route(path, repo, rtype="rest", **parameters)
+        logger.debug(f"Patching content from URL :: {url}")
+
+        response = self.session.patch(url, json=data)
+
+        if response.status_code != expected:
+            logger.error(f"Error code from server :: {response.status_code}")
+            logger.error(f"{response.content}")
+            known_error = __OCTOKIT_ERRORS__.get(response.status_code)
+            if known_error:
+                raise Exception(known_error)
+            raise Exception("Failed to patch data")
 
         return response.json()
 
