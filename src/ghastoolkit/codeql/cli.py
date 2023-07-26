@@ -35,7 +35,7 @@ def findCodeQLBinary() -> Optional[List[str]]:
         # gh cli
         ["gh", "codeql"],
         # Actions
-        actions_location,
+        *actions_location,
     ]
 
     for location in locations:
@@ -43,6 +43,7 @@ def findCodeQLBinary() -> Optional[List[str]]:
             cmd = location + ["version"]
             with open(os.devnull, "w") as null:
                 subprocess.check_call(cmd, stdout=null, stderr=null)
+            logger.debug(f"Found CodeQL :: {location}")
             return location
         except Exception as err:
             logger.debug(f"Failed to find codeql :: {err}")
