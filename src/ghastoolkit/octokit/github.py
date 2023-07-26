@@ -5,7 +5,7 @@ import shutil
 import tempfile
 import subprocess
 from dataclasses import dataclass
-from typing import Optional, Tuple
+from typing import Optional, Tuple, Union
 from urllib.parse import urlparse
 
 
