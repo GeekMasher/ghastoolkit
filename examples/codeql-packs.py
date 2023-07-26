@@ -4,7 +4,7 @@ from ghastoolkit import CodeQLPack
 pack = CodeQLPack.download("codeql/python-queries", "0.7.4")
 print(f"Remote Pack :: {pack}")
 # local loading
-pack = CodeQLPack("./python")
+pack = CodeQLPack("./examples/packs")
 print(f"Local Pack  :: {pack}")
 
 # install dependencies
