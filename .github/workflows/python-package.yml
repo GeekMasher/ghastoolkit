@@ -70,6 +70,8 @@ jobs:
         pipenv sync -d
 
     - name: Run Examples
+      env:
+        GITHUB_TOKEN: "${{ github.token }}"
       run: |
         set -e
         export PYTHONPATH=$PWD/src
