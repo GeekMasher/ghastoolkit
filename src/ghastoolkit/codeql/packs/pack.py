@@ -40,6 +40,7 @@ class CodeQLPack:
         self.default_suite: Optional[str] = None
 
         if path:
+            logger.debug(f"Loading Pack from path :: {path}")
             # if its a file
             if os.path.isfile(path) and path.endswith("qlpack.yml"):
                 path = os.path.realpath(os.path.dirname(path))
@@ -103,9 +104,9 @@ class CodeQLPack:
         cli.runCommand("pack", "download", full_name)
         base = os.path.join(CodeQLPack.codeql_packages, name)
         if version:
-            return CodeQLPack(os.path.join(base, version))
+            return CodeQLPack(os.path.join(base, version, "qlpack.yml"))
         else:
-            return CodeQLPack(glob.glob(f"{base}/**/")[0])
+            return CodeQLPack(glob.glob(f"{base}/**/qlpack.yml")[0])
 
     def install(self, display: bool = False):
         """Install Dependencies for a CodeQL Pack."""

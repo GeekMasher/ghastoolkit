@@ -1,8 +1,5 @@
 """CodeQL Packs examples."""
-import logging
 from ghastoolkit import CodeQLPack
-
-logging.basicConfig(level=logging.DEBUG)
 
 # download
 pack = CodeQLPack.download("codeql/python-queries", "0.7.4")
