@@ -34,9 +34,10 @@ def findCodeQLBinary() -> Optional[List[str]]:
         ["/usr/bin/codeql/codeql"],
         # gh cli
         ["gh", "codeql"],
-        # Actions
-        *actions_location,
     ]
+    # actions
+    if actions_location:
+        locations.append([actions_location[0]])
 
     for location in locations:
         try:
