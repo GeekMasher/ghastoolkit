@@ -94,7 +94,7 @@ class RestRequest:
 
     @staticmethod
     def restGet(url: str, authenticated: bool = False):
-        """Get Request Wrapper"""
+        """Get Request Wrapper."""
 
         def decorator(func):
             def wrap(self, *args, **kwargs):
@@ -173,8 +173,9 @@ class RestRequest:
         parameters: dict = {},
         expected: int = 200,
         authenticated: bool = False,
+        display_errors: bool = True,
     ) -> Union[dict, list[dict]]:
-        """Get Request
+        """Get Request.
 
         Limits requests based on token
         """
@@ -206,8 +207,10 @@ class RestRequest:
             responce_json = responce.json()
 
             if responce.status_code != expected:
-                logger.error(f"Error code from server :: {responce.status_code}")
-                logger.error(f"Content :: {responce_json}")
+                if display_errors:
+                    logger.error(f"Error code from server :: {responce.status_code}")
+                    logger.error(f"Content :: {responce_json}")
+
                 known_error = __OCTOKIT_ERRORS__.get(responce.status_code)
                 if known_error:
                     raise Exception(known_error)
