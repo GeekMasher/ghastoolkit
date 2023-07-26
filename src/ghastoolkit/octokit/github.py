@@ -139,7 +139,7 @@ class Repository:
             from ghastoolkit.octokit.octokit import RestRequest
 
             RestRequest().patchJson(
-                "/repos/{owner}/{repo}/issues/comments{comment_id}",
+                "/repos/{owner}/{repo}/issues/comments/{comment_id}",
                 {"body": comment_body},
                 expected=200,
                 parameters={"comment_id": comment_id},
