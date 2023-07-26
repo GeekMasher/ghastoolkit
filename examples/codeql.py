@@ -1,9 +1,7 @@
-
-import json
+"""CodeQL Example."""
 import os
-from ghastoolkit.codeql import databases
-from ghastoolkit.codeql.cli import CodeQL 
-from ghastoolkit.codeql.databases import CodeQLDatabases
+import json
+from ghastoolkit import CodeQL, CodeQLDatabases
 
 codeql = CodeQL()
 print(codeql)
@@ -18,5 +16,3 @@ print(f"\nResults: {len(results)}\n")
 
 for result in results:
     print(f"- {result}")
-
-

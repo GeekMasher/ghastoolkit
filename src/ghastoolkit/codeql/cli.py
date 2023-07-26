@@ -1,4 +1,5 @@
 """This is the CodeQL CLI Module."""
+from glob import glob
 import os
 import json
 import logging
@@ -15,14 +16,22 @@ logger = logging.getLogger("ghastoolkit.codeql.cli")
 
 def findCodeQLBinary() -> Optional[List[str]]:
     """Find CodeQL Binary on current system."""
-    locations = [["codeql"], ["gh", "codeql"], ["/usr/bin/codeql/codeql"]]
+    locations = [
+        # generic
+        ["codeql"],
+        # local bin
+        ["/usr/bin/codeql/codeql"],
+        # gh cli
+        ["gh", "codeql"],
+        # Actions
+        glob("/opt/hostedtoolcache/CodeQL/*/x64/codeql/codeql"),
+    ]
 
     for location in locations:
         try:
             cmd = location + ["version"]
             with open(os.devnull, "w") as null:
                 subprocess.check_call(cmd, stdout=null, stderr=null)
-
             return location
         except Exception as err:
             logger.debug(f"Failed to find codeql :: {err}")
@@ -64,7 +73,7 @@ class CodeQL:
     @property
     def version(self) -> str:
         """Get CodeQL Version from the CLI binary."""
-        version = self.runCommand("version", "--format", "terse", display=True)
+        version = self.runCommand("version", "--format", "terse")
         if not version:
             raise Exception("CodeQL version not found")
         return version
