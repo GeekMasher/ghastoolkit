@@ -1,3 +1,4 @@
+"""CodeQL Packs examples."""
 from ghastoolkit import CodeQLPack
 
 # download
