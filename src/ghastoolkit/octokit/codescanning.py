@@ -2,9 +2,9 @@
 from dataclasses import dataclass
 import json
 import logging
-from typing import Any, List, Optional
+from typing import List, Optional
 from ghastoolkit.octokit.github import GitHub, Repository
-from ghastoolkit.octokit.octokit import OctoItem, RestRequest
+from ghastoolkit.octokit.octokit import OctoItem, RestRequest, loadOctoItem
 
 logger = logging.getLogger("ghastoolkit.octokit.codescanning")
 
@@ -81,8 +81,8 @@ class CodeScanning:
             raise Exception("CodeScanning requires Repository to be set")
         self.rest = RestRequest(self.repository)
 
-    def getOrganizationAlerts(self, state: str = "open") -> list[dict[Any, Any]]:
-        """Get Organization Alerts.
+    def getOrganizationAlerts(self, state: str = "open") -> list[CodeAlert]:
+        """Get list of Organization Alerts.
 
         https://docs.github.com/en/rest/code-scanning#list-code-scanning-alerts-for-an-organization
         """
@@ -90,7 +90,7 @@ class CodeScanning:
             "/orgs/{org}/code-scanning/alerts", {"state": state}, authenticated=True
         )
         if isinstance(results, list):
-            return results
+            return [loadOctoItem(CodeAlert, alert) for alert in results]
         raise Exception(f"Error getting alerts from Organization")
 
     def getAlerts(
@@ -117,7 +117,7 @@ class CodeScanning:
             authenticated=True,
         )
         if isinstance(results, list):
-            return results
+            return [loadOctoItem(CodeAlert, alert) for alert in results]
         raise Exception(f"Error getting alerts from Repository")
 
     def getAlertsInPR(self, base: str) -> list[CodeAlert]:
@@ -142,15 +142,18 @@ class CodeScanning:
                 results.append(alert)
         return results
 
-    @RestRequest.restGet(
-        "/repos/{owner}/{repo}/code-scanning/alerts/{alert_number}", authenticated=True
-    )
     def getAlert(self, alert_number: int) -> CodeAlert:
         """Get Single Alert information from Code Scanning.
 
         https://docs.github.com/en/rest/code-scanning#get-a-code-scanning-alert
         """
-        return {}
+        result = self.rest.get(
+            "/repos/{owner}/{repo}/code-scanning/alerts/{alert_number}",
+            {"alert_number": alert_number},
+        )
+        if isinstance(result, dict):
+            return loadOctoItem(CodeAlert, result)
+        raise Exception(f"Error getting alert from Repository")
 
     def getAlertInstances(
         self, alert_number: int, ref: Optional[str] = None
@@ -240,7 +243,7 @@ class CodeScanning:
         https://docs.github.com/en/rest/code-scanning?apiVersion=2022-11-28#get-a-codeql-database-for-a-repository
         """
         return self.rest.get(
-            "/repos/{oner}/{repo}/code-scanning/codeql/databases/{language}",
+            "/repos/{owner}/{repo}/code-scanning/codeql/databases/{language}",
             {"language": language},
         )
 

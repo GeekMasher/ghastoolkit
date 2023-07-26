@@ -1,6 +1,6 @@
 [project]
 name = "ghastoolkit"
-version = "0.6.0"
+version = "0.6.1"
 authors = [{ name = "GeekMasher" }]
 description = "GitHub Advanced Security Python Toolkit"
 readme = "README.md"
@@ -14,14 +14,16 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Operating System :: OS Independent",
 ]
+
 dependencies = [
-    "certifi==2023.5.7",
+    "certifi==2023.7.22",
     "charset-normalizer==3.2.0",
     "idna==3.4",
-    "PyYAML==6.0",
+    "PyYAML==6.0.1",
     "ratelimit==2.2.1",
     "requests==2.31.0",
-    "urllib3==2.0.3",
+    "semantic-version==2.10.0",
+    "urllib3==2.0.4",
 ]
 
 [project.urls]
