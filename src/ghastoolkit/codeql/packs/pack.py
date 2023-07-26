@@ -5,7 +5,6 @@ import json
 import glob
 import logging
 from typing import Any, List, Optional
-from collections import OrderedDict
 from semantic_version import Version
 import yaml
 
@@ -32,7 +31,7 @@ class CodeQLPack:
         """Initialise CodeQL Pack."""
         self.cli = cli or CodeQL()
 
-        self.path = path
+        self.path = path  # dir
         self.library: bool = library or False
         self.name: str = name or ""
         self.version: str = version or "0.0.0"
@@ -40,12 +39,12 @@ class CodeQLPack:
         self.default_suite: Optional[str] = None
 
         if path:
-            logger.debug(f"Loading Pack from path :: {path}")
             # if its a file
             if os.path.isfile(path) and path.endswith("qlpack.yml"):
                 path = os.path.realpath(os.path.dirname(path))
 
             self.path = os.path.realpath(os.path.expanduser(path))
+
             self.load()
 
         logger.debug(f"Finished loading Pack :: {self}")
@@ -64,6 +63,7 @@ class CodeQLPack:
     def load(self):
         """Load QLPack file."""
         if not os.path.exists(self.qlpack):
+            logger.warning(f"Pack Path :: {self.path}")
             raise Exception(f"Failed to find qlpack file")
 
         logger.debug(f"Loading Pack from path :: {self.path}")
@@ -104,9 +104,9 @@ class CodeQLPack:
         cli.runCommand("pack", "download", full_name)
         base = os.path.join(CodeQLPack.codeql_packages, name)
         if version:
-            return CodeQLPack(os.path.join(base, version, "qlpack.yml"))
+            return CodeQLPack(os.path.join(base, version))
         else:
-            return CodeQLPack(glob.glob(f"{base}/**/qlpack.yml")[0])
+            return CodeQLPack(glob.glob(f"{base}/**/")[0])
 
     def install(self, display: bool = False):
         """Install Dependencies for a CodeQL Pack."""
