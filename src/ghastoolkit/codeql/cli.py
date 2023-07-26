@@ -16,14 +16,17 @@ logger = logging.getLogger("ghastoolkit.codeql.cli")
 
 def findCodeQLBinary() -> Optional[List[str]]:
     """Find CodeQL Binary on current system."""
-    actions_location = os.path.join(
-        os.environ.get("RUNNER_TOOL_CACHE", ""),
-        "CodeQL",
-        "*",
-        "x64",
-        "codeql",
-        "codeql",
+    actions_location = glob(
+        os.path.join(
+            os.environ.get("RUNNER_TOOL_CACHE", ""),
+            "CodeQL",
+            "*",
+            "x64",
+            "codeql",
+            "codeql",
+        )
     )
+    logger.debug(f"CodeQL Action Location :: {actions_location}")
     locations = [
         # generic
         ["codeql"],
@@ -32,7 +35,7 @@ def findCodeQLBinary() -> Optional[List[str]]:
         # gh cli
         ["gh", "codeql"],
         # Actions
-        glob(actions_location),
+        actions_location,
     ]
 
     for location in locations:
