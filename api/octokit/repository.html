@@ -72,6 +72,12 @@
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.Repository.createPullRequestComment">
+<span class="sig-name descname"><span class="pre">createPullRequestComment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">comment_body</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#ghastoolkit.Repository.createPullRequestComment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new Pull Request comment.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.Repository.display">
 <span class="sig-name descname"><span class="pre">display</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#ghastoolkit.Repository.display" title="Permalink to this definition">¶</a></dt>
 <dd><p>Display the repository as a string.</p>
@@ -81,6 +87,12 @@
 <dt class="sig sig-object py" id="ghastoolkit.Repository.getFile">
 <span class="sig-name descname"><span class="pre">getFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#ghastoolkit.Repository.getFile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a path relative from the base of the cloned repository.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.Repository.getPullRequestComments">
+<span class="sig-name descname"><span class="pre">getPullRequestComments</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ghastoolkit.Repository.getPullRequestComments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get list of Pull Request comments.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -142,6 +154,12 @@
 <dt class="sig sig-object py" id="ghastoolkit.Repository.sha">
 <span class="sig-name descname"><span class="pre">sha</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ghastoolkit.Repository.sha" title="Permalink to this definition">¶</a></dt>
 <dd><p>Git SHA</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.Repository.updatePullRequestComment">
+<span class="sig-name descname"><span class="pre">updatePullRequestComment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">comment_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment_body</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#ghastoolkit.Repository.updatePullRequestComment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update an existing Pull Request comment.</p>
 </dd></dl>
 
 </dd></dl>
