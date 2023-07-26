@@ -250,7 +250,7 @@ class RestRequest:
             raise Exception(f"Failed to post data")
 
         return response.json()
-    
+
     def patchJson(
         self, path: str, data: dict, expected: int = 200, parameters={}
     ) -> dict:
