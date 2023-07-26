@@ -75,6 +75,7 @@ jobs:
         export PYTHONPATH=$PWD/src
 
         for f in examples/*.py; do
+            echo "Running :: $f"
             pipenv run python $f
         done
 
