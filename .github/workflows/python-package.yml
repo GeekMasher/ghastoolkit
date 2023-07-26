@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: read
+  security-events: read
 
 jobs:
   build:
@@ -37,13 +38,6 @@ jobs:
       run: |
         pipenv run build
 
-    - name: Run
-      run: |
-        export PYTHONPATH=$PWD/src
-        pipenv run main all \
-          -t="${{ secrets.GHASTOOLKIT_PAT }}" \
-          -r="GeekMasher/ghastoolkit"
-
     - name: Test with unittest
       run: |
         export PYTHONPATH=$PWD/src
@@ -54,3 +48,9 @@ jobs:
         export PYTHONPATH=$PWD/src
         pipenv run docs
 
+    - name: Run
+      run: |
+        export PYTHONPATH=$PWD/src
+        pipenv run main all \
+          -t="${{ github.token }}" \
+          -r="GeekMasher/ghastoolkit"
