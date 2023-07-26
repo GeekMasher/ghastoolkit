@@ -99,7 +99,7 @@ class Repository:
                 result.append(commit.get("sha"))
         return result
 
-    def getPullRequestComments(self) -> list[dict[str, int | str]]:
+    def getPullRequestComments(self) -> list[dict[str, Union[int, str]]]:
         """Get list of Pull Request comments."""
         result = []
         if self.isInPullRequest():
