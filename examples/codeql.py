@@ -1,22 +1,28 @@
-
-import json
+"""CodeQL Example."""
 import os
-from ghastoolkit.codeql import databases
-from ghastoolkit.codeql.cli import CodeQL 
-from ghastoolkit.codeql.databases import CodeQLDatabases
+from ghastoolkit import CodeQL, CodeQLDatabases
+from ghastoolkit.octokit.github import GitHub
+
+GitHub.init(os.environ.get("GITHUB_REPOSITORY", "GeekMasher/ghastoolkit"))
 
 codeql = CodeQL()
 print(codeql)
 
-dbs = CodeQLDatabases.loadLocalDatabase()
-db = dbs.get("python-GeekMasher_ghastoolkit")
-print(db)
+# load local databases
+dbs = CodeQLDatabases.loadRemoteDatabases(GitHub.repository)
+print(f"Remote Databases :: {len(dbs)}")
 
-results = codeql.runQuery(db)
+db = dbs[0]
+if not db:
+    print("Failed to load Database...")
+    exit(1)
+
+print(f"Database :: {db}")
+db.downloadDatabase()
+
+results = codeql.runQuery(db, "codeql/python-queries", display=True)
 
 print(f"\nResults: {len(results)}\n")
 
 for result in results:
     print(f"- {result}")
-
-

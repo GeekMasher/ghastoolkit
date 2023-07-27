@@ -34,6 +34,7 @@ class TestLoadOctoItem(unittest.TestCase):
 
         self.assertEqual(item.number, 5)
 
+
 class TestOctokitGraphQL(unittest.TestCase):
     def setUp(self) -> None:
         GitHub.init(repository="GeekMasher/ghastoolkit@main")
@@ -41,12 +42,11 @@ class TestOctokitGraphQL(unittest.TestCase):
 
     def test_loading_defaults(self):
         gql = GraphQLRequest()
-        # load 2 default queries
-        self.assertEqual(len(gql.queries.keys()), 2)
+        # load 3 default queries
+        self.assertEqual(len(gql.queries.keys()), 3)
 
         query1 = gql.queries.get("GetDependencyAlerts")
         self.assertIsNotNone(query1)
-        
+
         query2 = gql.queries.get("GetDependencyInfo")
         self.assertIsNotNone(query2)
-

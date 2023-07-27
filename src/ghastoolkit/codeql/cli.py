@@ -5,6 +5,7 @@ import json
 import logging
 import tempfile
 import subprocess
+from glob import glob
 from typing import List, Optional, Union
 
 from ghastoolkit.codeql.databases import CodeQLDatabase
@@ -16,14 +17,35 @@ logger = logging.getLogger("ghastoolkit.codeql.cli")
 
 def findCodeQLBinary() -> Optional[List[str]]:
     """Find CodeQL Binary on current system."""
-    locations = [["codeql"], ["gh", "codeql"], ["/usr/bin/codeql/codeql"]]
+    actions_location = glob(
+        os.path.join(
+            os.environ.get("RUNNER_TOOL_CACHE", ""),
+            "CodeQL",
+            "*",
+            "x64",
+            "codeql",
+            "codeql",
+        )
+    )
+    logger.debug(f"CodeQL Action Location :: {actions_location}")
+    locations = [
+        # generic
+        ["codeql"],
+        # local bin
+        ["/usr/bin/codeql/codeql"],
+        # gh cli
+        ["gh", "codeql"],
+    ]
+    # actions
+    if actions_location:
+        locations.append([actions_location[0]])
 
     for location in locations:
         try:
             cmd = location + ["version"]
             with open(os.devnull, "w") as null:
                 subprocess.check_call(cmd, stdout=null, stderr=null)
-
+            logger.debug(f"Found CodeQL :: {location}")
             return location
         except Exception as err:
             logger.debug(f"Failed to find codeql :: {err}")
@@ -73,18 +95,26 @@ class CodeQL:
         self,
         database: CodeQLDatabase,
         path: Optional[str] = None,
+        cpu: Optional[int] = None,
         display: bool = False,
     ) -> CodeQLResults:
-        """Run a CodeQL Query on a CodeQL Database."""
+        """Run a CodeQL Query on a CodeQL Database.
+
+        This function will use all CPU cores by default.
+        """
         if not database.path:
             raise Exception("CodeQL Database path is not set")
 
         path = path or database.default_pack
         logger.debug(f"Query path :: {path}")
 
+        cores = str(cpu) if cpu else "0"
+
         self.runCommand(
             "database",
             "run-queries",
+            "-j",
+            cores,
             database.path,
             path,
             display=display,

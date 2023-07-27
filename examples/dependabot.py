@@ -1,14 +1,9 @@
 """Dependabot API example."""
-import logging
+import os
 from ghastoolkit import Dependabot, GitHub
 
-logging.basicConfig(
-    level=logging.DEBUG,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-)
-GitHub.init("octodemo/demo-ghas-geekmasher")
+GitHub.init(os.environ.get("GITHUB_REPOSITORY", "GeekMasher/ghastoolkit"))
 
-# graphql = GraphQLRequest(GitHub.repository)
 depgraph = Dependabot()
 
 alerts = depgraph.getAlerts()

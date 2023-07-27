@@ -31,7 +31,7 @@ class CodeQLPack:
         """Initialise CodeQL Pack."""
         self.cli = cli or CodeQL()
 
-        self.path = path
+        self.path = path  # dir
         self.library: bool = library or False
         self.name: str = name or ""
         self.version: str = version or "0.0.0"
@@ -44,7 +44,9 @@ class CodeQLPack:
                 path = os.path.realpath(os.path.dirname(path))
 
             self.path = os.path.realpath(os.path.expanduser(path))
-            self.load()
+
+            if os.path.exists(self.qlpack):
+                self.load()
 
         logger.debug(f"Finished loading Pack :: {self}")
 
@@ -62,6 +64,7 @@ class CodeQLPack:
     def load(self):
         """Load QLPack file."""
         if not os.path.exists(self.qlpack):
+            logger.warning(f"Pack Path :: {self.path}")
             raise Exception(f"Failed to find qlpack file")
 
         logger.debug(f"Loading Pack from path :: {self.path}")
