@@ -215,7 +215,7 @@ class CodeQLDatabase:
                 os.remove(output_zip)
 
         if not os.path.exists(output_zip):
-            logger.info("Downloading CodeQL Database from GitHub")
+            logger.debug("Downloading CodeQL Database from GitHub")
 
             headers = {
                 "Accept": "application/zip",
@@ -229,24 +229,20 @@ class CodeQLDatabase:
                             f.write(chunk)
 
         else:
-            logger.info("Database archive is present on system, skipping download...")
+            logger.debug("Database archive is present on system, skipping download...")
 
-        logger.info(f"Extracting archive data :: {output_zip}")
+        logger.debug(f"Extracting archive data :: {output_zip}")
 
         # SECURITY: Do we trust this DB?
         with zipfile.ZipFile(output_zip) as zf:
             zf.extractall(output_db)
 
-        logger.info(f" >>> {output_db}")
+        logger.debug(f" >>> {output_db}")
         codeql_lang_path = os.path.join(output_db, self.language)
 
         if os.path.exists(codeql_lang_path):
+            self.path = codeql_lang_path
             return codeql_lang_path
-
-        for codeql_dir in os.listdir(output_db):
-            codeql_dir = os.path.join(output_db, codeql_dir)
-            if os.path.isdir(codeql_dir):
-                return codeql_dir
 
         raise Exception(f"Database downloaded but not DB files...")
 
