@@ -54,7 +54,6 @@ codeql.runQuery(db, display=True)
 To run a query from a custom pack, you can use the following pattern.
 
 ```python
-# ...
 from ghastoolkit import CodeQL, CodeQLDatabases, CodeQLPack
 
 codeql = CodeQL()
@@ -62,6 +61,7 @@ databases = CodeQLDatabases.loadLocalDatabase()
 
 # download the latest pack
 pack = CodeQLPack.download("geekmasher/codeql-python")
+print(f"Pack: {pack} (queries: {len(pack.resolveQueries())})")
 
 for db in databases:
     results = codeql.runQuery(db, pack.name)
