@@ -248,6 +248,8 @@ class CodeQLDatabase:
 
 
 class CodeQLDatabases(list[CodeQLDatabase]):
+    """List of CodeQL Databases."""
+
     def loadDefault(self):
         """Load Databases from standard locations."""
         for location in __CODEQL_DATABASE_PATHS__:
@@ -271,9 +273,7 @@ class CodeQLDatabases(list[CodeQLDatabase]):
             if not lang:
                 raise Exception(f"CodeQL remote language is not set")
             self.append(
-                CodeQLDatabase(
-                    f"{repository.repo}-{lang}", language=lang, repository=repository
-                )
+                CodeQLDatabase(repository.repo, language=lang, repository=repository)
             )
 
     @staticmethod
@@ -310,6 +310,6 @@ class CodeQLDatabases(list[CodeQLDatabase]):
         return dbs
 
     def downloadDatabases(self):
-        """Download all databases from GitHub"""
+        """Download all databases from GitHub."""
         for db in self:
             db.downloadDatabase(None)
