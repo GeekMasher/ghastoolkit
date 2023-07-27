@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>CodeQL &#8212; GHAS Toolkit 0.6.2 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=039e1c02" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=3e526bd2"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CodeQL Pack" href="codeql-packs.html" />
+    <link rel="prev" title="Custom Supply Chain Advisories" href="advisories.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="codeql">
+<h1>CodeQL<a class="headerlink" href="#codeql" title="Permalink to this heading">¶</a></h1>
+<section id="cli">
+<h2>CLI<a class="headerlink" href="#cli" title="Permalink to this heading">¶</a></h2>
+<p>To use the CodeQL CLI in Python, you need to first import <code class="docutils literal notranslate"><span class="pre">CodeQL</span></code> and set it up:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ghastoolkit</span> <span class="kn">import</span> <span class="n">CodeQL</span><span class="p">,</span> <span class="n">CodeQLDatabases</span>
+
+<span class="n">codeql</span> <span class="o">=</span> <span class="n">CodeQL</span><span class="p">()</span>
+<span class="n">databases</span> <span class="o">=</span> <span class="n">CodeQLDatabases</span><span class="o">.</span><span class="n">loadLocalDatabase</span><span class="p">()</span>   <span class="c1"># ~/.codeql/databases</span>
+<span class="c1"># or can load and download remote databases</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CodeQL    :: </span><span class="si">{</span><span class="n">codeql</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Databases :: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">databases</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="running-queries">
+<h2>Running Queries<a class="headerlink" href="#running-queries" title="Permalink to this heading">¶</a></h2>
+<p>By default you can run the default queries on a database which will run the
+standard CodeQL query pack <code class="docutils literal notranslate"><span class="pre">codeql/$LANGUAGE-queries</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># get a single database by name</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">databases</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ghastoolkit&quot;</span><span class="p">)</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">codeql</span><span class="o">.</span><span class="n">runQuery</span><span class="p">(</span><span class="n">db</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Results   :: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you want to run a suites from the default packs on the database, use one of
+the built-in suites:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># security-extended</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">codeql</span><span class="o">.</span><span class="n">runQuery</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;security-extended&quot;</span><span class="p">)</span>
+
+<span class="c1"># security-and-quality</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">codeql</span><span class="o">.</span><span class="n">runQuery</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;security-and-quality&quot;</span><span class="p">)</span>
+
+<span class="c1"># security-experimental</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">codeql</span><span class="o">.</span><span class="n">runQuery</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;security-experimental&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can also output the command to the console using <code class="docutils literal notranslate"><span class="pre">display</span></code> versus it being
+hidden by default.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">codeql</span><span class="o">.</span><span class="n">runQuery</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="custom-packs">
+<h2>Custom Packs<a class="headerlink" href="#custom-packs" title="Permalink to this heading">¶</a></h2>
+<p>To run a query from a custom pack, you can use the following pattern.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ghastoolkit</span> <span class="kn">import</span> <span class="n">CodeQL</span><span class="p">,</span> <span class="n">CodeQLDatabases</span><span class="p">,</span> <span class="n">CodeQLPack</span>
+
+<span class="n">codeql</span> <span class="o">=</span> <span class="n">CodeQL</span><span class="p">()</span>
+<span class="n">databases</span> <span class="o">=</span> <span class="n">CodeQLDatabases</span><span class="o">.</span><span class="n">loadLocalDatabase</span><span class="p">()</span>
+
+<span class="c1"># download the latest pack</span>
+<span class="n">pack</span> <span class="o">=</span> <span class="n">CodeQLPack</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s2">&quot;geekmasher/codeql-python&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Pack: </span><span class="si">{</span><span class="n">pack</span><span class="si">}</span><span class="s2"> (queries: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">pack</span><span class="o">.</span><span class="n">resolveQueries</span><span class="p">())</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">db</span> <span class="ow">in</span> <span class="n">databases</span><span class="p">:</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">codeql</span><span class="o">.</span><span class="n">runQuery</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">pack</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; &gt;&gt; </span><span class="si">{</span><span class="n">db</span><span class="si">}</span><span class="s2"> :: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/ghastoolkit.png" alt="Logo"/>
+            </a></p>
+<h1 class="logo"><a href="../index.html">GHAS Toolkit</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API Reference</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="codescanning.html">Code Scanning API Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advisories.html">Custom Supply Chain Advisories</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">CodeQL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="codeql-packs.html">CodeQL Pack</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Examples</a><ul>
+      <li>Previous: <a href="advisories.html" title="previous chapter">Custom Supply Chain Advisories</a></li>
+      <li>Next: <a href="codeql-packs.html" title="next chapter">CodeQL Pack</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;Copyright (c) 2023, GeekMasher.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.1.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../_sources/examples/codeql.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
