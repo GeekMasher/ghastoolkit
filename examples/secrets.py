@@ -6,14 +6,19 @@ GitHub.init(os.environ.get("GITHUB_REPOSITORY", "GeekMasher/ghastoolkit"))
 
 # Setup Secret Scanning
 secret_scanning = SecretScanning()
-alerts = secret_scanning.getAlerts("open")
+try:
+    alerts = secret_scanning.getAlerts("open")
+except:
+    print("[!] Error getting alerts, check access")
+    exit(0)
 
 print(f"Alert Count :: {len(alerts)}")
 
-# Single Secret
-alert = secret_scanning.getAlert(4)
-print(f"Secret :: {alert}")
+# Display Secrets
+for alert in alerts:
+    print(f"- Secret :: {alert}")
+    # locations
+    for loc in alert.locations:
+        print(f" >> {loc}")
 
-# locations
-for loc in alert.locations:
-    print(f" >> {loc}")
+print("Finished!")
