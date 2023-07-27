@@ -179,8 +179,10 @@ class CodeQLDatabase:
             creation_time, _ = creation_time.split(".", 1)
             self.created = datetime.fromisoformat(creation_time)
 
-    def downloadDatabase(self, output: Optional[str], use_cache: bool = True) -> str:
-        """Download CodeQL Database"""
+    def downloadDatabase(
+        self, output: Optional[str] = None, use_cache: bool = True
+    ) -> str:
+        """Download CodeQL Database."""
         output = output or self.path or self.path_download
         if not output:
             raise Exception(f"CodeQL Database path not set")
@@ -251,7 +253,7 @@ class CodeQLDatabase:
 
 class CodeQLDatabases(list[CodeQLDatabase]):
     def loadDefault(self):
-        """Load Databases from standard locations"""
+        """Load Databases from standard locations."""
         for location in __CODEQL_DATABASE_PATHS__:
             if not os.path.exists(location):
                 continue
@@ -259,13 +261,13 @@ class CodeQLDatabases(list[CodeQLDatabase]):
 
     @staticmethod
     def loadLocalDatabase() -> "CodeQLDatabases":
-        """Load all Local Databases"""
+        """Load all Local Databases."""
         db = CodeQLDatabases()
         db.loadDefault()
         return db
 
     def getRemoteDatabases(self, repository: Repository):
-        """Find all remote databases and return a list of them"""
+        """Find all remote databases and return a list of them."""
         cs = CodeScanning(repository)
         databases = cs.getCodeQLDatabases()
         for db in databases:
@@ -280,13 +282,13 @@ class CodeQLDatabases(list[CodeQLDatabase]):
 
     @staticmethod
     def loadRemoteDatabases(repository: Repository) -> "CodeQLDatabases":
-        """Use API to find all the databases and return a list of them"""
+        """Use API to find all the databases and return a list of them."""
         dbs = CodeQLDatabases()
         dbs.getRemoteDatabases(repository)
         return dbs
 
     def findDatabases(self, path: str):
-        """Find databases based on a path (recursive)"""
+        """Find databases based on a path (recursive)."""
         if not os.path.exists(path):
             raise Exception(f"Path does not exist: {path}")
 
@@ -297,14 +299,14 @@ class CodeQLDatabases(list[CodeQLDatabase]):
                     self.append(CodeQLDatabase.loadFromYml(path))
 
     def get(self, name: str) -> Optional[CodeQLDatabase]:
-        """Get a database by name"""
+        """Get a database by name."""
         for db in self:
             if db.name == name:
                 return db
         return
 
     def getLanguages(self, language: str) -> "CodeQLDatabases":
-        """Get a list of databases by language"""
+        """Get a list of databases by language."""
         dbs = CodeQLDatabases()
         for db in dbs:
             if db.language == language:
