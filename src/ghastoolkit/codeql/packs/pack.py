@@ -79,6 +79,21 @@ class CodeQLPack:
         for name, version in data.get("dependencies", {}).items():
             self.dependencies.append(CodeQLPack(name=name, version=version))
 
+    @staticmethod
+    def findByQuery(query_path: str) -> Optional["CodeQLPack"]:
+        """Find Pack by query path."""
+        stack = query_path.split("/")
+        if query_path.startswith("/"):
+            stack.insert(0, "/")
+
+        while len(stack) != 0:
+            path = os.path.join(*stack, "qlpack.yml")
+            if os.path.exists(path):
+                return CodeQLPack(path)
+
+            stack.pop(-1)
+        return
+
     def run(self, *args, display: bool = False) -> Optional[str]:
         """Run Pack command."""
         return self.cli.runCommand("pack", *args, display=display)
