@@ -106,6 +106,14 @@ class CodeQL:
             raise Exception("CodeQL Database path is not set")
 
         path = path or database.default_pack
+
+        if path in [
+            "security-extended",
+            "security-and-quality",
+            "security-experimental",
+        ]:
+            path = database.getSuite("security-extended")
+
         logger.debug(f"Query path :: {path}")
 
         cores = str(cpu) if cpu else "0"

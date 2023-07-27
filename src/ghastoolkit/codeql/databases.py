@@ -1,4 +1,5 @@
 from datetime import datetime
+from logging import log
 import os
 import shutil
 import zipfile
@@ -82,6 +83,11 @@ class CodeQLDatabase:
     def exists(self) -> bool:
         """Checks if the CodeQL Database exists"""
         return False if not self.path else os.path.exists(self.path)
+
+    @property
+    def root(self) -> str:
+        """Get the standard root location."""
+        return __CODEQL_DATABASE_PATHS__[0]
 
     @property
     def default_pack(self) -> str:
@@ -183,7 +189,7 @@ class CodeQLDatabase:
         self, output: Optional[str] = None, use_cache: bool = True
     ) -> str:
         """Download CodeQL Database."""
-        output = output or self.path or self.path_download
+        output = output or self.path or self.root
         if not output:
             raise Exception(f"CodeQL Database path not set")
 
@@ -202,8 +208,10 @@ class CodeQLDatabase:
             logger.debug(f"Creating path: {output}")
             os.makedirs(output)
 
-        output_zip = os.path.join(output, self.database_folder + ".tar.gz")
-        output_db = os.path.join(output, self.database_folder)
+        output_zip = os.path.join(
+            tempfile.gettempdir(), self.database_folder + ".tar.gz"
+        )
+        output_db = os.path.join(tempfile.gettempdir(), self.database_folder)
 
         # Deleting cached files
         if not use_cache:
@@ -241,8 +249,15 @@ class CodeQLDatabase:
         codeql_lang_path = os.path.join(output_db, self.language)
 
         if os.path.exists(codeql_lang_path):
-            self.path = codeql_lang_path
-            return codeql_lang_path
+            logger.debug(f"Moving Database...")
+
+            if os.path.exists(output):
+                logger.debug(f"Removing old DB :: {output}")
+                shutil.rmtree(output)
+
+            shutil.move(codeql_lang_path, output)
+            self.path = output
+            return output
 
         raise Exception(f"Database downloaded but not DB files...")
 
