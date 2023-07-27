@@ -8,12 +8,14 @@ To use the CodeQL CLI in Python, you need to first import `CodeQL` and set it up
 from ghastoolkit import CodeQL, CodeQLDatabases
 
 codeql = CodeQL()
-databases = CodeQLDatabases.loadLocalDatabase()   # ~/.codeql/databases
-# or can load and download remote databases
+# load all local databases on system in common locations
+databases = CodeQLDatabases.loadLocalDatabase()
 
 print(f"CodeQL    :: {codeql}")
 print(f"Databases :: {len(databases)}")
 ```
+
+You can also download databases remotely.
 
 ## Running Queries
 
