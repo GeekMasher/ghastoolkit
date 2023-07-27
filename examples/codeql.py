@@ -8,17 +8,23 @@ GitHub.init(os.environ.get("GITHUB_REPOSITORY", "GeekMasher/ghastoolkit"))
 codeql = CodeQL()
 print(codeql)
 
-# load local databases
+# load remote databases
 dbs = CodeQLDatabases.loadRemoteDatabases(GitHub.repository)
 print(f"Remote Databases :: {len(dbs)}")
+for db in dbs:
+    print(f" >> {db}")
 
-db = dbs[0]
+print("")
+db = dbs.get("ghastoolkit")
+
 if not db:
     print("Failed to load Database...")
     exit(1)
 
 print(f"Database :: {db}")
-db.downloadDatabase()
+if not db.exists():
+    print("Downloading database...")
+    db.downloadDatabase()
 
 results = codeql.runQuery(db, "codeql/python-queries", display=True)
 
