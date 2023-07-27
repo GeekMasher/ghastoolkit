@@ -21,12 +21,12 @@ if not db:
     print("Failed to load Database...")
     exit(1)
 
-print(f"Database :: {db}")
+print(f"Database :: {db} ({db.path})")
 if not db.exists():
     print("Downloading database...")
     db.downloadDatabase()
 
-results = codeql.runQuery(db, "codeql/python-queries", display=True)
+results = codeql.runQuery(db, "security-extended", display=True)
 
 print(f"\nResults: {len(results)}\n")
 
