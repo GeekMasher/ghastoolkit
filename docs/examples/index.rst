@@ -16,5 +16,6 @@ https://github.com/GeekMasher/ghastoolkit/tree/main/examples
    codescanning
    advisories
 
+   codeql
    codeql-packs
    
