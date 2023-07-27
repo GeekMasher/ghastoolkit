@@ -39,13 +39,14 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ghastoolkit</span> <span class="kn">import</span> <span class="n">CodeQL</span><span class="p">,</span> <span class="n">CodeQLDatabases</span>
 
 <span class="n">codeql</span> <span class="o">=</span> <span class="n">CodeQL</span><span class="p">()</span>
-<span class="n">databases</span> <span class="o">=</span> <span class="n">CodeQLDatabases</span><span class="o">.</span><span class="n">loadLocalDatabase</span><span class="p">()</span>   <span class="c1"># ~/.codeql/databases</span>
-<span class="c1"># or can load and download remote databases</span>
+<span class="c1"># load all local databases on system in common locations</span>
+<span class="n">databases</span> <span class="o">=</span> <span class="n">CodeQLDatabases</span><span class="o">.</span><span class="n">loadLocalDatabase</span><span class="p">()</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CodeQL    :: </span><span class="si">{</span><span class="n">codeql</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Databases :: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">databases</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>You can also download databases remotely.</p>
 </section>
 <section id="running-queries">
 <h2>Running Queries<a class="headerlink" href="#running-queries" title="Permalink to this heading">¶</a></h2>
