@@ -95,20 +95,26 @@ class CodeQL:
         self,
         database: CodeQLDatabase,
         path: Optional[str] = None,
+        cpu: Optional[int] = None,
         display: bool = False,
     ) -> CodeQLResults:
-        """Run a CodeQL Query on a CodeQL Database."""
+        """Run a CodeQL Query on a CodeQL Database.
+
+        This function will use all CPU cores by default.
+        """
         if not database.path:
             raise Exception("CodeQL Database path is not set")
 
         path = path or database.default_pack
         logger.debug(f"Query path :: {path}")
 
+        cores = str(cpu) if cpu else "0"
+
         self.runCommand(
             "database",
             "run-queries",
             "-j",
-            "0",
+            cores,
             database.path,
             path,
             display=display,
