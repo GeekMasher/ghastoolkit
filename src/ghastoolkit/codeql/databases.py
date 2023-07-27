@@ -138,7 +138,7 @@ class CodeQLDatabase:
 
     @staticmethod
     def loadFromYml(path: str) -> "CodeQLDatabase":
-        """Load from YAML / YML file
+        """Load from YAML / YML file.
 
         **Example:**
         >>> db = CodeQLDatabase.loadFromYml("codeql-db")
@@ -158,7 +158,7 @@ class CodeQLDatabase:
         return db
 
     def loadDatabaseYml(self, path: str):
-        """Load content from YML file"""
+        """Load content from YML file."""
         if not os.path.exists(path):
             raise Exception("CodeQL Database YML does not exist")
         if not path.endswith(".yml"):

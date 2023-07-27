@@ -20,7 +20,7 @@ if not db:
 print(f"Database :: {db}")
 db.downloadDatabase()
 
-results = codeql.runQuery(db)
+results = codeql.runQuery(db, display=True)
 
 print(f"\nResults: {len(results)}\n")
 
