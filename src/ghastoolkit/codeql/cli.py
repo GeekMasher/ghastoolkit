@@ -107,6 +107,8 @@ class CodeQL:
         self.runCommand(
             "database",
             "run-queries",
+            "-j",
+            "0",
             database.path,
             path,
             display=display,
