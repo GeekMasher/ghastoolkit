@@ -45,7 +45,8 @@ class CodeQLPack:
 
             self.path = os.path.realpath(os.path.expanduser(path))
 
-            self.load()
+            if os.path.exists(self.qlpack):
+                self.load()
 
         logger.debug(f"Finished loading Pack :: {self}")
 
