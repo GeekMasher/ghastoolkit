@@ -40,6 +40,12 @@
 <dt class="sig sig-object py" id="ghastoolkit.CodeQL">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ghastoolkit.</span></span><span class="sig-name descname"><span class="pre">CodeQL</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">binary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ghastoolkit.CodeQL" title="Permalink to this definition">¶</a></dt>
 <dd><p>CodeQL CLI.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ghastoolkit.CodeQL.CODEQL_EXTRACTOR_PATH">
+<span class="sig-name descname"><span class="pre">CODEQL_EXTRACTOR_PATH</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/home/runner/.codeql/extractors'</span></em><a class="headerlink" href="#ghastoolkit.CodeQL.CODEQL_EXTRACTOR_PATH" title="Permalink to this definition">¶</a></dt>
+<dd><p>CodeQL Extractor Path</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.CodeQL.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">binary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#ghastoolkit.CodeQL.__init__" title="Permalink to this definition">¶</a></dt>
@@ -53,9 +59,21 @@
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.CodeQL.createDatabase">
+<span class="sig-name descname"><span class="pre">createDatabase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">database</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="databases.html#ghastoolkit.CodeQLDatabase" title="ghastoolkit.codeql.databases.CodeQLDatabase"><span class="pre">CodeQLDatabase</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#ghastoolkit.CodeQL.createDatabase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a CodeQL Database.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.CodeQL.exists">
 <span class="sig-name descname"><span class="pre">exists</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#ghastoolkit.CodeQL.exists" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check codeql is present on the system.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ghastoolkit.CodeQL.extractor_path">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">extractor_path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#ghastoolkit.CodeQL.extractor_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Third-Party extractor path location. Automatically created if the path does not exist.</p>
 </dd></dl>
 
 <dl class="py method">
