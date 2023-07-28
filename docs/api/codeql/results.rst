@@ -1,25 +1,25 @@
 .. _codeql_results:
 
 CodeQL Result Models 
-=============
+====================
 
 
 CodeQLResults
-------
+-------------
 .. module:: ghastoolkit
-.. autoclass:: CodeQLResults 
+.. autoclass:: CodeQLResults
    :members:
 
 CodeLocation
-------
+------------
 .. module:: ghastoolkit
-.. autoclass:: CodeLocation 
+.. autoclass:: CodeLocation
    :members:
 
 
 CodeResult
-------
+----------
 .. module:: ghastoolkit
-.. autoclass:: CodeResult 
+.. autoclass:: CodeResult
    :members:
 
