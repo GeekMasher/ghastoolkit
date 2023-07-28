@@ -80,7 +80,7 @@ class SecretScanning:
 
     def getStatus(self) -> dict:
         """Get Status of GitHub Advanced Security."""
-        result = self.rest.get("get/repos/{owner}/{repo}")
+        result = self.rest.get("/repos/{owner}/{repo}")
         if isinstance(result, dict):
             return result.get("source", {}).get("security_and_analysis", {})
         raise Exception("Failed to get the current state of secret scanning")
