@@ -65,9 +65,9 @@ class SecretScanning:
         """Check to see if Secret Scanning is enabled or not."""
         if not self.state:
             self.state = self.getStatus()
-        # if advanced_security is disabled, secret scanning will be
-        adsec = self.state.get("advanced_security", {}).get("status", "disabled")
-        return self.state.get("secret_scanning", {}).get("status", adsec) == "enabled"
+        return (
+            self.state.get("secret_scanning", {}).get("status", "disabled") == "enabled"
+        )
 
     def isPushProtectionEnabled(self) -> bool:
         """Check if Push Protection is enabled."""
@@ -82,7 +82,7 @@ class SecretScanning:
         """Get Status of GitHub Advanced Security."""
         result = self.rest.get("/repos/{owner}/{repo}")
         if isinstance(result, dict):
-            return result.get("source", {}).get("security_and_analysis", {})
+            return result.get("security_and_analysis", {})
         raise Exception("Failed to get the current state of secret scanning")
 
     def getOrganizationAlerts(self, state: Optional[str] = None) -> list[dict]:
