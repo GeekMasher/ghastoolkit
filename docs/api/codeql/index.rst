@@ -1,7 +1,7 @@
 .. _codeql:
 
 CodeQL
-=============
+======
 
 
 .. toctree::
