@@ -307,7 +307,6 @@ class CodeScanning:
         if not isinstance(latest_release, dict):
             return
         version = latest_release.get("tag_name", "0.0.0")
-        print(f"Latest Releases :: {version}")
+        logger.debug(f"Latest Releases :: {version}")
 
-        for asset in latest_release.get("assets", []):
-            print(asset)
+        # for asset in latest_release.get("assets", []):
