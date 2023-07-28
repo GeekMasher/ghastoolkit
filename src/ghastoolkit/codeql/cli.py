@@ -3,6 +3,7 @@ import os
 import csv
 import json
 import logging
+import shutil
 import tempfile
 import subprocess
 from glob import glob
@@ -55,6 +56,9 @@ def findCodeQLBinary() -> Optional[List[str]]:
 class CodeQL:
     """CodeQL CLI."""
 
+    CODEQL_EXTRACTOR_PATH: str = os.path.expanduser("~/.codeql/extractors")
+    """CodeQL Extractor Path"""
+
     def __init__(self, binary: Optional[str] = None) -> None:
         """Initialise CodeQL CLI Class."""
         if binary:
@@ -91,6 +95,51 @@ class CodeQL:
             raise Exception("CodeQL version not found")
         return version
 
+    @property
+    def extractor_path(self) -> str:
+        """Third-Party extractor path location. Automatically created if the path does not exist."""
+        if not os.path.exists(CodeQL.CODEQL_EXTRACTOR_PATH):
+            os.mkdir(CodeQL.CODEQL_EXTRACTOR_PATH)
+        return CodeQL.CODEQL_EXTRACTOR_PATH
+
+    def createDatabase(
+        self,
+        database: CodeQLDatabase,
+        output: Optional[str] = None,
+        source: Optional[str] = None,
+        command: Optional[str] = None,
+        display: bool = False,
+    ) -> str:
+        """Create a CodeQL Database."""
+        cmd = [
+            "database",
+            "create",
+            "--search-path",
+            self.extractor_path,
+            "--overwrite",
+            "-j",
+            "0",
+            "-v",
+            "-l",
+            database.language,
+        ]
+
+        if source:
+            cmd.extend(["-s", source])
+        if command:
+            cmd.extend(["-c", command])
+
+        # TODO
+        output = output or database.path or database.path_download
+        if not output:
+            raise Exception("Unknown output location for creating CodeQL database")
+
+        cmd.append(output)
+
+        self.runCommand(*cmd, display=display)
+
+        return output
+
     def runQuery(
         self,
         database: CodeQLDatabase,
@@ -121,6 +170,8 @@ class CodeQL:
         self.runCommand(
             "database",
             "run-queries",
+            "--search-path",
+            self.extractor_path,
             "-j",
             cores,
             database.path,
