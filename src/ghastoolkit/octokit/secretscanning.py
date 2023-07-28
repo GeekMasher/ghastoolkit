@@ -62,7 +62,10 @@ class SecretScanning:
         self.state = None
 
     def isEnabled(self) -> bool:
-        """Check to see if Secret Scanning is enabled or not."""
+        """Check to see if Secret Scanning is enabled or not via the repository status.
+
+        https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#get-a-repository
+        """
         if not self.state:
             self.state = self.getStatus()
         return (
