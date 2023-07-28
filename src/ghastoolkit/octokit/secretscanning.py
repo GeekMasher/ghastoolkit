@@ -68,16 +68,25 @@ class SecretScanning:
         """
         if not self.state:
             self.state = self.getStatus()
+        if self.state.get("visibility") == "public":
+            logger.debug("All public repositories have secret scanning enabled")
+            return True
         return (
-            self.state.get("secret_scanning", {}).get("status", "disabled") == "enabled"
+            self.state.get("security_and_analysis", {})
+            .get("secret_scanning", {})
+            .get("status", "disabled")
+            == "enabled"
         )
 
     def isPushProtectionEnabled(self) -> bool:
         """Check if Push Protection is enabled."""
         if not self.state:
             self.state = self.getStatus()
-        status = self.state.get("secret_scanning_push_protection", {}).get(
-            "status", "disabled"
+
+        status = (
+            self.state.get("security_and_analysis", {})
+            .get("secret_scanning_push_protection", {})
+            .get("status", "disabled")
         )
         return status == "enabled"
 
@@ -85,7 +94,7 @@ class SecretScanning:
         """Get Status of GitHub Advanced Security."""
         result = self.rest.get("/repos/{owner}/{repo}")
         if isinstance(result, dict):
-            return result.get("security_and_analysis", {})
+            return result
         raise Exception("Failed to get the current state of secret scanning")
 
     def getOrganizationAlerts(self, state: Optional[str] = None) -> list[dict]:
