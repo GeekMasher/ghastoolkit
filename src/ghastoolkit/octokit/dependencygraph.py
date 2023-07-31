@@ -124,12 +124,18 @@ class DependencyGraph:
         head = urllib.parse.quote(head, safe="")
         basehead = f"{base}...{head}"
         logger.debug(f"PR basehead :: {basehead}")
+
         results = self.rest.get(
             "/repos/{owner}/{repo}/dependency-graph/compare/{basehead}",
             {"basehead": basehead},
             expected=200,
         )
+
         if not results:
+            logger.warning("Failed to get dependencies from Pull Request")
+            logger.warning(
+                "Make sure Advanced Security is enabled and token permissions are correct"
+            )
             return dependencies
 
         for depdata in results:
