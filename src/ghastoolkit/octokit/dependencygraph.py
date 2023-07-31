@@ -133,7 +133,9 @@ class DependencyGraph:
 
         if not results:
             logger.warning("Failed to get dependencies from Pull Request")
-            logger.warning("Make sure Advanced Security is enabled on the repository")
+            logger.warning(
+                "Make sure Advanced Security is enabled and token permissions are correct"
+            )
             return dependencies
 
         for depdata in results:
