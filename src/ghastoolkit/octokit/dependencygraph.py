@@ -1,6 +1,6 @@
 """Dependency Graph Octokit."""
 import logging
-from typing import Any
+from typing import Any, Dict, Tuple
 import urllib.parse
 
 from ghastoolkit.octokit.github import GitHub, Repository
@@ -28,6 +28,29 @@ class DependencyGraph:
 
         self.enable_graphql = enable_graphql
         self.enable_clearlydefined = enable_clearlydefined
+
+    def getOrganizationDependencies(self) -> Dict[str, Dependencies]:
+        """Get Organization Dependencies."""
+        deps = {}
+
+        repositories = self.rest.get("/orgs/{org}/repos")
+        if not isinstance(repositories, list):
+            raise Exception("Invalid organization")
+
+        for repo in repositories:
+            repo = Repository.parseRepository(repo.get("full_name"))
+            logger.debug(f"Processing repository :: {repo}")
+            try:
+                self.rest = RestRequest(repo)
+
+                repo_deps = self.getDependenciesSbom()
+                deps[repo.display] = repo_deps
+            except Exception as err:
+                logger.warning(f"Failed to get dependencies :: {err}")
+                deps[repo.display] = Dependencies()
+
+        self.rest = RestRequest(self.repository)
+        return deps
 
     def getDependencies(self) -> Dependencies:
         """Get Dependencies."""
