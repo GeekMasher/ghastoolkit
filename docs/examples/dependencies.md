@@ -1,5 +1,27 @@
 # Dependency Graph
 
+## Organization
+
+Setup
+
+```python
+from ghastoolkit import GitHub, DependencyGraph
+
+GitHub.init("GeekMasher/ghastoolkit")
+print(f"Owner :: {GitHub.repository.owner}")
+```
+
+Get data from the organization:
+
+```python
+depgraph = DependencyGraph()
+
+dependencies = depgraph.getOrganizationDependencies()
+
+for repo, deps in dependencies.items():
+    print(f" > {repo.display} :: {len(deps)}")
+```
+
 ## Snapshots
 
 To upload a snapshot to the Dependency Graph you can use the `DependencyGraph` octokit API.
