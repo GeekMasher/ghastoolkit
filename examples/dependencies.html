@@ -13,6 +13,8 @@
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Custom Supply Chain Advisories" href="advisories.html" />
+    <link rel="prev" title="Code Scanning API Examples" href="codescanning.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -33,14 +35,14 @@
 <h1>Dependency Graph<a class="headerlink" href="#dependency-graph" title="Permalink to this heading">¶</a></h1>
 <section id="organization">
 <h2>Organization<a class="headerlink" href="#organization" title="Permalink to this heading">¶</a></h2>
-<p>Setup</p>
+<p>To get a list of all the dependencies in an organization, your’ll need to setup <code class="docutils literal notranslate"><span class="pre">DependencyGraph</span></code>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ghastoolkit</span> <span class="kn">import</span> <span class="n">GitHub</span><span class="p">,</span> <span class="n">DependencyGraph</span>
 
 <span class="n">GitHub</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="s2">&quot;GeekMasher/ghastoolkit&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Owner :: </span><span class="si">{</span><span class="n">GitHub</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">owner</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Get data from the organization:</p>
+<p>After that, we can use the graph to pull a dict of repositories and associated dependencies:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">depgraph</span> <span class="o">=</span> <span class="n">DependencyGraph</span><span class="p">()</span>
 
 <span class="n">dependencies</span> <span class="o">=</span> <span class="n">depgraph</span><span class="o">.</span><span class="n">getOrganizationDependencies</span><span class="p">()</span>
@@ -49,6 +51,8 @@
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; &gt; </span><span class="si">{</span><span class="n">repo</span><span class="o">.</span><span class="n">display</span><span class="si">}</span><span class="s2"> :: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">deps</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>Once you have this information, you can look up dependencies usages across the
+organization or get other data from it.</p>
 </section>
 <section id="snapshots">
 <h2>Snapshots<a class="headerlink" href="#snapshots" title="Permalink to this heading">¶</a></h2>
@@ -101,14 +105,25 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../api/index.html">API Reference</a></li>
 </ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="index.html">Examples</a></li>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="codescanning.html">Code Scanning API Examples</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Dependency Graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advisories.html">Custom Supply Chain Advisories</a></li>
+<li class="toctree-l2"><a class="reference internal" href="codeql.html">CodeQL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="codeql-packs.html">CodeQL Pack</a></li>
+</ul>
+</li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Examples</a><ul>
+      <li>Previous: <a href="codescanning.html" title="previous chapter">Code Scanning API Examples</a></li>
+      <li>Next: <a href="advisories.html" title="next chapter">Custom Supply Chain Advisories</a></li>
+  </ul></li>
   </ul></li>
 </ul>
 </div>

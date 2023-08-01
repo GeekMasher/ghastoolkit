@@ -14,6 +14,7 @@ https://github.com/GeekMasher/ghastoolkit/tree/main/examples
    :maxdepth: 1
 
    codescanning
+   dependencies
    advisories
 
    codeql
