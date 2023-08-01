@@ -31,6 +31,25 @@
             
   <section id="dependency-graph">
 <h1>Dependency Graph<a class="headerlink" href="#dependency-graph" title="Permalink to this heading">¶</a></h1>
+<section id="organization">
+<h2>Organization<a class="headerlink" href="#organization" title="Permalink to this heading">¶</a></h2>
+<p>Setup</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ghastoolkit</span> <span class="kn">import</span> <span class="n">GitHub</span><span class="p">,</span> <span class="n">DependencyGraph</span>
+
+<span class="n">GitHub</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="s2">&quot;GeekMasher/ghastoolkit&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Owner :: </span><span class="si">{</span><span class="n">GitHub</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">owner</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Get data from the organization:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">depgraph</span> <span class="o">=</span> <span class="n">DependencyGraph</span><span class="p">()</span>
+
+<span class="n">dependencies</span> <span class="o">=</span> <span class="n">depgraph</span><span class="o">.</span><span class="n">getOrganizationDependencies</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">repo</span><span class="p">,</span> <span class="n">deps</span> <span class="ow">in</span> <span class="n">dependencies</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; &gt; </span><span class="si">{</span><span class="n">repo</span><span class="o">.</span><span class="n">display</span><span class="si">}</span><span class="s2"> :: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">deps</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
 <section id="snapshots">
 <h2>Snapshots<a class="headerlink" href="#snapshots" title="Permalink to this heading">¶</a></h2>
 <p>To upload a snapshot to the Dependency Graph you can use the <code class="docutils literal notranslate"><span class="pre">DependencyGraph</span></code> octokit API.</p>
