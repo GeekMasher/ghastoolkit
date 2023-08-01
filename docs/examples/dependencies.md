@@ -2,7 +2,7 @@
 
 ## Organization
 
-Setup
+To get a list of all the dependencies in an organization, your'll need to setup `DependencyGraph`.
 
 ```python
 from ghastoolkit import GitHub, DependencyGraph
@@ -11,7 +11,7 @@ GitHub.init("GeekMasher/ghastoolkit")
 print(f"Owner :: {GitHub.repository.owner}")
 ```
 
-Get data from the organization:
+After that, we can use the graph to pull a dict of repositories and associated dependencies:
 
 ```python
 depgraph = DependencyGraph()
@@ -21,6 +21,9 @@ dependencies = depgraph.getOrganizationDependencies()
 for repo, deps in dependencies.items():
     print(f" > {repo.display} :: {len(deps)}")
 ```
+
+Once you have this information, you can look up dependencies usages across the
+organization or get other data from it.
 
 ## Snapshots
 
