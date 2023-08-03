@@ -57,6 +57,9 @@ class Repository:
     def __repr__(self) -> str:
         return self.__str__()
 
+    def __hash__(self) -> int:
+        return hash(self.__str__())
+
     def isInPullRequest(self) -> bool:
         """Check if the current reference is in a Pull Request."""
         if self.reference:

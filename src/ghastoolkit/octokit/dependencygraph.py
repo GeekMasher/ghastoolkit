@@ -31,7 +31,7 @@ class DependencyGraph:
 
     def getOrganizationDependencies(self) -> Dict[Repository, Dependencies]:
         """Get Organization Dependencies."""
-        deps = {}
+        deps: Dict[Repository, Dependencies] = {}
 
         repositories = self.rest.get("/orgs/{org}/repos")
         if not isinstance(repositories, list):
@@ -43,8 +43,7 @@ class DependencyGraph:
             try:
                 self.rest = RestRequest(repo)
 
-                repo_deps = self.getDependenciesSbom()
-                deps[repo] = repo_deps
+                deps[repo] = self.getDependenciesSbom()
             except Exception as err:
                 logger.warning(f"Failed to get dependencies :: {err}")
                 deps[repo] = Dependencies()
