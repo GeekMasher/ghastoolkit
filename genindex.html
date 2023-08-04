@@ -100,6 +100,8 @@
 </li>
         <li><a href="api/codeql/results.html#ghastoolkit.CodeResult.__str__">(ghastoolkit.CodeResult method)</a>
 </li>
+        <li><a href="api/supplychain/dependency.html#ghastoolkit.Dependency.__str__">(ghastoolkit.Dependency method)</a>
+</li>
         <li><a href="api/octokit/repository.html#ghastoolkit.Repository.__str__">(ghastoolkit.Repository method)</a>
 </li>
       </ul></li>
@@ -117,10 +119,12 @@
 </li>
       <li><a href="api/supplychain/advisories.html#ghastoolkit.Advisory.affected">affected (ghastoolkit.Advisory attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/supplychain/dependency.html#ghastoolkit.Dependency.alerts">alerts (ghastoolkit.Dependency attribute)</a>
+</li>
       <li><a href="api/supplychain/advisories.html#ghastoolkit.Advisory.aliases">aliases (ghastoolkit.Advisory attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/octokit/github.html#ghastoolkit.GitHub.api_graphql">api_graphql (ghastoolkit.GitHub attribute)</a>
 </li>
       <li><a href="api/octokit/github.html#ghastoolkit.GitHub.api_rest">api_rest (ghastoolkit.GitHub attribute)</a>
@@ -131,6 +135,10 @@
         <li><a href="api/codeql/packs.html#ghastoolkit.CodeQLPacks.append">(ghastoolkit.CodeQLPacks method)</a>
 </li>
       </ul></li>
+      <li><a href="api/supplychain/dependencies.html#ghastoolkit.Dependencies.applyClearlyDefined">applyClearlyDefined() (ghastoolkit.Dependencies method)</a>
+</li>
+      <li><a href="api/supplychain/dependencies.html#ghastoolkit.Dependencies.applyLicenses">applyLicenses() (ghastoolkit.Dependencies method)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -191,6 +199,8 @@
 </li>
       <li><a href="api/octokit/secretscanning.html#ghastoolkit.SecretAlert.commit_sha">commit_sha (ghastoolkit.SecretAlert property)</a>
 </li>
+      <li><a href="api/supplychain/dependencies.html#ghastoolkit.Dependencies.contains">contains() (ghastoolkit.Dependencies method)</a>
+</li>
       <li><a href="api/codeql/packs.html#ghastoolkit.CodeQLPack.create">create() (ghastoolkit.CodeQLPack method)</a>
 </li>
       <li><a href="api/octokit/security-advisories.html#ghastoolkit.SecurityAdvisories.createAdvisory">createAdvisory() (ghastoolkit.SecurityAdvisories method)</a>
@@ -227,18 +237,22 @@
 </li>
       <li><a href="api/octokit/supplychain.html#ghastoolkit.Dependabot">Dependabot (class in ghastoolkit)</a>
 </li>
+      <li><a href="api/supplychain/dependencies.html#ghastoolkit.Dependencies">Dependencies (class in ghastoolkit)</a>
+</li>
+      <li><a href="api/supplychain/dependency.html#ghastoolkit.Dependency">Dependency (class in ghastoolkit)</a>
+</li>
       <li><a href="api/octokit/supplychain.html#ghastoolkit.DependencyGraph">DependencyGraph (class in ghastoolkit)</a>
 </li>
       <li><a href="api/octokit/codescanning.html#ghastoolkit.CodeAlert.description">description (ghastoolkit.CodeAlert property)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/octokit/github.html#ghastoolkit.GitHub.display">display() (ghastoolkit.GitHub static method)</a>
 
       <ul>
         <li><a href="api/octokit/repository.html#ghastoolkit.Repository.display">(ghastoolkit.Repository method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/codeql/databases.html#ghastoolkit.CodeQLDatabase.display_name">display_name() (ghastoolkit.CodeQLDatabase method)</a>
 </li>
       <li><a href="api/codeql/packs.html#ghastoolkit.CodeQLPack.download">download() (ghastoolkit.CodeQLPack static method)</a>
@@ -263,16 +277,20 @@
 </li>
       <li><a href="api/codeql/results.html#ghastoolkit.CodeLocation.end_line">end_line (ghastoolkit.CodeLocation attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/codeql/codeql-cli.html#ghastoolkit.CodeQL.exists">exists() (ghastoolkit.CodeQL method)</a>
 
       <ul>
         <li><a href="api/codeql/databases.html#ghastoolkit.CodeQLDatabase.exists">(ghastoolkit.CodeQLDatabase method)</a>
 </li>
       </ul></li>
-      <li><a href="api/octokit/supplychain.html#ghastoolkit.DependencyGraph.exportBOM">exportBOM() (ghastoolkit.DependencyGraph method)</a>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/supplychain/dependencies.html#ghastoolkit.Dependencies.exportBOM">exportBOM() (ghastoolkit.Dependencies method)</a>
+
+      <ul>
+        <li><a href="api/octokit/supplychain.html#ghastoolkit.DependencyGraph.exportBOM">(ghastoolkit.DependencyGraph method)</a>
 </li>
+      </ul></li>
       <li><a href="api/codeql/codeql-cli.html#ghastoolkit.CodeQL.extractor_path">extractor_path (ghastoolkit.CodeQL property)</a>
 </li>
   </ul></td>
@@ -282,14 +300,30 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/supplychain/advisories.html#ghastoolkit.Advisories.find">find() (ghastoolkit.Advisories method)</a>
+
+      <ul>
+        <li><a href="api/supplychain/dependencies.html#ghastoolkit.Dependencies.find">(ghastoolkit.Dependencies method)</a>
 </li>
+      </ul></li>
       <li><a href="api/codeql/packs.html#ghastoolkit.CodeQLPack.findByQuery">findByQuery() (ghastoolkit.CodeQLPack static method)</a>
+</li>
+      <li><a href="api/codeql/databases.html#ghastoolkit.CodeQLDatabases.findDatabases">findDatabases() (ghastoolkit.CodeQLDatabases method)</a>
+</li>
+      <li><a href="api/supplychain/dependencies.html#ghastoolkit.Dependencies.findLicenses">findLicenses() (ghastoolkit.Dependencies method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/codeql/databases.html#ghastoolkit.CodeQLDatabases.findDatabases">findDatabases() (ghastoolkit.CodeQLDatabases method)</a>
+      <li><a href="api/supplychain/dependencies.html#ghastoolkit.Dependencies.findNames">findNames() (ghastoolkit.Dependencies method)</a>
+</li>
+      <li><a href="api/supplychain/dependencies.html#ghastoolkit.Dependencies.findPurl">findPurl() (ghastoolkit.Dependencies method)</a>
+</li>
+      <li><a href="api/supplychain/dependencies.html#ghastoolkit.Dependencies.findUnknownLicenses">findUnknownLicenses() (ghastoolkit.Dependencies method)</a>
 </li>
       <li><a href="api/supplychain/advisories.html#ghastoolkit.supplychain.advisories.AdvisoryAffect.fixed">fixed (ghastoolkit.supplychain.advisories.AdvisoryAffect attribute)</a>
+</li>
+      <li><a href="api/supplychain/dependency.html#ghastoolkit.Dependency.fromPurl">fromPurl() (ghastoolkit.Dependency static method)</a>
+</li>
+      <li><a href="api/supplychain/dependency.html#ghastoolkit.Dependency.fullname">fullname (ghastoolkit.Dependency property)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -373,6 +407,8 @@
 </li>
       <li><a href="api/octokit/repository.html#ghastoolkit.Repository.getPullRequestNumber">getPullRequestNumber() (ghastoolkit.Repository method)</a>
 </li>
+      <li><a href="api/supplychain/dependency.html#ghastoolkit.Dependency.getPurl">getPurl() (ghastoolkit.Dependency method)</a>
+</li>
       <li><a href="api/codeql/databases.html#ghastoolkit.CodeQLDatabases.getRemoteDatabases">getRemoteDatabases() (ghastoolkit.CodeQLDatabases method)</a>
 </li>
       <li><a href="api/codeql/codeql-cli.html#ghastoolkit.CodeQL.getResults">getResults() (ghastoolkit.CodeQL method)</a>
@@ -389,7 +425,7 @@
     ghastoolkit
 
       <ul>
-        <li><a href="api/codeql/codeql-cli.html#module-ghastoolkit">module</a>, <a href="api/codeql/databases.html#module-0">[1]</a>, <a href="api/codeql/databases.html#module-ghastoolkit">[2]</a>, <a href="api/codeql/packs.html#module-0">[3]</a>, <a href="api/codeql/packs.html#module-ghastoolkit">[4]</a>, <a href="api/codeql/results.html#module-0">[5]</a>, <a href="api/codeql/results.html#module-1">[6]</a>, <a href="api/codeql/results.html#module-ghastoolkit">[7]</a>, <a href="api/octokit/codescanning.html#module-0">[8]</a>, <a href="api/octokit/codescanning.html#module-ghastoolkit">[9]</a>, <a href="api/octokit/github.html#module-ghastoolkit">[10]</a>, <a href="api/octokit/octokit.html#module-0">[11]</a>, <a href="api/octokit/octokit.html#module-ghastoolkit">[12]</a>, <a href="api/octokit/repository.html#module-ghastoolkit">[13]</a>, <a href="api/octokit/secretscanning.html#module-0">[14]</a>, <a href="api/octokit/secretscanning.html#module-ghastoolkit">[15]</a>, <a href="api/octokit/security-advisories.html#module-ghastoolkit">[16]</a>, <a href="api/octokit/supplychain.html#module-0">[17]</a>, <a href="api/octokit/supplychain.html#module-ghastoolkit">[18]</a>, <a href="api/supplychain/advisories.html#module-0">[19]</a>, <a href="api/supplychain/advisories.html#module-ghastoolkit">[20]</a>
+        <li><a href="api/codeql/codeql-cli.html#module-ghastoolkit">module</a>, <a href="api/codeql/databases.html#module-0">[1]</a>, <a href="api/codeql/databases.html#module-ghastoolkit">[2]</a>, <a href="api/codeql/packs.html#module-0">[3]</a>, <a href="api/codeql/packs.html#module-ghastoolkit">[4]</a>, <a href="api/codeql/results.html#module-0">[5]</a>, <a href="api/codeql/results.html#module-1">[6]</a>, <a href="api/codeql/results.html#module-ghastoolkit">[7]</a>, <a href="api/octokit/codescanning.html#module-0">[8]</a>, <a href="api/octokit/codescanning.html#module-ghastoolkit">[9]</a>, <a href="api/octokit/github.html#module-ghastoolkit">[10]</a>, <a href="api/octokit/octokit.html#module-0">[11]</a>, <a href="api/octokit/octokit.html#module-ghastoolkit">[12]</a>, <a href="api/octokit/repository.html#module-ghastoolkit">[13]</a>, <a href="api/octokit/secretscanning.html#module-0">[14]</a>, <a href="api/octokit/secretscanning.html#module-ghastoolkit">[15]</a>, <a href="api/octokit/security-advisories.html#module-ghastoolkit">[16]</a>, <a href="api/octokit/supplychain.html#module-0">[17]</a>, <a href="api/octokit/supplychain.html#module-ghastoolkit">[18]</a>, <a href="api/supplychain/advisories.html#module-0">[19]</a>, <a href="api/supplychain/advisories.html#module-ghastoolkit">[20]</a>, <a href="api/supplychain/dependencies.html#module-ghastoolkit">[21]</a>, <a href="api/supplychain/dependency.html#module-ghastoolkit">[22]</a>
 </li>
       </ul></li>
       <li>
@@ -456,6 +492,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/codeql/databases.html#ghastoolkit.CodeQLDatabase.language">language (ghastoolkit.CodeQLDatabase attribute)</a>
 </li>
+      <li><a href="api/supplychain/dependency.html#ghastoolkit.Dependency.license">license (ghastoolkit.Dependency attribute)</a>
+</li>
       <li><a href="api/supplychain/advisories.html#ghastoolkit.Advisory.load">load() (ghastoolkit.Advisory static method)</a>
 
       <ul>
@@ -504,13 +542,15 @@
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/supplychain/dependency.html#ghastoolkit.Dependency.manager">manager (ghastoolkit.Dependency attribute)</a>
+</li>
       <li><a href="api/codeql/results.html#ghastoolkit.CodeResult.message">message (ghastoolkit.CodeResult attribute)</a>
 </li>
       <li>
     module
 
       <ul>
-        <li><a href="api/codeql/codeql-cli.html#module-ghastoolkit">ghastoolkit</a>, <a href="api/codeql/databases.html#module-0">[1]</a>, <a href="api/codeql/databases.html#module-ghastoolkit">[2]</a>, <a href="api/codeql/packs.html#module-0">[3]</a>, <a href="api/codeql/packs.html#module-ghastoolkit">[4]</a>, <a href="api/codeql/results.html#module-0">[5]</a>, <a href="api/codeql/results.html#module-1">[6]</a>, <a href="api/codeql/results.html#module-ghastoolkit">[7]</a>, <a href="api/octokit/codescanning.html#module-0">[8]</a>, <a href="api/octokit/codescanning.html#module-ghastoolkit">[9]</a>, <a href="api/octokit/github.html#module-ghastoolkit">[10]</a>, <a href="api/octokit/octokit.html#module-0">[11]</a>, <a href="api/octokit/octokit.html#module-ghastoolkit">[12]</a>, <a href="api/octokit/repository.html#module-ghastoolkit">[13]</a>, <a href="api/octokit/secretscanning.html#module-0">[14]</a>, <a href="api/octokit/secretscanning.html#module-ghastoolkit">[15]</a>, <a href="api/octokit/security-advisories.html#module-ghastoolkit">[16]</a>, <a href="api/octokit/supplychain.html#module-0">[17]</a>, <a href="api/octokit/supplychain.html#module-ghastoolkit">[18]</a>, <a href="api/supplychain/advisories.html#module-0">[19]</a>, <a href="api/supplychain/advisories.html#module-ghastoolkit">[20]</a>
+        <li><a href="api/codeql/codeql-cli.html#module-ghastoolkit">ghastoolkit</a>, <a href="api/codeql/databases.html#module-0">[1]</a>, <a href="api/codeql/databases.html#module-ghastoolkit">[2]</a>, <a href="api/codeql/packs.html#module-0">[3]</a>, <a href="api/codeql/packs.html#module-ghastoolkit">[4]</a>, <a href="api/codeql/results.html#module-0">[5]</a>, <a href="api/codeql/results.html#module-1">[6]</a>, <a href="api/codeql/results.html#module-ghastoolkit">[7]</a>, <a href="api/octokit/codescanning.html#module-0">[8]</a>, <a href="api/octokit/codescanning.html#module-ghastoolkit">[9]</a>, <a href="api/octokit/github.html#module-ghastoolkit">[10]</a>, <a href="api/octokit/octokit.html#module-0">[11]</a>, <a href="api/octokit/octokit.html#module-ghastoolkit">[12]</a>, <a href="api/octokit/repository.html#module-ghastoolkit">[13]</a>, <a href="api/octokit/secretscanning.html#module-0">[14]</a>, <a href="api/octokit/secretscanning.html#module-ghastoolkit">[15]</a>, <a href="api/octokit/security-advisories.html#module-ghastoolkit">[16]</a>, <a href="api/octokit/supplychain.html#module-0">[17]</a>, <a href="api/octokit/supplychain.html#module-ghastoolkit">[18]</a>, <a href="api/supplychain/advisories.html#module-0">[19]</a>, <a href="api/supplychain/advisories.html#module-ghastoolkit">[20]</a>, <a href="api/supplychain/dependencies.html#module-ghastoolkit">[21]</a>, <a href="api/supplychain/dependency.html#module-ghastoolkit">[22]</a>
 </li>
         <li><a href="api/octokit/octokit.html#module-ghastoolkit.octokit.octokit">ghastoolkit.octokit.octokit</a>
 </li>
@@ -524,9 +564,15 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/codeql/databases.html#ghastoolkit.CodeQLDatabase.name">name (ghastoolkit.CodeQLDatabase attribute)</a>
+
+      <ul>
+        <li><a href="api/supplychain/dependency.html#ghastoolkit.Dependency.name">(ghastoolkit.Dependency attribute)</a>
 </li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/supplychain/dependency.html#ghastoolkit.Dependency.namespace">namespace (ghastoolkit.Dependency attribute)</a>
+</li>
       <li><a href="api/octokit/codescanning.html#ghastoolkit.CodeAlert.number">number (ghastoolkit.CodeAlert attribute)</a>
 
       <ul>
@@ -560,7 +606,11 @@
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/codeql/databases.html#ghastoolkit.CodeQLDatabase.path">path (ghastoolkit.CodeQLDatabase attribute)</a>
+
+      <ul>
+        <li><a href="api/supplychain/dependency.html#ghastoolkit.Dependency.path">(ghastoolkit.Dependency attribute)</a>
 </li>
+      </ul></li>
       <li><a href="api/codeql/databases.html#ghastoolkit.CodeQLDatabase.path_download">path_download (ghastoolkit.CodeQLDatabase attribute)</a>
 </li>
       <li><a href="api/codeql/packs.html#ghastoolkit.CodeQLPack.publish">publish() (ghastoolkit.CodeQLPack method)</a>
@@ -572,6 +622,10 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/codeql/packs.html#ghastoolkit.CodeQLPack.qlpack">qlpack (ghastoolkit.CodeQLPack property)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/supplychain/dependency.html#ghastoolkit.Dependency.qualifiers">qualifiers (ghastoolkit.Dependency attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -691,12 +745,16 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/octokit/security-advisories.html#ghastoolkit.SecurityAdvisories.updateAdvisory">updateAdvisory() (ghastoolkit.SecurityAdvisories method)</a>
 </li>
-      <li><a href="api/codeql/packs.html#ghastoolkit.CodeQLPack.updatePack">updatePack() (ghastoolkit.CodeQLPack method)</a>
+      <li><a href="api/supplychain/dependencies.html#ghastoolkit.Dependencies.updateDependencies">updateDependencies() (ghastoolkit.Dependencies method)</a>
 </li>
-      <li><a href="api/octokit/repository.html#ghastoolkit.Repository.updatePullRequestComment">updatePullRequestComment() (ghastoolkit.Repository method)</a>
+      <li><a href="api/supplychain/dependencies.html#ghastoolkit.Dependencies.updateDependency">updateDependency() (ghastoolkit.Dependencies method)</a>
+</li>
+      <li><a href="api/codeql/packs.html#ghastoolkit.CodeQLPack.updatePack">updatePack() (ghastoolkit.CodeQLPack method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/octokit/repository.html#ghastoolkit.Repository.updatePullRequestComment">updatePullRequestComment() (ghastoolkit.Repository method)</a>
+</li>
       <li><a href="api/codeql/packs.html#ghastoolkit.CodeQLPack.updateVersion">updateVersion() (ghastoolkit.CodeQLPack method)</a>
 </li>
       <li><a href="api/codeql/results.html#ghastoolkit.CodeLocation.uri">uri (ghastoolkit.CodeLocation attribute)</a>
@@ -714,7 +772,11 @@
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/codeql/codeql-cli.html#ghastoolkit.CodeQL.version">version (ghastoolkit.CodeQL property)</a>
+
+      <ul>
+        <li><a href="api/supplychain/dependency.html#ghastoolkit.Dependency.version">(ghastoolkit.Dependency attribute)</a>
 </li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
