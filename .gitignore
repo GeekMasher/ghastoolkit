@@ -1,6 +1,6 @@
 
 public/
-
+test.py
 *.spdx
 
 # Byte-compiled / optimized / DLL files

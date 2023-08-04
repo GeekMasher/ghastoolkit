@@ -24,6 +24,7 @@ publish = "python -m twine upload dist/*"
 clean = "rm -r ./src/ghastoolkit.egg-info/ && rm -r ./dist"
 # tests
 test = "python -m unittest discover -v -s ./tests -p 'test_*.py'"
+# examples = "eval 'set -e; for f in examples/*.py; do; python $f; done'"
 # formatting
 fmt = "black ./src/ghastoolkit"
 lint = "black --check ./src/ghastoolkit"
