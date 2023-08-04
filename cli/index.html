@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>API Reference &#8212; GHAS Toolkit 0.7.4 documentation</title>
+    <title>GHASToolkit CLI &#8212; GHAS Toolkit 0.7.4 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b76e3c8a" />
     <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=039e1c02" />
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=2076355f"></script>
@@ -13,8 +13,8 @@
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Octokit" href="octokit/index.html" />
-    <link rel="prev" title="Welcome to GHASToolkit!" href="../index.html" />
+    <link rel="next" title="Supply Chain CLI" href="supplychain.html" />
+    <link rel="prev" title="Advisories" href="../api/supplychain/advisories.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -31,30 +31,15 @@
 
           <div class="body" role="main">
             
-  <section id="api-reference">
-<span id="api"></span><h1>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this heading">¶</a></h1>
-<p>This part of the documentation covers all the APIs which are part of <cite>ghastoolkit</cite>.</p>
+  <section id="ghastoolkit-cli">
+<span id="cli"></span><h1>GHASToolkit CLI<a class="headerlink" href="#ghastoolkit-cli" title="Permalink to this heading">¶</a></h1>
+<p>This is the command line interface for the GHASToolkit. It is a wrapper around
+the various tools that are part of the GHASToolkit. It is designed to allow a user
+to do various tasks without having to know the details of the underlying tools.</p>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="octokit/index.html">Octokit</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="octokit/github.html">GitHub</a></li>
-<li class="toctree-l2"><a class="reference internal" href="octokit/repository.html">GitHub Repository</a></li>
-<li class="toctree-l2"><a class="reference internal" href="octokit/codescanning.html">Code Scanning</a></li>
-<li class="toctree-l2"><a class="reference internal" href="octokit/supplychain.html">Supply Chain</a></li>
-<li class="toctree-l2"><a class="reference internal" href="octokit/secretscanning.html">Secret Scanning</a></li>
-<li class="toctree-l2"><a class="reference internal" href="octokit/security-advisories.html">Security Advisories</a></li>
-<li class="toctree-l2"><a class="reference internal" href="octokit/octokit.html">Octokit (internals)</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="codeql/index.html">CodeQL</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="codeql/codeql-cli.html">CodeQL CLI</a></li>
-<li class="toctree-l2"><a class="reference internal" href="codeql/databases.html">CodeQL Databases</a></li>
-<li class="toctree-l2"><a class="reference internal" href="codeql/packs.html">CodeQL Packs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="codeql/results.html">CodeQL Result Models</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="supplychain/index.html">Supply Chain</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="supplychain/advisories.html">Advisories</a></li>
+<li class="toctree-l1"><a class="reference internal" href="supplychain.html">Supply Chain CLI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="supplychain.html#organization-audit">Organization Audit</a></li>
 </ul>
 </li>
 </ul>
@@ -81,16 +66,14 @@
 
 
 <h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API Reference</a></li>
+</ul>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="octokit/index.html">Octokit</a></li>
-<li class="toctree-l2"><a class="reference internal" href="codeql/index.html">CodeQL</a></li>
-<li class="toctree-l2"><a class="reference internal" href="supplychain/index.html">Supply Chain</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">GHASToolkit CLI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="supplychain.html">Supply Chain CLI</a></li>
 </ul>
 </li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../cli/index.html">GHASToolkit CLI</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a></li>
@@ -100,8 +83,8 @@
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="../index.html" title="previous chapter">Welcome to GHASToolkit!</a></li>
-      <li>Next: <a href="octokit/index.html" title="next chapter">Octokit</a></li>
+      <li>Previous: <a href="../api/supplychain/advisories.html" title="previous chapter">Advisories</a></li>
+      <li>Next: <a href="supplychain.html" title="next chapter">Supply Chain CLI</a></li>
   </ul></li>
 </ul>
 </div>
@@ -135,7 +118,7 @@
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
       |
-      <a href="../_sources/api/index.rst.txt"
+      <a href="../_sources/cli/index.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 
