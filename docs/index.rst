@@ -33,5 +33,10 @@ User's Guide
 .. toctree::
    :maxdepth: 2
 
+   cli/index
+
+.. toctree::
+   :maxdepth: 2
+
    examples/index
 
