@@ -5,8 +5,10 @@ import shutil
 import tempfile
 import subprocess
 from dataclasses import dataclass
-from typing import Optional, Tuple, Union
+from typing import Dict, Optional, Tuple, Union
 from urllib.parse import urlparse
+
+from semantic_version import Version
 
 
 logger = logging.getLogger("ghastoolkit.octokit.github")
@@ -252,6 +254,7 @@ class GitHub:
     """GraphQL API URL"""
 
     enterprise: Optional[str] = None
+    server_version: Optional[Version] = None
 
     github_app: bool = False
     """GitHub App setting"""
@@ -288,6 +291,10 @@ class GitHub:
             GitHub.instance = instance
             GitHub.api_rest, GitHub.api_graphql = GitHub.parseInstance(instance)
 
+            if GitHub.isEnterpriseServer():
+                # Get the server version
+                GitHub.getMetaInformation()
+
         GitHub.enterprise = enterprise
 
         return
@@ -302,11 +309,29 @@ class GitHub:
             api = url.scheme + "://api." + url.netloc
             return (api, f"{api}/graphql")
         # GitHub Ent Server
-        api = url.scheme + "://" + url.netloc + "/api/v3"
+        api = url.scheme + "://" + url.netloc + "/api"
 
-        return (api, f"{api}/graphql")
+        return (f"{api}/v3", f"{api}/graphql")
+
+    @staticmethod
+    def isEnterpriseServer() -> bool:
+        """Is the GitHub instance an Enterprise Server."""
+        return GitHub.instance != "https://github.com"
 
     @staticmethod
     def display() -> str:
         """Display the GitHub Settings."""
         return f"GitHub('{GitHub.repository.display()}', '{GitHub.instance}')"
+
+    @staticmethod
+    def getMetaInformation() -> Dict:
+        """Get the GitHub Meta Information."""
+        from ghastoolkit.octokit.octokit import RestRequest
+
+        response = RestRequest().session.get(f"{GitHub.api_rest}/meta")
+
+        if response.headers.get("X-GitHub-Enterprise-Version"):
+            version = response.headers.get("X-GitHub-Enterprise-Version")
+            GitHub.server_version = Version(version)
+
+        return response.json()
