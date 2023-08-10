@@ -3,6 +3,8 @@ import logging
 from typing import Any, Dict
 import urllib.parse
 
+from semantic_version import Version
+
 from ghastoolkit.octokit.github import GitHub, Repository
 from ghastoolkit.supplychain.advisories import Advisory
 from ghastoolkit.supplychain.dependencyalert import DependencyAlert
@@ -53,7 +55,24 @@ class DependencyGraph:
 
     def getDependencies(self) -> Dependencies:
         """Get Dependencies."""
-        deps = self.getDependenciesSbom()
+        if GitHub.isEnterpriseServer():
+            if not self.enable_clearlydefined:
+                logger.warning(
+                    "Enterprise Server does not support licensing information"
+                )
+            # enterprise: 3.8+ use SBOM API
+            if GitHub.server_version >= Version("3.9.0"):
+                logger.info("Using SBOM API to resolve dependencies (GHES 3.9+)")
+                deps = self.getDependenciesSbom()
+            # enterprise: 3.7+ use GraphQL API
+            elif GitHub.server_version >= Version("3.6.0"):
+                logger.warning("Using GraphQL API to resolve dependencies (GHES 3.6+)")
+                deps = self.getDependenciesGraphQL()
+            else:
+                raise Exception("Enterprise Server version must be >= 3.6.0")
+        else:
+            # cloud: download SBOM
+            deps = self.getDependenciesSbom()
 
         if self.enable_graphql:
             logger.debug("Enabled GraphQL Dependencies")
@@ -62,7 +81,7 @@ class DependencyGraph:
             deps.updateDependencies(graph_deps)
 
         if self.enable_clearlydefined:
-            logger.debug("Applying ClearlyDefined on dependencies")
+            logger.info("Using ClearlyDefined API to resolve dependency licenses")
             deps.applyClearlyDefined()
         return deps
 
@@ -141,6 +160,10 @@ class DependencyGraph:
 
     def getDependenciesInPR(self, base: str, head: str) -> Dependencies:
         """Get all the dependencies from a Pull Request."""
+
+        if GitHub.isEnterpriseServer() and GitHub.server_version < Version("3.6.0"):
+            raise Exception("Enterprise Server version must be >= 3.6")
+
         dependencies = Dependencies()
         base = urllib.parse.quote(base, safe="")
         head = urllib.parse.quote(head, safe="")
