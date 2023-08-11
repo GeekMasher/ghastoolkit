@@ -8,14 +8,14 @@ from ghastoolkit.utils.cli import CommandLine
 class CodeQLCommandLine(CommandLine):
     """CodeQL CLI."""
 
-    def set_modes(self):
-        self.modes.extend(["init", "analyze", "update"])
-
     def arguments(self):
         """CodeQL arguments."""
-        parser = self.parser.add_argument_group("codeql")
-        parser.add_argument("-b", "--binary")
-        parser.add_argument("-c", "--command", type=str)
+        if self.subparser:
+            self.addModes(["init", "analyze", "update"])
+
+            parser = self.parser.add_argument_group("codeql")
+            parser.add_argument("-b", "--binary")
+            parser.add_argument("-c", "--command", type=str)
 
     def run(self, arguments: Namespace):
         codeql = CodeQL()

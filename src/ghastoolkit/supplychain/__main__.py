@@ -15,7 +15,7 @@ def runDefault(arguments):
     print(f"Total Dependencies :: {len(packages)}")
 
     info = bom.get("sbom", {}).get("creationInfo", {})
-    print(f"Created :: {info.get('created')}")
+    print(f"SBOM Created :: {info.get('created')}")
 
     print("\nTools:")
     for tool in info.get("creators", []):
@@ -61,7 +61,11 @@ class SupplyChainCLI(CommandLine):
     def arguments(self):
         """CLI for Supply Chain Toolkit."""
         parser = self.parser.add_argument_group("supplychain")
-        parser.add_argument("--licenses", default="GPL-*,AGPL-*,LGPL-*")
+        parser.add_argument(
+            "--licenses",
+            default="GPL-*,AGPL-*,LGPL-*",
+            help="License(s) to check for (default: 'GPL-*,AGPL-*,LGPL-*')",
+        )
 
     def run(self, arguments: Namespace):
         """Run Supply Chain Toolkit."""

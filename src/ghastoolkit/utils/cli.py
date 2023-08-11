@@ -15,13 +15,24 @@ class CommandLine:
     ) -> None:
         """Initialize CommandLine."""
         self.parser = parser or ArgumentParser(name or "ghastoolkit")
+        self.subparser: bool = parser is None
+
         if not parser:
             self.default()
 
+        self.modes = set()
+        self.modes.add("default")
+
         self.arguments()
 
-        self.modes = ["default"]
-        self.set_modes()
+        if not parser:
+            self.parser.add_argument(
+                "mode",
+                const="default",
+                nargs="?",
+                default="default",
+                choices=list(self.modes),
+            )
 
         if default_logger:
             self.default_logger()
@@ -65,9 +76,9 @@ class CommandLine:
             "--ref", default=os.environ.get("GITHUB_REF"), help="Commit ref"
         )
 
-    def set_modes(self):
+    def addModes(self, modes: list[str]):
         """Set modes."""
-        return []
+        self.modes.update(modes)
 
     def arguments(self):
         """Set custom arguments."""
@@ -89,9 +100,6 @@ class CommandLine:
 
     def parse_args(self) -> Namespace:
         """Parse arguments."""
-        self.parser.add_argument(
-            "mode", const="default", nargs="?", default="default", choices=self.modes
-        )
         arguments = self.parser.parse_args()
         # GitHub Init
         GitHub.init(
