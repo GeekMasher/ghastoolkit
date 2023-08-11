@@ -39,9 +39,9 @@ class MainCli(CommandLine):
 
         # GitHub Init
         GitHub.init(
-            repository=arguments.github_repository,
-            instance=arguments.github_instance,
-            token=arguments.github_token,
+            repository=arguments.repository,
+            instance=arguments.instance,
+            token=arguments.token,
         )
 
         if not GitHub.repository:
@@ -53,5 +53,4 @@ if __name__ == "__main__":
     # Arguments
     parser = MainCli(name)
 
-    arguments = parser.parse_args()
-    parser.run(arguments)
+    parser.run(parser.parse_args())
