@@ -12,14 +12,14 @@ def runDefault(arguments):
     bom = depgraph.exportBOM()
     packages = bom.get("sbom", {}).get("packages", [])
 
-    print(f"Total Dependencies :: {len(packages)}")
+    logging.info(f"Total Dependencies :: {len(packages)}")
 
     info = bom.get("sbom", {}).get("creationInfo", {})
-    print(f"SBOM Created :: {info.get('created')}")
+    logging.info(f"SBOM Created :: {info.get('created')}")
 
-    print("\nTools:")
+    logging.info("\nTools:")
     for tool in info.get("creators", []):
-        print(f" - {tool}")
+        logging.info(f" - {tool}")
 
 
 def runOrgAudit(arguments):
