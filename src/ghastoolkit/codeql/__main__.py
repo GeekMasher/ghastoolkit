@@ -1,30 +1,33 @@
-import os
+"""CodeQL CLI for ghastoolkit."""
 import logging
-import argparse
+from argparse import Namespace
 from ghastoolkit.codeql.cli import CodeQL
-
-parser = argparse.ArgumentParser("ghastoolkit-codeql")
-parser.add_argument("--debug", action="store_true")
-
-parser_codeql = parser.add_argument_group("codeql")
-parser.add_argument("mode", choices=["", "init", "analyze", "update"])
-parser_codeql.add_argument("-b", "--binary")
-parser_codeql.add_argument("-c", "--command", type=str)
+from ghastoolkit.utils.cli import CommandLine
 
 
-arguments = parser.parse_args()
+class CodeQLCommandLine(CommandLine):
+    """CodeQL CLI."""
 
-logging.basicConfig(
-    level=logging.DEBUG if arguments.debug or os.environ.get("DEBUG") else logging.INFO,
-    format="%(message)s",
-)
+    def set_modes(self):
+        self.modes.extend(["init", "analyze", "update"])
 
-codeql = CodeQL()
+    def arguments(self):
+        """CodeQL arguments."""
+        parser = self.parser.add_argument_group("codeql")
+        parser.add_argument("-b", "--binary")
+        parser.add_argument("-c", "--command", type=str)
 
-if not codeql.exists():
-    logging.error(f"Failed to find codeql on system")
-    exit(1)
+    def run(self, arguments: Namespace):
+        codeql = CodeQL()
 
-# if arguments.mode in ["", ""]
+        if not codeql.exists():
+            logging.error(f"Failed to find codeql on system")
+            exit(1)
 
-logging.info(f"Finished!")
+        logging.info(f"Found codeql on system :: '{' '.join(codeql.path_binary)}'")
+
+
+if __name__ == "__main__":
+    parser = CodeQLCommandLine("ghastoolkit-codeql")
+    parser.run(parser.parse_args())
+    logging.info(f"Finished!")

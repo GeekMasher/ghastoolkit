@@ -1,13 +1,11 @@
 """ghastoolkit main workflow."""
-import logging
-import os
 
 from argparse import Namespace
 
 from ghastoolkit import __name__ as name, __banner__, __version__
-from ghastoolkit.octokit.github import GitHub
+from ghastoolkit.codeql.__main__ import CodeQLCommandLine
 from ghastoolkit.utils.cli import CommandLine
-from ghastoolkit.supplychain.__main__ import SupplyChainCLI
+from ghastoolkit.supplychain.__main__ import SupplyChainCLI, runOrgAudit
 
 
 def header(name: str):
@@ -18,8 +16,12 @@ def header(name: str):
 
 
 class MainCli(CommandLine):
+    """Main CLI."""
+
     def arguments(self):
-        super().arguments()
+        """Adding additional parsers from submodules."""
+        SupplyChainCLI(name="supplychain", parser=self.parser)
+        CodeQLCommandLine(name="codeql", parser=self.parser)
 
     def run(self, arguments: Namespace):
         """Run main CLI."""
@@ -29,8 +31,10 @@ class MainCli(CommandLine):
 
         print(__banner__)
 
-        if not GitHub.repository:
-            raise Exception(f"GitHub Repository must be set")
+        if arguments.mode == "org-audit":
+            # supplychain
+            runOrgAudit(arguments)
+            return
 
 
 if __name__ == "__main__":

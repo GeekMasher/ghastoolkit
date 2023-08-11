@@ -10,10 +10,14 @@ class CommandLine:
     def __init__(
         self,
         name: Optional[str] = None,
+        parser: Optional[ArgumentParser] = None,
         default_logger: bool = True,
     ) -> None:
-        self.parser = ArgumentParser(name or "ghastoolkit")
-        self.default()
+        """Initialize CommandLine."""
+        self.parser = parser or ArgumentParser(name or "ghastoolkit")
+        if not parser:
+            self.default()
+
         self.arguments()
 
         self.modes = ["default"]
