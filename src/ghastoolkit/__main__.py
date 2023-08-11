@@ -6,10 +6,6 @@ from argparse import Namespace
 
 from ghastoolkit import __name__ as name, __banner__, __version__
 from ghastoolkit.octokit.github import GitHub
-from ghastoolkit.octokit.codescanning import CodeScanning
-from ghastoolkit.octokit.dependencygraph import (
-    DependencyGraph,
-)
 from ghastoolkit.utils.cli import CommandLine
 from ghastoolkit.supplychain.__main__ import SupplyChainCLI
 
@@ -25,10 +21,6 @@ class MainCli(CommandLine):
     def arguments(self):
         super().arguments()
 
-    def set_modes(self) -> list[str]:
-        super().set_modes()
-        self.modes.extend(["all", "codescanning", "dependencygraph"])
-
     def run(self, arguments: Namespace):
         """Run main CLI."""
         if arguments.version:
@@ -37,16 +29,8 @@ class MainCli(CommandLine):
 
         print(__banner__)
 
-        # GitHub Init
-        GitHub.init(
-            repository=arguments.repository,
-            instance=arguments.instance,
-            token=arguments.token,
-        )
-
         if not GitHub.repository:
             raise Exception(f"GitHub Repository must be set")
-        logging.debug(f"Mode :: {arguments.mode}")
 
 
 if __name__ == "__main__":

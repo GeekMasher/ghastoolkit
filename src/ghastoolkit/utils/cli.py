@@ -3,6 +3,8 @@ import os
 from argparse import ArgumentParser, Namespace
 from typing import Optional
 
+from ghastoolkit.octokit.github import GitHub
+
 
 class CommandLine:
     def __init__(
@@ -22,8 +24,12 @@ class CommandLine:
 
     def default(self):
         """Setup default arguments."""
-        self.parser.add_argument("--debug", action="store_true")
-        self.parser.add_argument("--version", action="store_true")
+        self.parser.add_argument(
+            "--debug", dest="debug", action="store_true", help="Enable Debugging"
+        )
+        self.parser.add_argument(
+            "--version", dest="version", action="store_true", help="Output version"
+        )
 
         github = self.parser.add_argument_group("github")
 
@@ -49,10 +55,10 @@ class CommandLine:
         )
 
         github.add_argument(
-            "-sha", default=os.environ.get("GITHUB_SHA"), help="Commit SHA"
+            "--sha", default=os.environ.get("GITHUB_SHA"), help="Commit SHA"
         )
         github.add_argument(
-            "-ref", default=os.environ.get("GITHUB_REF"), help="Commit ref"
+            "--ref", default=os.environ.get("GITHUB_REF"), help="Commit ref"
         )
 
     def set_modes(self):
@@ -82,4 +88,12 @@ class CommandLine:
         self.parser.add_argument(
             "mode", const="default", nargs="?", default="default", choices=self.modes
         )
-        return self.parser.parse_args()
+        arguments = self.parser.parse_args()
+        # GitHub Init
+        GitHub.init(
+            repository=arguments.repository,
+            instance=arguments.instance,
+            token=arguments.token,
+        )
+
+        return arguments
