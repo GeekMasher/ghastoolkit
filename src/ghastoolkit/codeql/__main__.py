@@ -6,24 +6,6 @@ from ghastoolkit.codeql.packs.pack import CodeQLPack
 from ghastoolkit.utils.cli import CommandLine
 
 
-def codeqlPackPublish(arguments: Namespace):
-    if not arguments.pack or arguments.pack == "":
-        logging.error(f"CodeQL Pack path must be provided")
-        exit(1)
-
-    pack = CodeQLPack(arguments.pack)
-    # logging.info(f"CodeQL Pack :: {pack}")
-
-    remote = pack.remote_version
-
-    if pack.version != remote:
-        logging.info("Publishing CodeQL Pack...")
-        pack.publish()
-        logging.info(f"CodeQL Pack published :: {pack}")
-    else:
-        logging.info(f"CodeQL Pack is up to date :: {pack}")
-
-
 class CodeQLCommandLine(CommandLine):
     """CodeQL CLI."""
 
