@@ -36,6 +36,12 @@ class Repository:
     clone_path: Optional[str] = None
     """Clone Path"""
 
+    repo_token: Optional[str] = None
+    """Repository Access Token"""
+
+    github_app_token: bool = False
+    """Whether the token is a GitHub App Token"""
+
     def __post_init__(self) -> None:
         if self.reference and not self.branch:
             if not self.isInPullRequest():
@@ -154,11 +160,15 @@ class Repository:
     @property
     def clone_url(self) -> str:
         """Repository clone URL."""
-        if GitHub.github_app:
-            url = urlparse(GitHub.instance)
+        url = urlparse(GitHub.instance)
+        if self.repo_token:
+            if self.github_app_token:
+                return f"{url.scheme}://x-access-token:{self.repo_token}@{url.netloc}/{self.owner}/{self.repo}"
+            else:
+                return f"{url.scheme}://{self.repo_token}@{url.netloc}/{self.owner}/{self.repo}"
+        elif GitHub.github_app:
             return f"{url.scheme}://x-access-token:{GitHub.token}@{url.netloc}/{self.owner}/{self.repo}.git"
         elif GitHub.token:
-            url = urlparse(GitHub.instance)
             return f"{url.scheme}://{GitHub.token}@{url.netloc}/{self.owner}/{self.repo}.git"
         return f"{GitHub.instance}/{self.owner}/{self.repo}.git"
 
