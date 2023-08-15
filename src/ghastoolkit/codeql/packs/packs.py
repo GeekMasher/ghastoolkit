@@ -35,7 +35,7 @@ class CodeQLPacks:
             for file in files:
                 if file == "qlpack.yml":
                     fpath = os.path.join(root, file)
-                    if ".codeql/libraries" in fpath:
+                    if ".codeql" in fpath:
                         continue
                     self.append(CodeQLPack(fpath))
 
