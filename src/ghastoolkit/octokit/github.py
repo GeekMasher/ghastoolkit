@@ -39,7 +39,7 @@ class Repository:
     repo_token: Optional[str] = None
     """Repository Access Token"""
 
-    github_app_token: bool = False
+    is_github_app_token: bool = False
     """Whether the token is a GitHub App Token"""
 
     def __post_init__(self) -> None:
@@ -162,7 +162,7 @@ class Repository:
         """Repository clone URL."""
         url = urlparse(GitHub.instance)
         if self.repo_token:
-            if self.github_app_token:
+            if self.is_github_app_token:
                 return f"{url.scheme}://x-access-token:{self.repo_token}@{url.netloc}/{self.owner}/{self.repo}"
             else:
                 return f"{url.scheme}://{self.repo_token}@{url.netloc}/{self.owner}/{self.repo}"
