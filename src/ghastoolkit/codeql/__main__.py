@@ -24,7 +24,11 @@ class CodeQLCommandLine(CommandLine):
             logging.error(f"Failed to find codeql on system")
             exit(1)
 
-        logging.info(f"Found codeql on system :: '{' '.join(codeql.path_binary)}'")
+        logging.debug(f"Found codeql on system :: '{' '.join(codeql.path_binary)}'")
+
+        if arguments.version:
+            logging.info(f"CodeQL Version :: v{codeql.version}")
+            exit(0)
 
 
 if __name__ == "__main__":
