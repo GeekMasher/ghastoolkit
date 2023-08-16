@@ -34,7 +34,7 @@ class CodeQLPacksCommandLine(CommandLine):
         parser.add_argument(
             "--packs",
             type=str,
-            default=os.getcwd(),
+            default=os.path.expanduser("~/.codeql/packages"),
             help="CodeQL Packs Path",
         )
         parser.add_argument(
@@ -50,9 +50,13 @@ class CodeQLPacksCommandLine(CommandLine):
 
         if arguments.mode == "publish":
             codeqlPackPublish(arguments)
+
         else:
-            self.parser.print_help()
-            exit(1)
+            # list packs
+            logging.info(f"Loading packs from :: {arguments.packs}")
+            packs = CodeQLPacks(arguments.packs)
+            for pack in packs:
+                logging.info(f"CodeQL Pack :: {pack}")
 
 
 if __name__ == "__main__":
