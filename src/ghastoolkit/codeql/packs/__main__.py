@@ -42,6 +42,12 @@ class CodeQLPacksCommandLine(CommandLine):
             default="patch",
             help="CodeQL Pack Version Bump",
         )
+        parser.add_argument(
+            "--suite",
+            type=str,
+            default="default",
+            help="CodeQL Pack Suite",
+        )
 
     def run(self, arguments: Optional[Namespace] = None):
         if not arguments:
@@ -63,6 +69,21 @@ class CodeQLPacksCommandLine(CommandLine):
                 logging.info(
                     f"CodeQL Pack :: {pack.name} :: {old_version} -> {pack.version}"
                 )
+
+        elif arguments.mode == "queries":
+            suite = arguments.suite or "code-scanning"
+            for pack in packs:
+                logging.info(f"CodeQL Pack :: {pack}")
+
+                if not pack.library:
+                    if suite == "default" and pack.default_suite:
+                        suite = pack.default_suite
+
+                    queries = pack.resolveQueries(suite)
+                    logging.info(f"Queries: {len(queries)}")
+                    for query in queries:
+                        logging.info(f"- {query}")
+
         else:
             # list packs
             logging.info(f"Loading packs from :: {arguments.packs}")
