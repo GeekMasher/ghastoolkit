@@ -7,12 +7,10 @@ from ghastoolkit.codeql.packs.packs import CodeQLPacks
 from ghastoolkit.utils.cli import CommandLine
 
 
-def codeqlPackPublish(arguments: Namespace):
+def codeqlPackPublish(arguments: Namespace, packs: CodeQLPacks):
     if not arguments.packs or arguments.packs == "":
         logging.error(f"CodeQL Pack path must be provided")
         exit(1)
-
-    packs = CodeQLPacks(arguments.packs)
 
     for pack in packs:
         remote = pack.remote_version
@@ -28,13 +26,14 @@ def codeqlPackPublish(arguments: Namespace):
 
 class CodeQLPacksCommandLine(CommandLine):
     def arguments(self):
-        self.addModes(["publish"])
+        self.addModes(["publish", "queries", "version"])
+        default_pack_path = os.path.expanduser("~/.codeql/packages")
 
         parser = self.parser.add_argument_group("codeql-packs")
         parser.add_argument(
             "--packs",
             type=str,
-            default=os.path.expanduser("~/.codeql/packages"),
+            default=os.environ.get("CODEQL_PACKS_PATH", default_pack_path),
             help="CodeQL Packs Path",
         )
         parser.add_argument(
@@ -48,15 +47,33 @@ class CodeQLPacksCommandLine(CommandLine):
         if not arguments:
             arguments = self.parse_args()
 
-        if arguments.mode == "publish":
-            codeqlPackPublish(arguments)
+        logging.info(f"CodeQL Packs Path :: {arguments.packs}")
+        packs = CodeQLPacks(arguments.packs)
 
+        if arguments.mode == "publish":
+            codeqlPackPublish(arguments, packs)
+
+        elif arguments.mode == "version":
+            logging.info(f"Loading packs from :: {arguments.packs}")
+
+            for pack in packs:
+                old_version = pack.version
+                pack.updateVersion(arguments.bump)
+                pack.updatePack()
+                logging.info(
+                    f"CodeQL Pack :: {pack.name} :: {old_version} -> {pack.version}"
+                )
         else:
             # list packs
             logging.info(f"Loading packs from :: {arguments.packs}")
-            packs = CodeQLPacks(arguments.packs)
             for pack in packs:
                 logging.info(f"CodeQL Pack :: {pack}")
+
+                if not pack.library:
+                    queries = pack.resolveQueries()
+                    logging.info(f"Queries: {len(queries)}")
+                    for query in queries:
+                        logging.info(f"- {query}")
 
 
 if __name__ == "__main__":
