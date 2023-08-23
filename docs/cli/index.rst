@@ -9,6 +9,8 @@ to do various tasks without having to know the details of the underlying tools.
 
 .. toctree::
    :maxdepth: 2
-   
+
+   codeql-packs
+
    supplychain 
 
