@@ -28,3 +28,6 @@ argument.
 ```bash
 python -m ghastoolkit.codeql.packs --latest
 ```
+
+Updating dependencies can work along with `version` subcommand to both update and
+bump your packs version.
