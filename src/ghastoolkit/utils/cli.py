@@ -45,6 +45,13 @@ class CommandLine:
         self.parser.add_argument(
             "--version", dest="version", action="store_true", help="Output version"
         )
+        self.parser.add_argument(
+            "--cwd",
+            "--working-directory",
+            dest="cwd",
+            default=os.getcwd(),
+            help="Working directory",
+        )
 
         github = self.parser.add_argument_group("github")
 

@@ -3,6 +3,8 @@ import os
 import logging
 from argparse import Namespace
 from typing import Optional
+
+from yaml import parse
 from ghastoolkit.codeql.packs.packs import CodeQLPacks
 from ghastoolkit.utils.cli import CommandLine
 
@@ -26,7 +28,7 @@ def codeqlPackPublish(arguments: Namespace, packs: CodeQLPacks):
 
 class CodeQLPacksCommandLine(CommandLine):
     def arguments(self):
-        self.addModes(["publish", "queries", "version"])
+        self.addModes(["publish", "queries", "compile", "version"])
         default_pack_path = os.path.expanduser("~/.codeql/packages")
 
         parser = self.parser.add_argument_group("codeql-packs")
@@ -48,6 +50,12 @@ class CodeQLPacksCommandLine(CommandLine):
             default="default",
             help="CodeQL Pack Suite",
         )
+        parser.add_argument(
+            "--latest",
+            action="store_true",
+            help="Update to latest CodeQL Pack Dependencies",
+        )
+        parser.add_argument("--warnings", action="store_true", help="Enable Warnings")
 
     def run(self, arguments: Optional[Namespace] = None):
         if not arguments:
@@ -55,6 +63,11 @@ class CodeQLPacksCommandLine(CommandLine):
 
         logging.info(f"CodeQL Packs Path :: {arguments.packs}")
         packs = CodeQLPacks(arguments.packs)
+
+        if arguments.latest:
+            logging.info("Updating CodeQL Pack Dependencies...")
+            for pack in packs:
+                pack.updateDependencies()
 
         if arguments.mode == "publish":
             codeqlPackPublish(arguments, packs)
@@ -84,17 +97,17 @@ class CodeQLPacksCommandLine(CommandLine):
                     for query in queries:
                         logging.info(f"- {query}")
 
-        else:
-            # list packs
-            logging.info(f"Loading packs from :: {arguments.packs}")
+        elif arguments.mode == "compile":
             for pack in packs:
                 logging.info(f"CodeQL Pack :: {pack}")
 
-                if not pack.library:
-                    queries = pack.resolveQueries()
-                    logging.info(f"Queries: {len(queries)}")
-                    for query in queries:
-                        logging.info(f"- {query}")
+        else:
+            logging.info("CodeQL Packs")
+            for pack in packs:
+                logging.info(f"- {pack}")
+
+                for dep in pack.dependencies:
+                    logging.info(f" |-> {dep}")
 
 
 if __name__ == "__main__":
