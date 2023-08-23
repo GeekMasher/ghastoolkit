@@ -140,6 +140,12 @@ class CodeQLPack:
         """Install Dependencies for a CodeQL Pack."""
         self.run("install", self.path, display=display)
 
+    def updateDependencies(self, version: str = "latest"):
+        for dep in self.dependencies:
+            if version == "latest":
+                dep.version = dep.remote_version
+        self.updatePack()
+
     def resolveQueries(self, suite: Optional[str] = None) -> List[str]:
         """Resolve all the queries in a Pack and return them."""
         results = []
