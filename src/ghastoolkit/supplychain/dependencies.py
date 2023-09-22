@@ -31,6 +31,11 @@ class Dependency:
     alerts: list[DependencyAlert] = field(default_factory=list)
     """Security Alerts"""
 
+    def __post_init__(self):
+        # normalize manager
+        if self.manager:
+            self.manager = self.manager.lower()
+
     def getPurl(self, version: bool = True) -> str:
         """Create a PURL from the Dependency.
 

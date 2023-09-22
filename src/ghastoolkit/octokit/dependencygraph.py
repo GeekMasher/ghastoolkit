@@ -94,20 +94,27 @@ class DependencyGraph:
             extref = False
             dep = Dependency("")
             for ref in package.get("externalRefs", []):
-                if ref.get("referenceType"):
+                if ref.get("referenceType", "") == "purl":
                     dep = Dependency.fromPurl(ref.get("referenceLocator"))
                     extref = True
+                else:
+                    logger.warning(f"Unknown external reference :: {ref}")
 
             # if get find a PURL or not
             if extref:
                 dep.license = package.get("licenseConcluded")
             else:
-                name = package.get("name", "")
+                name = package.get("name", "").lower()
                 # manager ':'
                 if ":" in name:
                     dep.manager, name = name.split(":", 1)
+
+                # HACK: Maven / NuGet
+                if dep.manager in ["maven", "nuget"]:
+                    if "." in name:
+                        dep.namespace, name = name.rsplit(".", 1)
                 # Namespace '/'
-                if "/" in package:
+                elif "/" in package:
                     dep.namespace, name = name.split("/", 1)
 
                 dep.name = name
