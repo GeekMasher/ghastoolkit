@@ -1,3 +1,4 @@
+import logging
 import os
 import json
 from typing import List, Optional
@@ -6,6 +7,8 @@ from dataclasses import dataclass, field
 from semantic_version import SimpleSpec, Version
 
 from ghastoolkit.octokit.octokit import OctoItem
+
+logger = logging.getLogger("ghastoolkit.supplychain.advisories")
 
 
 def parseVersion(data: str) -> str:
@@ -106,7 +109,9 @@ class AdvisoryAffect:
         """Check version data."""
         if not self.introduced or not self.fixed:
             return False
-        print(f"- {self.introduced} > {parseVersion(version)} < {self.fixed}")
+        logging.debug(
+            f"Check Versions :: {self.introduced} > {parseVersion(version)} < {self.fixed}"
+        )
         spec = SimpleSpec(f">={self.introduced},<{self.fixed}")
         return Version(parseVersion(version)) in spec
 
