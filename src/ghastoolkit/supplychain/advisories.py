@@ -84,8 +84,8 @@ class AdvisoryAffect:
 
         if not isinstance(dependency, Dependency):
             raise Exception(f"Unknown type provided :: {type(dependency)}")
-        # None checks
-        if not self.package_dependency or not dependency.version:
+        # Advisory package dependency
+        if not self.package_dependency:
             return False
         # manager / ecosystem
         if dependency.manager != self.ecosystem:
@@ -93,13 +93,20 @@ class AdvisoryAffect:
         # name
         if dependency.name != self.package_dependency.name:
             return False
+        # if not advisory version provided, then it's affected
+        if not self.introduced or not self.fixed:
+            return True
+
+        # no versions provided
+        if not dependency.version:
+            return False
         return self.checkVersion(dependency.version)
 
     def checkVersion(self, version: str) -> bool:
         """Check version data."""
         if not self.introduced or not self.fixed:
             return False
-        # print(f"- {self.introduced} > {parseVersion(version)} < {self.fixed}")
+        print(f"- {self.introduced} > {parseVersion(version)} < {self.fixed}")
         spec = SimpleSpec(f">={self.introduced},<{self.fixed}")
         return Version(parseVersion(version)) in spec
 
