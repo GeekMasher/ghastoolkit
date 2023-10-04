@@ -148,19 +148,27 @@ class DependencyGraph:
             for dep in node.get("dependencies", {}).get("edges", []):
                 dep = dep.get("node", {})
                 license = None
-                if dep.get("repository") and dep.get("repository", {}).get(
-                    "licenseInfo"
-                ):
-                    license = (
-                        dep.get("repository", {}).get("licenseInfo", {}).get("name")
-                    )
+                repository = None
+
+                if dep.get("repository"):
+                    if dep.get("repository", {}).get("licenseInfo"):
+                        license = (
+                            dep.get("repository", {}).get("licenseInfo", {}).get("name")
+                        )
+                    if dep.get("repository", {}).get("nameWithOwner"):
+                        repository = dep.get("repository", {}).get("nameWithOwner")
+
+                version = dep.get("requirements")
+                if version:
+                    version = version.replace("= ", "")
 
                 deps.append(
                     Dependency(
                         name=dep.get("packageName"),
                         manager=dep.get("packageManager"),
-                        version=dep.get("requirements"),
+                        version=version,
                         license=license,
+                        repository=repository,
                     )
                 )
 
