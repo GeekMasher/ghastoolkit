@@ -4,7 +4,7 @@ from datetime import datetime
 import re
 from typing import Optional, Union
 
-from ghastoolkit.octokit.github import GitHub, Repository
+from ghastoolkit.octokit.github import Repository
 from ghastoolkit.supplychain.dependencyalert import DependencyAlert
 from ghastoolkit.supplychain.licensing import NO_LICENSES, Licenses
 
@@ -32,7 +32,7 @@ class Dependency:
     alerts: list[DependencyAlert] = field(default_factory=list)
     """Security Alerts"""
 
-    repository: Optional[Union[str, GitHub]] = None
+    repository: Optional[Union[str, Repository]] = None
     """GitHub Repository for the dependency"""
 
     def __post_init__(self):
