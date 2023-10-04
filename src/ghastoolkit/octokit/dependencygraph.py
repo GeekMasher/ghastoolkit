@@ -159,6 +159,7 @@ class DependencyGraph:
                     Dependency(
                         name=dep.get("packageName"),
                         manager=dep.get("packageManager"),
+                        version=dep.get("requirements"),
                         license=license,
                     )
                 )
