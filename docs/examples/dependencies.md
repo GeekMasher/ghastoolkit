@@ -25,6 +25,20 @@ for repo, deps in dependencies.items():
 Once you have this information, you can look up dependencies usages across the
 organization or get other data from it.
 
+## Dependencies and associated repositories
+
+One of the features of the Dependency Graph is it links a Dependency with a repository.
+This has to be done via the GraphQL API but this data can help with tracking and linking repositories being used.
+
+```python
+depgraph = DependencyGraph()
+
+dependencies = depgraph.getDependenciesGraphQL()
+
+for dependency in dependencies:
+    print(f" > {dependency} :: {dependency.repository}")
+```
+
 ## Snapshots
 
 To upload a snapshot to the Dependency Graph you can use the `DependencyGraph` octokit API.
