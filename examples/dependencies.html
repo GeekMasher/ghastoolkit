@@ -5,10 +5,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Dependency Graph &#8212; GHAS Toolkit 0.8.6 documentation</title>
+    <title>Dependency Graph &#8212; GHAS Toolkit 0.8.7 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=039e1c02" />
-    <script src="../_static/documentation_options.js?v=279f42e0"></script>
+    <script src="../_static/documentation_options.js?v=83e7c6f9"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -53,6 +53,19 @@
 </div>
 <p>Once you have this information, you can look up dependencies usages across the
 organization or get other data from it.</p>
+</section>
+<section id="dependencies-and-associated-repositories">
+<h2>Dependencies and associated repositories<a class="headerlink" href="#dependencies-and-associated-repositories" title="Link to this heading">¶</a></h2>
+<p>One of the features of the Dependency Graph is it links a Dependency with a repository.
+This has to be done via the GraphQL API but this data can help with tracking and linking repositories being used.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">depgraph</span> <span class="o">=</span> <span class="n">DependencyGraph</span><span class="p">()</span>
+
+<span class="n">dependencies</span> <span class="o">=</span> <span class="n">depgraph</span><span class="o">.</span><span class="n">getDependenciesGraphQL</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">dependency</span> <span class="ow">in</span> <span class="n">dependencies</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; &gt; </span><span class="si">{</span><span class="n">dependency</span><span class="si">}</span><span class="s2"> :: </span><span class="si">{</span><span class="n">dependency</span><span class="o">.</span><span class="n">repository</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 <section id="snapshots">
 <h2>Snapshots<a class="headerlink" href="#snapshots" title="Link to this heading">¶</a></h2>
