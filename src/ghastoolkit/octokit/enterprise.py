@@ -1,8 +1,11 @@
+import logging
 from typing import List, Optional
 
 from ghastoolkit.octokit.github import GitHub
 from ghastoolkit.octokit.octokit import RestRequest
 from ghastoolkit.octokit.repository import Repository
+
+logger = logging.getLogger("ghastoolkit.octokit.enterprise")
 
 
 class Organization:
@@ -18,7 +21,7 @@ class Organization:
         repositories = []
         result = self.rest.get("/orgs/{org}/repos", params={"org": self.name})
         if not isinstance(result, list):
-            print("Error getting repositories")
+            logger.error("Error getting repositories")
             return []
 
         for repository in result:
@@ -43,7 +46,7 @@ class Enterprise:
         organizations = []
         result = self.rest.get("/organizations")
         if not isinstance(result, list):
-            print("Error getting organizations")
+            logger.error("Error getting organizations")
             return []
         for org in result:
             organizations.append(Organization(org.get("login")))
