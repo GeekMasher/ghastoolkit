@@ -16,7 +16,7 @@ class Organization:
     ) -> None:
         """Initialise Organization."""
         self.name = organization
-        self.id = identifier
+        self.identifier = identifier
 
         self.rest = RestRequest(GitHub.repository)
 
@@ -32,6 +32,36 @@ class Organization:
             repositories.append(repository.parseRepository(repository.get("full_name")))
 
         return repositories
+
+    def enableAllSecurityProduct(self) -> bool:
+        """Enable all security products."""
+        products = [
+            "advanced_security",
+            "dependency_graph",
+            "dependabot_alerts",
+            "dependabot_security_updates",
+            "code_scanning_default_setup",
+            "secret_scanning",
+            "secret_scanning_push_protection",
+        ]
+        for product in products:
+            rslt = self.enableSecurityProduct(product)
+            if not rslt:
+                return False
+
+        return True
+
+    def enableSecurityProduct(self, security_product: str) -> bool:
+        """Enable Advanced Security."""
+        url = Octokit.route(
+            f"/orgs/{self.name}/{security_product}/enable_all", GitHub.repository
+        )
+        result = self.rest.session.post(url)
+        if result.status_code != 204:
+            logger.error("Error enabling security product")
+            return False
+
+        return True
 
 
 class Enterprise:
