@@ -66,8 +66,11 @@ class GitHub:
             token = os.environ.get("GITHUB_TOKEN")
         GitHub.token = token
 
+        if not instance:
+            instance = os.environ.get("GITHUB_SERVER_URL")
+
         # instance
-        if instance:
+        if instance and instance != "":
             GitHub.instance = instance
             GitHub.api_rest, GitHub.api_graphql = GitHub.parseInstance(instance)
 

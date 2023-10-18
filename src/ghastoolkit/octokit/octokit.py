@@ -27,18 +27,22 @@ logger = logging.getLogger("ghastoolkit.octokit")
 
 
 class Octokit:
+    """Octokit base class."""
+
     @staticmethod
     def route(path: str, repository: Repository, rtype: str = "rest", **options) -> str:
-        """Generate Route string"""
+        """Generate Route string."""
         formatted_path = Octokit.formatPath(path, repository, **options)
 
         if not formatted_path.startswith("/"):
             formatted_path = "/" + formatted_path
+
         url = GitHub.api_rest if rtype == "rest" else GitHub.api_graphql
         return f"{url}{formatted_path}"
 
     @staticmethod
     def formatPath(path: str, repo: Repository, **options) -> str:
+        """Format Path."""
         formatted_path = path.format(
             owner=repo.owner, org=repo.owner, repo=repo.repo, **options
         )
