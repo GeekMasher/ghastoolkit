@@ -19,7 +19,7 @@ class Organization:
     def getRepositories(self) -> List[Repository]:
         """Get Repositories."""
         repositories = []
-        result = self.rest.get("/orgs/{org}/repos", params={"org": self.name})
+        result = self.rest.get("/orgs/{org}/repos", parameters={"org": self.name})
         if not isinstance(result, list):
             logger.error("Error getting repositories")
             return []
