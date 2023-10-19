@@ -181,7 +181,7 @@ class CodeQL:
             path,
             display=display,
         )
-        if path.endswith(".ql"):
+        if path.endswith(".ql") or path.endswith(".qls"):
             return self.getResults(database, path)
         return self.getResults(database)
 
