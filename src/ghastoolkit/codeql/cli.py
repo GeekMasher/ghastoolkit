@@ -149,6 +149,8 @@ class CodeQL:
         path: Optional[str] = None,
         cpu: Optional[int] = None,
         display: bool = False,
+        xterm_progress: str = "auto",
+        save_sarif: bool = False,
     ) -> CodeQLResults:
         """Run a CodeQL Query on a CodeQL Database.
 
@@ -173,6 +175,7 @@ class CodeQL:
         self.runCommand(
             "database",
             "run-queries",
+            f"--xterm-progress={xterm_progress}",
             "--search-path",
             self.extractor_path,
             "-j",
@@ -182,8 +185,8 @@ class CodeQL:
             display=display,
         )
         if path.endswith(".ql") or path.endswith(".qls"):
-            return self.getResults(database, path)
-        return self.getResults(database)
+            return self.getResults(database, path, save_sarif)
+        return self.getResults(database, save_sarif)
 
     def runQueryWithParameters(self, database: CodeQLDatabase, path: str, **kwargs):
         """Run a CodeQL query with parameters."""
@@ -232,7 +235,7 @@ class CodeQL:
         return []
 
     def getResults(
-        self, database: CodeQLDatabase, path: Optional[str] = None
+        self, database: CodeQLDatabase, path: Optional[str] = None, save_sarif: bool = False
     ) -> CodeQLResults:
         """Get the interpreted results from CodeQL."""
         sarif = os.path.join(tempfile.gettempdir(), "codeql-result.sarif")
@@ -253,6 +256,8 @@ class CodeQL:
         with open(sarif, "r") as handle:
             data = json.load(handle)
 
+        if save_sarif:
+            shutil.copyfile(sarif, os.path.join(database.path, f"{database.language}-results.sarif"))
         # clean up
         os.remove(sarif)
 
