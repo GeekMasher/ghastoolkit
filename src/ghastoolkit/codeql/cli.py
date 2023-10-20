@@ -235,7 +235,10 @@ class CodeQL:
         return []
 
     def getResults(
-        self, database: CodeQLDatabase, path: Optional[str] = None, save_sarif: bool = False
+        self,
+        database: CodeQLDatabase,
+        path: Optional[str] = None,
+        save_sarif: bool = False,
     ) -> CodeQLResults:
         """Get the interpreted results from CodeQL."""
         sarif = os.path.join(tempfile.gettempdir(), "codeql-result.sarif")
@@ -257,7 +260,9 @@ class CodeQL:
             data = json.load(handle)
 
         if save_sarif:
-            shutil.copyfile(sarif, os.path.join(database.path, f"{database.language}-results.sarif"))
+            shutil.copyfile(
+                sarif, os.path.join(database.path, f"{database.language}-results.sarif")
+            )
         # clean up
         os.remove(sarif)
 

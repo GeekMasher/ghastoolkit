@@ -247,8 +247,12 @@ class CodeQLDatabase:
 
         logger.debug(f" >>> {output_db}")
         # CodeQL DB is in a folder called `codeql_db` or the language name
-        lang_path = os.path.join(output_db, self.language) 
-        codeql_db_path = lang_path if os.path.exists(lang_path) else os.path.join(output_db, "codeql_db")
+        lang_path = os.path.join(output_db, self.language)
+        codeql_db_path = (
+            lang_path
+            if os.path.exists(lang_path)
+            else os.path.join(output_db, "codeql_db")
+        )
 
         if os.path.exists(codeql_db_path):
             logger.debug(f"Moving Database...")
