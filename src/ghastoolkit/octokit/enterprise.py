@@ -75,11 +75,12 @@ class Enterprise:
         self.enterprise = enterprise or GitHub.enterprise
         self.rest = RestRequest(GitHub.repository)
 
-    def getOrganizations(self) -> List[Organization]:
+    def getOrganizations(self, include_github: bool = False) -> List[Organization]:
         """Get all the Organizations in an enterprise.
 
         You will need to be authenticated as an enterprise owner to use this API.
         """
+        github_orgs = ["github", "actions"]
         organizations = []
         url = Octokit.route("/organizations", GitHub.repository)
         # pagination uses a different API versus the rest of the API
@@ -102,6 +103,8 @@ class Enterprise:
                 return []
 
             for org in result:
+                if not include_github and org.get("login") in github_orgs:
+                    continue
                 organizations.append(Organization(org.get("login"), org.get("id")))
 
             if len(result) < 100:
