@@ -259,7 +259,11 @@ class RestRequest:
         return response.json()
 
     def patchJson(
-        self, path: str, data: dict, expected: int = 200, parameters={}
+        self,
+        path: str,
+        data: dict,
+        expected: Optional[Union[int, list[int]]] = 200,
+        parameters={},
     ) -> dict:
         repo = self.repository or GitHub.repository
         if not repo:
@@ -270,13 +274,16 @@ class RestRequest:
 
         response = self.session.patch(url, json=data)
 
-        if response.status_code != expected:
-            logger.error(f"Error code from server :: {response.status_code}")
-            logger.error(f"{response.content}")
-            known_error = __OCTOKIT_ERRORS__.get(response.status_code)
-            if known_error:
-                raise Exception(known_error)
-            raise Exception("Failed to patch data")
+        if expected:
+            if (isinstance(expected, int) and response.status_code != expected) or (
+                isinstance(expected, list) and response.status_code not in expected
+            ):
+                logger.error(f"Error code from server :: {response.status_code}")
+                logger.error(f"{response.content}")
+                known_error = __OCTOKIT_ERRORS__.get(response.status_code)
+                if known_error:
+                    raise Exception(known_error)
+                raise Exception("Failed to patch data")
 
         return response.json()
 

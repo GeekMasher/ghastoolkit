@@ -29,7 +29,7 @@ class Organization:
             return []
 
         for repository in result:
-            repositories.append(repository.parseRepository(repository.get("full_name")))
+            repositories.append(Repository.parseRepository(repository.get("full_name")))
 
         return repositories
 
@@ -62,6 +62,10 @@ class Organization:
             return False
 
         return True
+
+    def __str__(self) -> str:
+        """Return string representation."""
+        return f"Organization('{self.name}')"
 
 
 class Enterprise:
@@ -109,7 +113,13 @@ class Enterprise:
 
             if len(result) < 100:
                 break
+
+            if len(organizations) == 0:
+                logger.error("Error getting last org in organizations")
+                logger.error("Only GitHub orgs might be returned")
+                break
+
             # set last org ID
-            last_org_id = organizations[-1].id
+            last_org_id = organizations[-1].identifier
 
         return organizations
