@@ -69,7 +69,7 @@ class Organization:
         """Enable Code Scanning Default Setup on all repositories in an organization.
         Assumes that advanced-security is enabled on all repositories.
 
-        - GHE clound: supported
+        - GHE cloud: supported
         - GHE server: 3.8 or lower: not supported
         - GHE server: 3.9 or 3.10: uses repo level setup (may take a while)
         - GHE server: 3.11 or above: not supported
@@ -167,7 +167,7 @@ class Enterprise:
 
         Assumes that advanced-security is enabled on all repositories.
 
-        - GHE clound: supported
+        - GHE cloud: supported
         - GHE server: 3.8 or lower: not supported
         - GHE server: 3.9 or 3.10: uses repo level setup
         - GHE server: 3.11 or above: uses default setup
