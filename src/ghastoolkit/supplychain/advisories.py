@@ -183,8 +183,8 @@ class Advisory(OctoItem):
             affected.append(AdvisoryAffect.loadAffect(affect))
 
         advisory = Advisory(
-            data.get("id", "NA"),
-            data.get("database_specific", {}).get("severity", "NA").lower(),
+            ghsa_id=data.get("id", "NA"),
+            severity=data.get("database_specific", {}).get("severity", "NA").lower(),
             aliases=data.get("aliases", []),
             summary=data.get("summary"),
             affected=affected,
@@ -228,6 +228,8 @@ class Advisories:
 
     def find(self, search: str) -> Optional[Advisory]:
         """Find by id or aliases."""
+        search = search.lower()
+
         for advisory in self.advisories:
             if advisory.ghsa_id == search:
                 return advisory

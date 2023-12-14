@@ -21,10 +21,7 @@ advisories.loadAdvisories(".")
 print(f"Total Advisories  :: {len(advisories)}")
 
 # get log4shell advisory
-log4shell: Advisory = advisories.find("GHSA-jfh8-c2jp-5v3q")
-
-print(f"Advisory({log4shell.ghsa_id}, {log4shell.severity})")
-
+log4shell: Advisory = advisories.find("ghas-jfh8-c2jp-5v3q")
 
 # load Dependency from PURL (log4j vulnerable to log4shell)
 dependency = Dependency.fromPurl("pkg:maven/org.apache.logging/log4j:log4j-core@1.12.0")
