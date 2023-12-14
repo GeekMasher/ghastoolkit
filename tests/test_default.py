@@ -11,8 +11,8 @@ class TestDefault(unittest.TestCase):
 
         alert = DependencyAlert(
             0,
+            "open",
             "high",
-            state="open",
             advisory=Advisory("0000", "high"),
             purl="pypi/ghastoolkit",
         )

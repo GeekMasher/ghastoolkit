@@ -10,10 +10,10 @@ from ghastoolkit.supplychain.advisories import Advisory
 class DependencyAlert(OctoItem):
     number: int
     """Number / Identifier"""
-    severity: str
-    """Alert Severity"""
     state: str
     """Alert State"""
+    severity: str
+    """Alert Severity"""
     advisory: Advisory
     """GitHub Security Advisory"""
 
