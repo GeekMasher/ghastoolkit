@@ -130,11 +130,30 @@ class Advisory(OctoItem):
 
     summary: Optional[str] = None
     """Summary / Description of the advisory"""
+    description: Optional[str] = None
+    """Description of the advisory"""
     url: Optional[str] = None
     """Reference URL"""
 
+    cve_id: Optional[str] = None
+    """CVE ID (if applicable)"""
     cwes: List[str] = field(default_factory=list)
     """List of CWEs"""
+    cvss: Optional[dict] = None
+    """CVSS Score"""
+    identifiers: List[dict] = field(default_factory=list)
+    """List of identifiers"""
+    references: List[dict] = field(default_factory=list)
+    """List of references"""
+
+    vulnerabilities: List[AdvisoryAffect] = field(default_factory=list)
+    """List of affected packages and versions"""
+
+    published_at: Optional[str] = None
+    """Published Timestamp"""
+    updated_at: Optional[str] = None
+    """Updated Timestamp"""
+    withdrawn_at: Optional[str] = None
 
     affected: List[AdvisoryAffect] = field(default_factory=list)
     """Affected versions"""

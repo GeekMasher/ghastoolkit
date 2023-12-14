@@ -305,6 +305,9 @@ class GraphQLRequest:
         self.queries = QUERIES
 
     def query(self, name: str, options: dict[str, Any] = {}) -> dict:
+        """Run a GraphQL query.
+        https://docs.github.com/en/enterprise-cloud@latest/graphql/overview/about-the-graphql-api
+        """
         logger.debug(f"Loading Query by Name :: {name}")
         query_content = self.queries.get(name)
 

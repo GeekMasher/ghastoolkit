@@ -6,5 +6,8 @@ GitHub.init(os.environ.get("GITHUB_REPOSITORY", "GeekMasher/ghastoolkit"))
 
 depgraph = Dependabot()
 
-alerts = depgraph.getAlerts()
+alerts = depgraph.getAlertsGraphQL()
 print(f"Total Alerts :: {len(alerts)}")
+
+for alert in alerts:
+    print(f"Alert :: {alert}")

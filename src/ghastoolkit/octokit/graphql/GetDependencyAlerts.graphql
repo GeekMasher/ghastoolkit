@@ -8,6 +8,8 @@
             }
             edges {
                 node {
+                    number
+                    state
                     createdAt
                     dismissReason
                     securityVulnerability {
