@@ -175,6 +175,7 @@ class Advisory(OctoItem):
     @staticmethod
     def loadJson(path: str) -> "Advisory":
         """Load Advisory from JSON file."""
+        logger.debug(f"Loading Advisory :: {path}")
         with open(path, "r") as handle:
             data = json.load(handle)
 
@@ -183,7 +184,7 @@ class Advisory(OctoItem):
             affected.append(AdvisoryAffect.loadAffect(affect))
 
         advisory = Advisory(
-            ghsa_id=data.get("id", "NA"),
+            ghsa_id=data.get("id", data.get("ghas_id", "NA")),
             severity=data.get("database_specific", {}).get("severity", "NA").lower(),
             aliases=data.get("aliases", []),
             summary=data.get("summary"),
@@ -229,6 +230,7 @@ class Advisories:
     def find(self, search: str) -> Optional[Advisory]:
         """Find by id or aliases."""
         search = search.lower()
+        logging.debug(f"Searching for advisory :: {search}")
 
         for advisory in self.advisories:
             if advisory.ghsa_id == search:
