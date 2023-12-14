@@ -9,7 +9,15 @@ class TestDefault(unittest.TestCase):
         deps = Dependencies()
         dep = Dependency("ghastoolkit")
 
-        alert = DependencyAlert("high", Advisory("0000", "high"), "pypi/ghastoolkit")
+        alert = DependencyAlert(
+            0,
+            "open",
+            "high",
+            advisory=Advisory("0000", "high"),
+            purl="pypi/ghastoolkit",
+        )
+
+        advisory = Advisory("ghas-0000-0000", "high")
 
     def test_codescanning(self):
         cs = CodeScanning()

@@ -16,15 +16,18 @@ security_advisories = SecurityAdvisories()
 advisories: Advisories = security_advisories.getAdvisories()
 print(f"Remote Advisories :: {len(advisories)}")
 # load local (json) advisories
-advisories.loadAdvisories(".")
+advisories.loadAdvisories("./examples")
 
 print(f"Total Advisories  :: {len(advisories)}")
 
+for a in advisories.advisories:
+    print(f"Advisory :: {a.ghsa_id} ({a.summary})")
+
 # get log4shell advisory
-log4shell: Advisory = advisories.find("GHSA-jfh8-c2jp-5v3q")
+log4shell: Advisory = advisories.find("ghas-jfh8-c2jp-5v3q")
 
-print(f"Advisory({log4shell.ghsa_id}, {log4shell.severity})")
-
+if log4shell:
+    print(f"Advisory :: {log4shell.ghsa_id} ({log4shell.summary})")
 
 # load Dependency from PURL (log4j vulnerable to log4shell)
 dependency = Dependency.fromPurl("pkg:maven/org.apache.logging/log4j:log4j-core@1.12.0")

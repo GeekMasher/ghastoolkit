@@ -71,7 +71,7 @@ jobs:
 
     - name: Run Examples
       env:
-        GITHUB_TOKEN: "${{ github.token }}"
+        GITHUB_TOKEN: "${{ secrets.GHASTOOLKIT_PAT }}"
       run: |
         set -e
         export PYTHONPATH=$PWD/src
