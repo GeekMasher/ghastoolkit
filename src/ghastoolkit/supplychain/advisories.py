@@ -146,9 +146,6 @@ class Advisory(OctoItem):
     references: List[dict] = field(default_factory=list)
     """List of references"""
 
-    vulnerabilities: List[AdvisoryAffect] = field(default_factory=list)
-    """List of affected packages and versions"""
-
     published_at: Optional[str] = None
     """Published Timestamp"""
     updated_at: Optional[str] = None
@@ -157,6 +154,11 @@ class Advisory(OctoItem):
 
     affected: List[AdvisoryAffect] = field(default_factory=list)
     """Affected versions"""
+
+    def __post_init__(self):
+        """Post Init."""
+        self.ghsa_id = self.ghsa_id.lower()
+        self.severity = self.severity.lower()
 
     @staticmethod
     def load(path: str) -> "Advisory":

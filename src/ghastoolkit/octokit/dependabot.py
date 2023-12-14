@@ -74,6 +74,11 @@ class Dependabot:
         if isinstance(results, list):
             retval = []
             for alert in results:
+                advisory_data = alert.get("security_advisory", {})
+                # Fix issues between GraphQL and Advisory class
+                advisory_data["affected"] = advisory_data.pop("vulnerabilities")
+                advisory = Advisory(**advisory_data)
+
                 retval.append(
                     DependencyAlert(
                         number=alert.get("number"),
@@ -81,7 +86,7 @@ class Dependabot:
                         severity=alert.get("security_advisory", {}).get(
                             "severity", "unknown"
                         ),
-                        advisory=Advisory(**alert.get("security_advisory", {})),
+                        advisory=advisory,
                         purl=alert.get("package", {}).get("purl"),
                     )
                 )
