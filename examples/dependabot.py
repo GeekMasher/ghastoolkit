@@ -4,8 +4,6 @@ from ghastoolkit import Dependabot, GitHub
 
 GitHub.init(
     os.environ.get("GITHUB_REPOSITORY", "GeekMasher/ghastoolkit"),
-    # using a PAT
-    token=os.environ.get("GHASTOOLKIT_PAT"),
 )
 
 depgraph = Dependabot()

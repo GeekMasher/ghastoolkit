@@ -79,6 +79,8 @@ class Dependabot:
                 advisory_data["affected"] = advisory_data.pop("vulnerabilities")
                 advisory = Advisory(**advisory_data)
 
+                package = alert.get("dependency", {}).get("package", {})
+
                 retval.append(
                     DependencyAlert(
                         number=alert.get("number"),
@@ -87,7 +89,7 @@ class Dependabot:
                             "severity", "unknown"
                         ),
                         advisory=advisory,
-                        purl=alert.get("package", {}).get("purl"),
+                        purl=f"pkg:{package.get('ecosystem')}/{package.get('name')}".lower(),
                     )
                 )
 
