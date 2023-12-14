@@ -37,8 +37,14 @@
 <span id="advisory"></span><h2>Advisory<a class="headerlink" href="#module-ghastoolkit" title="Link to this heading">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="ghastoolkit.Advisory">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ghastoolkit.</span></span><span class="sig-name descname"><span class="pre">Advisory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ghsa_id:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">severity:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aliases:</span> <span class="pre">~typing.List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">summary:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cwes:</span> <span class="pre">~typing.List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">affected:</span> <span class="pre">~typing.List[~ghastoolkit.supplychain.advisories.AdvisoryAffect]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ghastoolkit.Advisory" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ghastoolkit.</span></span><span class="sig-name descname"><span class="pre">Advisory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ghsa_id:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">severity:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aliases:</span> <span class="pre">~typing.List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">summary:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cve_id:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cwes:</span> <span class="pre">~typing.List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cvss:</span> <span class="pre">dict</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">identifiers:</span> <span class="pre">~typing.List[dict]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">references:</span> <span class="pre">~typing.List[dict]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">published_at:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updated_at:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">withdrawn_at:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">affected:</span> <span class="pre">~typing.List[~ghastoolkit.supplychain.advisories.AdvisoryAffect]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ghastoolkit.Advisory" title="Link to this definition">¶</a></dt>
 <dd><p>GitHub Advisory.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.Advisory.__post_init__">
+<span class="sig-name descname"><span class="pre">__post_init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ghastoolkit.Advisory.__post_init__" title="Link to this definition">¶</a></dt>
+<dd><p>Post Init.</p>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ghastoolkit.Advisory.affected">
 <span class="sig-name descname"><span class="pre">affected</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#ghastoolkit.supplychain.advisories.AdvisoryAffect" title="ghastoolkit.supplychain.advisories.AdvisoryAffect"><span class="pre">AdvisoryAffect</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#ghastoolkit.Advisory.affected" title="Link to this definition">¶</a></dt>
@@ -58,15 +64,39 @@
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="ghastoolkit.Advisory.cve_id">
+<span class="sig-name descname"><span class="pre">cve_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ghastoolkit.Advisory.cve_id" title="Link to this definition">¶</a></dt>
+<dd><p>CVE ID (if applicable)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ghastoolkit.Advisory.cvss">
+<span class="sig-name descname"><span class="pre">cvss</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ghastoolkit.Advisory.cvss" title="Link to this definition">¶</a></dt>
+<dd><p>CVSS Score</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="ghastoolkit.Advisory.cwes">
 <span class="sig-name descname"><span class="pre">cwes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#ghastoolkit.Advisory.cwes" title="Link to this definition">¶</a></dt>
 <dd><p>List of CWEs</p>
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="ghastoolkit.Advisory.description">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ghastoolkit.Advisory.description" title="Link to this definition">¶</a></dt>
+<dd><p>Description of the advisory</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="ghastoolkit.Advisory.ghsa_id">
 <span class="sig-name descname"><span class="pre">ghsa_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#ghastoolkit.Advisory.ghsa_id" title="Link to this definition">¶</a></dt>
 <dd><p>GitHub Security Advisory Identifier</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ghastoolkit.Advisory.identifiers">
+<span class="sig-name descname"><span class="pre">identifiers</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#ghastoolkit.Advisory.identifiers" title="Link to this definition">¶</a></dt>
+<dd><p>List of identifiers</p>
 </dd></dl>
 
 <dl class="py method">
@@ -82,6 +112,18 @@
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="ghastoolkit.Advisory.published_at">
+<span class="sig-name descname"><span class="pre">published_at</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ghastoolkit.Advisory.published_at" title="Link to this definition">¶</a></dt>
+<dd><p>Published Timestamp</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ghastoolkit.Advisory.references">
+<span class="sig-name descname"><span class="pre">references</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#ghastoolkit.Advisory.references" title="Link to this definition">¶</a></dt>
+<dd><p>List of references</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="ghastoolkit.Advisory.severity">
 <span class="sig-name descname"><span class="pre">severity</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#ghastoolkit.Advisory.severity" title="Link to this definition">¶</a></dt>
 <dd><p>Severity level</p>
@@ -91,6 +133,12 @@
 <dt class="sig sig-object py" id="ghastoolkit.Advisory.summary">
 <span class="sig-name descname"><span class="pre">summary</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ghastoolkit.Advisory.summary" title="Link to this definition">¶</a></dt>
 <dd><p>Summary / Description of the advisory</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ghastoolkit.Advisory.updated_at">
+<span class="sig-name descname"><span class="pre">updated_at</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ghastoolkit.Advisory.updated_at" title="Link to this definition">¶</a></dt>
+<dd><p>Updated Timestamp</p>
 </dd></dl>
 
 <dl class="py attribute">
