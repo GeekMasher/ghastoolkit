@@ -160,6 +160,15 @@ class Advisory(OctoItem):
         self.ghsa_id = self.ghsa_id.lower()
         self.severity = self.severity.lower()
 
+        # cwes checking and processing
+        cwes = []
+        for cwe in self.cwes:
+            if isinstance(cwe, dict):
+                cwes.append(cwe.get("cwe_id"))
+            else:
+                cwes.append(cwe)
+        self.cwes = cwes
+
     @staticmethod
     def load(path: str) -> "Advisory":
         """Load Advisory from path using GitHub Advisory Spec."""
