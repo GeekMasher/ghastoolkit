@@ -175,7 +175,7 @@ class RestRequest:
         self,
         path: str,
         parameters: dict = {},
-        expected: int = 200,
+        expected: Optional[int] = 200,
         authenticated: bool = False,
         display_errors: bool = True,
     ) -> Union[dict, list[dict]]:
@@ -210,7 +210,7 @@ class RestRequest:
             response = self.session.get(url, params=params)
             response_json = response.json()
 
-            if response.status_code != expected:
+            if expected and response.status_code != expected:
                 if display_errors:
                     logger.error(f"Error code from server :: {response.status_code}")
                     logger.error(f"Content :: {response_json}")

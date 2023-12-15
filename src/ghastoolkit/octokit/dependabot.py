@@ -105,11 +105,14 @@ class Dependabot:
                 "GetDependencyAlerts",
                 options={"owner": self.repository.owner, "repo": self.repository.repo},
             )
-            alerts = (
-                data.get("data", {})
-                .get("repository", {})
-                .get("vulnerabilityAlerts", {})
-            )
+            repo = data.get("data", {}).get("repository", {})
+            if not repo:
+                logger.error(f"Failed to get GraphQL repository")
+                logger.error(
+                    "This could be due to a lack of permissions or access token"
+                )
+                raise Exception(f"Failed to get GraphQL repository alerts")
+            alerts = repo.get("vulnerabilityAlerts", {})
 
             for alert in alerts.get("edges", []):
                 data = alert.get("node", {})
