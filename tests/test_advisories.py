@@ -33,6 +33,13 @@ class TestAdvisories(unittest.TestCase):
         alert = self.advisories.check(dep)
         self.assertEquals(alert, [ad])
 
+    def test_advisory_cwes(self):
+        ad = Advisory("rand", "high", cwes=["CWE-1234"])
+        self.assertEquals(ad.cwes, ["CWE-1234"])
+
+        ad = Advisory("rand", "high", cwes=[{"cwe_id": "CWE-1234"}])
+        self.assertEquals(ad.cwes, ["CWE-1234"])
+
     def test_affect_check(self):
         dep = Dependency("ghastoolkit", "com.geekmasher", "0.8", "maven")
         affect = AdvisoryAffect(
