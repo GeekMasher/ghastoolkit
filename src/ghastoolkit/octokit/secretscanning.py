@@ -26,7 +26,7 @@ class SecretAlert(OctoItem):
     secret: str
     """Secret value (sensitive)"""
 
-    created_at: Optional[str] = None
+    created_at: str
     """Created Timestamp"""
     resolved_at: Optional[str] = None
     """Resolved Timestamp"""
