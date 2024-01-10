@@ -6,9 +6,13 @@ GitHub.init(
     os.environ.get("GITHUB_REPOSITORY", "GeekMasher/ghastoolkit"),
 )
 
-depgraph = Dependabot()
+dependabot = Dependabot()
 
-alerts = depgraph.getAlerts()
+if not dependabot.isEnabled():
+    print("Dependabot is not enabled")
+    exit(1)
+
+alerts = dependabot.getAlerts()
 print(f"Total Alerts :: {len(alerts)}")
 
 for alert in alerts:
