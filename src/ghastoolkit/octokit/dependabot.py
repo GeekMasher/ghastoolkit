@@ -28,9 +28,11 @@ class Dependabot:
                 "GetDependencyStatus",
                 options={"owner": self.repository.owner, "repo": self.repository.repo},
             )
-            if not data.get("hasVulnerabilityAlertsEnabled", False):
-                return False
-            return True
+            return (
+                data.get("data", {})
+                .get("repository", {})
+                .get("hasVulnerabilityAlertsEnabled", False)
+            )
         except:
             logger.debug(f"Failed to get alert count")
         return False
