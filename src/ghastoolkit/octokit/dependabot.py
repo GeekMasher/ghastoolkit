@@ -24,10 +24,12 @@ class Dependabot:
     def isEnabled(self) -> bool:
         """Is Dependabot enabled."""
         try:
-            self.graphql.query(
+            data = self.graphql.query(
                 "GetDependencyStatus",
                 options={"owner": self.repository.owner, "repo": self.repository.repo},
             )
+            if not data.get("hasVulnerabilityAlertsEnabled", False):
+                return False
             return True
         except:
             logger.debug(f"Failed to get alert count")
