@@ -1,21 +1,36 @@
 
 docs:
-  - "docs/**"
-  - "examples/**"
+- changed-files:
+  - any-glob-to-any-file:
+    - "docs/**"
+    - "examples/**"
+
+actions:
+- changed-files:
+  - any-glob-to-any-file:
+    - ".github/workflows/**"
 
 version:
-  - "pyproject.toml"
+- changed-files:
+  - any-glob-to-any-file:
+    - "pyproject.toml"
 
 codeql:
-  - "src/ghastoolkit/codeql/**"
-  - "src/ghastoolkit/octokit/codescanning.py"
+- changed-files:
+  - any-glob-to-any-file:
+    - "src/ghastoolkit/codeql/**"
+    - "src/ghastoolkit/octokit/codescanning.py"
 
 supplychain:
-  - "src/ghastoolkit/supplychain/**"
-  - "src/ghastoolkit/octokit/dependabot.py"
-  - "src/ghastoolkit/octokit/dependencygraph.py"
-  - "src/ghastoolkit/octokit/clearlydefined.py"
+- changed-files:
+  - any-glob-to-any-file:
+    - "src/ghastoolkit/supplychain/**"
+    - "src/ghastoolkit/octokit/dependabot.py"
+    - "src/ghastoolkit/octokit/dependencygraph.py"
+    - "src/ghastoolkit/octokit/clearlydefined.py"
 
 octokit:
-  - "src/ghastoolkit/octokit/**"
+- changed-files:
+  - any-glob-to-any-file:
+    - "src/ghastoolkit/octokit/**"
 
