@@ -5,6 +5,11 @@ docs:
     - "docs/**"
     - "examples/**"
 
+actions:
+- changed-files:
+  - any-glob-to-any-file:
+    - ".github/workflows/**"
+
 version:
 - changed-files:
   - any-glob-to-any-file:
