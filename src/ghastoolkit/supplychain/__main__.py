@@ -1,4 +1,5 @@
 """Supply Chain Toolkit CLI."""
+
 from argparse import Namespace
 import logging
 

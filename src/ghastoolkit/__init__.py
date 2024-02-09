@@ -1,4 +1,5 @@
 """GitHub Advanced Security Toolkit."""
+
 __name__ = "ghastoolkit"
 __title__ = "GHAS Toolkit"
 
