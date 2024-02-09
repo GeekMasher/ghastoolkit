@@ -1,4 +1,5 @@
 """Supply Chain Toolkit CLI."""
+
 from argparse import Namespace
 import logging
 
@@ -54,7 +55,7 @@ def runOrgAudit(arguments):
 
 
 class SupplyChainCLI(CommandLine):
-    def set_modes(self):
+    def addModes(self):
         """Return a list of supplychain modes."""
         self.modes.extend(["org-audit"])
 
