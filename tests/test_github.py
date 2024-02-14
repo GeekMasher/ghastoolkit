@@ -9,6 +9,7 @@ class TestGitHub(unittest.TestCase):
 
     def tearDown(self) -> None:
         # reset
+        GitHub.owner = None
         GitHub.instance = "https://github.com"
         GitHub.api_rest = "https://api.github.com"
         GitHub.api_graphql = "https://api.github.com/graphql"
@@ -42,6 +43,15 @@ class TestGitHub(unittest.TestCase):
         self.assertEqual(repo.branch, "main")
         self.assertEqual(repo.reference, "refs/heads/main")
 
+    def test_owner(self):
+        GitHub.init("MyOrg")
+        self.assertEqual(GitHub.owner, "MyOrg")
+        self.assertEqual(GitHub.getOrganization(), "MyOrg")
+
+        GitHub.init("MyOtherOrg/repo")
+        self.assertEqual(GitHub.owner, "MyOtherOrg")
+        self.assertEqual(GitHub.getOrganization(), "MyOtherOrg")
+
 
 class TestRepository(unittest.TestCase):
     def setUp(self) -> None:
@@ -49,6 +59,17 @@ class TestRepository(unittest.TestCase):
         GitHub.github_app = False
 
         return super().setUp()
+
+    def test_parse_repository(self):
+        repo = Repository.parseRepository("GeekMasher/ghastoolkit")
+        self.assertEqual(repo.owner, "GeekMasher")
+        self.assertEqual(repo.repo, "ghastoolkit")
+
+        repo = Repository.parseRepository("GeekMasher/ghastoolkit@develop")
+        self.assertEqual(repo.owner, "GeekMasher")
+        self.assertEqual(repo.repo, "ghastoolkit")
+        self.assertEqual(repo.branch, "develop")
+        self.assertEqual(repo.reference, "refs/heads/develop")
 
     def test_branch(self):
         repo = Repository("GeekMasher", "ghastoolkit", reference="refs/heads/main")
