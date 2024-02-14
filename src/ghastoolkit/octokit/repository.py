@@ -249,7 +249,9 @@ class Repository:
         path = None
 
         # validate the repository name
-        regex = re.compile(r"^[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+((:|/)[a-zA-Z0-9-_/\.]+)?(@[a-zA-Z0-9-_/]+)?$")
+        regex = re.compile(
+            r"^[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+((:|/)[a-zA-Z0-9-_/\.]+)?(@[a-zA-Z0-9-_/]+)?$"
+        )
         if not regex.match(name):
             raise SyntaxError(f"Invalid repository name: '{name}'")
 
