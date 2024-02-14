@@ -67,3 +67,6 @@ class TestDependencies(unittest.TestCase):
         self.assertEqual(urllib_dep.name, "urllib3")
         self.assertEqual(urllib_dep.license, "Apache-2")
 
+    def test_hashable(self):
+        dep = Dependency("urllib3", manager="pypi", license="MIT")
+        self.assertEqual(hash(dep), hash(dep.getPurl()))
