@@ -71,6 +71,35 @@ class TestRepository(unittest.TestCase):
         self.assertEqual(repo.branch, "develop")
         self.assertEqual(repo.reference, "refs/heads/develop")
 
+    def test_parse_repository_path(self):
+        repo = Repository.parseRepository("GeekMasher/ghastoolkit:sub/folder")
+        self.assertEqual(repo.owner, "GeekMasher")
+        self.assertEqual(repo.repo, "ghastoolkit")
+        self.assertEqual(repo.path, "sub/folder")
+
+        repo = Repository.parseRepository("GeekMasher/ghastoolkit:this/other/file.yml@develop")
+        self.assertEqual(repo.owner, "GeekMasher")
+        self.assertEqual(repo.repo, "ghastoolkit")
+        self.assertEqual(repo.path, "this/other/file.yml")
+        self.assertEqual(repo.branch, "develop")
+
+    def test_parse_repository_path_alt(self):
+        repo = Repository.parseRepository("GeekMasher/ghastoolkit/sub/folder")
+        self.assertEqual(repo.owner, "GeekMasher")
+        self.assertEqual(repo.repo, "ghastoolkit")
+        self.assertEqual(repo.path, "sub/folder")
+
+    def test_parse_repository_invalid(self):
+        # only owner
+        with self.assertRaises(SyntaxError):
+            Repository.parseRepository("GeekMasher")
+        # multiple branches
+        with self.assertRaises(SyntaxError):
+            Repository.parseRepository("GeekMasher/ghastoolkit@develop@main")
+        # invalid path separator
+        with self.assertRaises(SyntaxError):
+            Repository.parseRepository("GeekMasher/ghastoolkit\\test")
+
     def test_branch(self):
         repo = Repository("GeekMasher", "ghastoolkit", reference="refs/heads/main")
         self.assertEqual(repo.reference, "refs/heads/main")
