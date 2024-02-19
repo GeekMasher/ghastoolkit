@@ -23,7 +23,7 @@ dependencies = [
     "ratelimit==2.2.1",
     "requests==2.31.0",
     "semantic-version==2.10.0",
-    "urllib3==2.2.0",
+    "urllib3==2.2.1",
 ]
 
 [project.urls]
