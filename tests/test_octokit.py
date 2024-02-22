@@ -1,13 +1,18 @@
 from dataclasses import dataclass, is_dataclass
 import unittest
 
-from ghastoolkit.octokit.octokit import OctoItem, Octokit, GraphQLRequest, loadOctoItem
+from ghastoolkit.octokit.octokit import (
+    OctoItem,
+    Octokit,
+    GraphQLRequest,
+    loadOctoItem,
+)
 from ghastoolkit.octokit.github import GitHub
 
 
 class TestOctokit(unittest.TestCase):
     def setUp(self) -> None:
-        GitHub.init(repository="GeekMasher/ghastoolkit@main")
+        GitHub.init(repository="GeekMasher/ghastoolkit@main", token="1234567890")
         return super().setUp()
 
     def test_route(self):

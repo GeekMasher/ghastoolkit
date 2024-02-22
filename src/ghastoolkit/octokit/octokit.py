@@ -215,7 +215,6 @@ class RestRequest:
             if expected and response.status_code != expected:
                 if display_errors:
                     logger.error(f"Error code from server :: {response.status_code}")
-                    logger.error(f"Content :: {response_json}")
 
                 known_error = __OCTOKIT_ERRORS__.get(response.status_code)
                 if known_error:
