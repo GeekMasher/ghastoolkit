@@ -222,7 +222,7 @@ class RestRequest:
                     raise Exception(known_error)
 
             # Handle errors in the response
-            if isinstance(response_json, dict) and response_json.get("errors"):
+            if isinstance(response_json, dict) and response_json.get("message"):
                 # Custom error handler callback
                 if error_handler:
                     return error_handler(response.status_code, response_json)
