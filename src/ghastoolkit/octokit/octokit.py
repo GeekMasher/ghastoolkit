@@ -229,6 +229,7 @@ class RestRequest:
 
                 # Default error handling
                 logger.error(response_json.get("message"))
+                logger.error(f"Documentation Link :: {response_json.get('documentation_url', "")}")
                 raise Exception("REST Request failed :: non-expected server error")
 
             if isinstance(response_json, dict):
