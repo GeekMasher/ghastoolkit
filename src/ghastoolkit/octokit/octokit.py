@@ -227,11 +227,15 @@ class RestRequest:
                     return error_handler(response.status_code, response_json)
 
                 # Default error handling
-                logger.error(response_json.get("message"))
-                logger.error(
-                    f"Documentation Link :: {response_json.get('documentation_url', '')}"
+                message = response_json.get("message", "No message provided")
+                docs = response_json.get(
+                    "documentation_url", "No documentation link provided"
                 )
-                raise Exception("REST Request failed :: non-expected server error")
+
+                logger.error(f"Error message from server :: {message}")
+                logger.error(f"Documentation Link :: {docs}")
+
+                raise Exception(f"REST Request failed :: {message}")
 
             if isinstance(response_json, dict):
                 return response_json
