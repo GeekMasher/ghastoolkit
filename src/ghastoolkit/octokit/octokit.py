@@ -215,20 +215,22 @@ class RestRequest:
             if expected and response.status_code != expected:
                 if display_errors:
                     logger.error(f"Error code from server :: {response.status_code}")
-                    logger.error(f"Content :: {response_json}")
 
                 known_error = __OCTOKIT_ERRORS__.get(response.status_code)
                 if known_error:
                     raise Exception(known_error)
 
             # Handle errors in the response
-            if isinstance(response_json, dict) and response_json.get("errors"):
+            if isinstance(response_json, dict) and response_json.get("message"):
                 # Custom error handler callback
                 if error_handler:
                     return error_handler(response.status_code, response_json)
 
                 # Default error handling
                 logger.error(response_json.get("message"))
+                logger.error(
+                    f"Documentation Link :: {response_json.get('documentation_url', '')}"
+                )
                 raise Exception("REST Request failed :: non-expected server error")
 
             if isinstance(response_json, dict):

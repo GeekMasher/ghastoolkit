@@ -17,6 +17,7 @@ twine = "*"
 sphinx = "*"
 myst-parser = "*"
 tomli = "*"
+responses = "*"
 
 [scripts]
 main = "python -m ghastoolkit"
