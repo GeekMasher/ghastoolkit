@@ -24,6 +24,9 @@ __OCTOKIT_ERRORS__ = {401: "Authentication Issue"}
 
 # logger
 logger = logging.getLogger("ghastoolkit.octokit")
+LOGLEVEL = os.environ.get("LOGLEVEL").upper()
+if LOGLEVEL in logging.getLevelNamesMapping():
+    logging.basicConfig(level=LOGLEVEL)
 
 
 class Octokit:
@@ -267,7 +270,7 @@ class RestRequest:
             known_error = __OCTOKIT_ERRORS__.get(response.status_code)
             if known_error:
                 raise Exception(known_error)
-            raise Exception(f"Failed to post data")
+            raise Exception(f"Failed to post data :: response code {response.status_code}")
 
         return response.json()
 
@@ -325,7 +328,7 @@ class GraphQLRequest:
         query_content = self.queries.get(name)
 
         if not query_content:
-            raise Exception(f"Failed to load GraphQL query :: {name}")
+            raise Exception(f"Failed to load GraphQL query :: {name} :: response code {response.status_code}")
 
         cursor = f'after: "{self.cursor}"' if self.cursor != "" else ""
 
@@ -337,7 +340,7 @@ class GraphQLRequest:
         if response.status_code != 200:
             logger.error(f"GraphQL API Status :: {response.status_code}")
             logger.error(f"GraphQL Content :: {response.content}")
-            raise Exception(f"Failed to get data from GraphQL API")
+            raise Exception(f"Failed to get data from GraphQL API :: response code {response.status_code}")
 
         rjson = response.json()
         if rjson.get("errors"):
