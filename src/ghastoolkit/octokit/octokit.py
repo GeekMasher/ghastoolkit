@@ -270,7 +270,7 @@ class RestRequest:
             known_error = __OCTOKIT_ERRORS__.get(response.status_code)
             if known_error:
                 raise Exception(known_error)
-            raise Exception(f"Failed to post data :: response code {response.status_code}")
+            raise Exception(f"Failed to post data")
 
         return response.json()
 
@@ -328,7 +328,7 @@ class GraphQLRequest:
         query_content = self.queries.get(name)
 
         if not query_content:
-            raise Exception(f"Failed to load GraphQL query :: {name} :: response code {response.status_code}")
+            raise Exception(f"Failed to load GraphQL query :: {name}")
 
         cursor = f'after: "{self.cursor}"' if self.cursor != "" else ""
 
@@ -340,7 +340,7 @@ class GraphQLRequest:
         if response.status_code != 200:
             logger.error(f"GraphQL API Status :: {response.status_code}")
             logger.error(f"GraphQL Content :: {response.content}")
-            raise Exception(f"Failed to get data from GraphQL API :: response code {response.status_code}")
+            raise Exception(f"Failed to get data from GraphQL API")
 
         rjson = response.json()
         if rjson.get("errors"):
