@@ -25,7 +25,7 @@ __OCTOKIT_ERRORS__ = {401: "Authentication Issue"}
 # logger
 logger = logging.getLogger("ghastoolkit.octokit")
 LOGLEVEL = os.environ.get("LOGLEVEL", "INFO").upper()
-if LOGLEVEL in logging.getLevelNamesMapping():
+if isinstance(logging.getLevelName(LOGLEVEL), int):
     logging.basicConfig(level=LOGLEVEL)
 
 
