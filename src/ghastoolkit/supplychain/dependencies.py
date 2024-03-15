@@ -1,4 +1,5 @@
 import logging
+import random
 from dataclasses import dataclass, field
 from datetime import datetime
 import re
@@ -123,6 +124,12 @@ class Dependencies(list[Dependency]):
     ) -> dict:
         """Create a dependency graph submission JSON payload for GitHub."""
         resolved = {}
+        job = {
+            "correlator": tool,
+            # create random 10 digit number
+            "id": "".join([str(random.randint(0, 9)) for _ in range(10)]),
+        }
+
         for dep in self:
             name = dep.name
             purl = dep.getPurl()
@@ -132,7 +139,7 @@ class Dependencies(list[Dependency]):
             "version": 0,
             "sha": sha,
             "ref": ref,
-            "job": {"correlator": tool, "id": tool},
+            "job": job,
             "detector": {"name": tool, "version": version, "url": url},
             "scanned": datetime.now().isoformat(),
             "manifests": {
