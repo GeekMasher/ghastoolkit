@@ -33,4 +33,3 @@ lint = "black --check ./src/ghastoolkit"
 # docs
 docs = "sphinx-build -b html ./docs ./public"
 docs-check = "sphinx-build -b html ./docs ./public -W"
-#
