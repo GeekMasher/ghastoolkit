@@ -1,6 +1,6 @@
 [project]
 name = "ghastoolkit"
-version = "0.12.6"
+version = "0.12.7"
 authors = [{ name = "GeekMasher" }]
 description = "GitHub Advanced Security Python Toolkit"
 readme = "README.md"
