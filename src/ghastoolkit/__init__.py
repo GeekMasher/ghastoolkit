@@ -27,7 +27,7 @@ __banner__ = f"""\
 """
 
 
-from ghastoolkit.errors import GHASToolkitError, GHASToolkitAuthenticationError
+from ghastoolkit.errors import *
 
 # Octokit
 from ghastoolkit.octokit.github import GitHub
