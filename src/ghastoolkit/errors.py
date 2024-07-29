@@ -37,5 +37,9 @@ class GHASToolkitError(Exception):
         return msg
 
 
+class GHASToolkitTypeError(GHASToolkitError):
+    """Raised when an invalid type is passed."""
+
+
 class GHASToolkitAuthenticationError(GHASToolkitError):
     """Raised when an authentication error occurs."""
