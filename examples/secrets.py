@@ -12,8 +12,6 @@ if not secret_scanning.isEnabled():
     print("Secret Scanning is disabled :(")
     exit(1)
 
-print(f"Push Protection :: {secret_scanning.isPushProtectionEnabled()}")
-
 try:
     alerts = secret_scanning.getAlerts("open")
 except:
