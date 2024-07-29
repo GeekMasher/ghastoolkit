@@ -4,7 +4,7 @@ from dataclasses import dataclass
 import json
 import logging
 from typing import Any, List, Optional
-from ghastoolkit.errors import GHASToolkitError
+from ghastoolkit.errors import GHASToolkitError, GHASToolkitTypeError
 from ghastoolkit.octokit.github import GitHub, Repository
 from ghastoolkit.octokit.octokit import OctoItem, RestRequest, loadOctoItem
 
@@ -147,7 +147,11 @@ class CodeScanning:
         )
         if isinstance(results, list):
             return [loadOctoItem(CodeAlert, alert) for alert in results]
-        raise Exception(f"Error getting alerts from Organization")
+
+        raise GHASToolkitTypeError(
+            f"Error getting alerts from Organization",
+            docs="https://docs.github.com/en/rest/code-scanning#list-code-scanning-alerts-for-an-organization",
+        )
 
     def getDefaultConfiguration(self) -> dict:
         """Get Default Code Scanning Configuration.
@@ -161,7 +165,11 @@ class CodeScanning:
         if isinstance(result, dict):
             self.setup = result
             return self.setup
-        raise GHASToolkitError("Error getting default configuration")
+
+        raise GHASToolkitTypeError(
+            "Error getting default configuration",
+            docs="https://docs.github.com/en/rest/code-scanning/code-scanning#get-a-code-scanning-default-setup-configuration--parameters",
+        )
 
     def getAlerts(
         self,
@@ -191,7 +199,11 @@ class CodeScanning:
         )
         if isinstance(results, list):
             return [loadOctoItem(CodeAlert, alert) for alert in results]
-        raise Exception(f"Error getting alerts from Repository")
+
+        raise GHASToolkitTypeError(
+            f"Error getting alerts from Repository",
+            docs="https://docs.github.com/en/rest/code-scanning#list-code-scanning-alerts-for-a-repository",
+        )
 
     def getAlertsInPR(self, base: str) -> list[CodeAlert]:
         """Get the open alerts in a Pull Request (delta / diff).
@@ -247,7 +259,7 @@ class CodeScanning:
         )
         if isinstance(result, dict):
             return loadOctoItem(CodeAlert, result)
-        raise GHASToolkitError("Error getting alert from Repository")
+        raise GHASToolkitTypeError("Error getting alert from Repository")
 
     def getAlertInstances(
         self, alert_number: int, ref: Optional[str] = None
@@ -265,7 +277,11 @@ class CodeScanning:
         )
         if isinstance(result, list):
             return result
-        raise GHASToolkitError("Error getting alert instances from Repository")
+
+        raise GHASToolkitTypeError(
+            "Error getting alert instances from Repository",
+            docs="https://docs.github.com/en/rest/code-scanning/code-scanning#list-instances-of-a-code-scanning-alert",
+        )
 
     def getAnalyses(
         self, reference: Optional[str] = None, tool: Optional[str] = None
@@ -283,7 +299,11 @@ class CodeScanning:
         )
         if isinstance(results, list):
             return results
-        raise GHASToolkitError("Error getting analyses from Repository")
+
+        raise GHASToolkitTypeError(
+            "Error getting analyses from Repository",
+            docs="https://docs.github.com/en/enterprise-cloud@latest/rest/code-scanning#list-code-scanning-analyses-for-a-repository",
+        )
 
     def getLatestAnalyses(
         self, reference: Optional[str] = None, tool: Optional[str] = None
@@ -360,12 +380,16 @@ class CodeScanning:
         Permissions:
         - "Contents" repository permissions (read)
 
-        https://docs.github.com/en/rest/code-scanning?apiVersion=2022-11-28#list-codeql-databases-for-a-repository
+        https://docs.github.com/en/rest/code-scanning#list-codeql-databases-for-a-repository
         """
         result = self.rest.get("/repos/{owner}/{repo}/code-scanning/codeql/databases")
         if isinstance(result, list):
             return result
-        return []
+
+        raise GHASToolkitTypeError(
+            "Error getting CodeQL databases",
+            docs="https://docs.github.com/en/rest/code-scanning#list-codeql-databases-for-a-repository",
+        )
 
     def getCodeQLDatabase(self, language: str) -> dict:
         """Get a CodeQL database for a repository.
@@ -373,7 +397,7 @@ class CodeScanning:
         Permissions:
         - "Contents" repository permissions (read)
 
-        https://docs.github.com/en/rest/code-scanning?apiVersion=2022-11-28#get-a-codeql-database-for-a-repository
+        https://docs.github.com/en/rest/code-scanning#get-a-codeql-database-for-a-repository
         """
         result = self.rest.get(
             "/repos/{owner}/{repo}/code-scanning/codeql/databases/{language}",
@@ -381,7 +405,10 @@ class CodeScanning:
         )
         if isinstance(result, dict):
             return result
-        raise GHASToolkitError("Error getting CodeQL database")
+        raise GHASToolkitTypeError(
+            "Error getting CodeQL database",
+            docs="https://docs.github.com/en/rest/code-scanning#get-a-codeql-database-for-a-repository",
+        )
 
     def getPacks(self, visibility: str = "internal") -> List[dict]:
         """Get all CodeQL Packs from remote GitHub instance.
@@ -395,7 +422,7 @@ class CodeScanning:
         )
         if isinstance(result, list):
             return result
-        raise GHASToolkitError("Error getting CodeQL packs")
+        raise GHASToolkitTypeError("Error getting CodeQL packs")
 
     def getPackVersions(self, pack_name: str) -> list[dict]:
         """Get a list of all remote pack versions."""
@@ -411,7 +438,7 @@ class CodeScanning:
         )
         if isinstance(result, list):
             return result
-        return []
+        raise GHASToolkitTypeError("Error getting CodeQL pack versions")
 
     def getLatestPackVersion(self, pack_name: str) -> dict:
         """Get the current remote CodeQL pack version."""
@@ -428,7 +455,7 @@ class CodeScanning:
             f"/repos/{owner}/{repo}/releases/latest",
         )
         if not isinstance(latest_release, dict):
-            return
+            raise GHASToolkitTypeError("Error getting latest release")
         version = latest_release.get("tag_name", "0.0.0")
         logger.debug(f"Latest Releases :: {version}")
 
