@@ -126,7 +126,7 @@ information.</p>
 <dd><p>Get a CodeQL database for a repository.</p>
 <p>Permissions:
 - “Contents” repository permissions (read)</p>
-<p><a class="reference external" href="https://docs.github.com/en/rest/code-scanning?apiVersion=2022-11-28#get-a-codeql-database-for-a-repository">https://docs.github.com/en/rest/code-scanning?apiVersion=2022-11-28#get-a-codeql-database-for-a-repository</a></p>
+<p><a class="reference external" href="https://docs.github.com/en/rest/code-scanning#get-a-codeql-database-for-a-repository">https://docs.github.com/en/rest/code-scanning#get-a-codeql-database-for-a-repository</a></p>
 </dd></dl>
 
 <dl class="py method">
@@ -135,7 +135,16 @@ information.</p>
 <dd><p>List CodeQL databases for a repository.</p>
 <p>Permissions:
 - “Contents” repository permissions (read)</p>
-<p><a class="reference external" href="https://docs.github.com/en/rest/code-scanning?apiVersion=2022-11-28#list-codeql-databases-for-a-repository">https://docs.github.com/en/rest/code-scanning?apiVersion=2022-11-28#list-codeql-databases-for-a-repository</a></p>
+<p><a class="reference external" href="https://docs.github.com/en/rest/code-scanning#list-codeql-databases-for-a-repository">https://docs.github.com/en/rest/code-scanning#list-codeql-databases-for-a-repository</a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.CodeScanning.getDefaultConfiguration">
+<span class="sig-name descname"><span class="pre">getDefaultConfiguration</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#ghastoolkit.CodeScanning.getDefaultConfiguration" title="Link to this definition">¶</a></dt>
+<dd><p>Get Default Code Scanning Configuration.</p>
+<p>Permissions:
+- “Administration” repository permissions (read)</p>
+<p><a class="reference external" href="https://docs.github.com/en/rest/code-scanning/code-scanning#get-a-code-scanning-default-setup-configuration--parameters">https://docs.github.com/en/rest/code-scanning/code-scanning#get-a-code-scanning-default-setup-configuration–parameters</a></p>
 </dd></dl>
 
 <dl class="py method">
@@ -189,6 +198,15 @@ return other container images.</p>
 <p>Permissions:
 - “Code scanning alerts” repository permissions (read)</p>
 <p><a class="reference external" href="https://docs.github.com/en/rest/code-scanning/code-scanning#get-a-code-scanning-analysis-for-a-repository">https://docs.github.com/en/rest/code-scanning/code-scanning#get-a-code-scanning-analysis-for-a-repository</a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.CodeScanning.isCodeQLDefaultSetup">
+<span class="sig-name descname"><span class="pre">isCodeQLDefaultSetup</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#ghastoolkit.CodeScanning.isCodeQLDefaultSetup" title="Link to this definition">¶</a></dt>
+<dd><p>Check if Code Scanning is using the Default CodeQL Setup.</p>
+<p>Permissions:
+- “Code scanning alerts” repository permissions (read)</p>
+<p><a class="reference external" href="https://docs.github.com/en/rest/code-scanning">https://docs.github.com/en/rest/code-scanning</a></p>
 </dd></dl>
 
 <dl class="py method">
