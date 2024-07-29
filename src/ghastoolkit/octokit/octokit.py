@@ -8,6 +8,7 @@ from dataclasses import field, is_dataclass
 from requests import Session
 from ratelimit import limits, sleep_and_retry
 
+from ghastoolkit.errors import GHASToolkitAuthenticationError, GHASToolkitError
 from ghastoolkit.octokit.github import GitHub, Repository
 from ghastoolkit.octokit.graphql import QUERIES
 
@@ -19,7 +20,9 @@ REST_MAX_CALLS = 80  # ~5000 per hour
 
 __OCTOKIT_PATH__ = os.path.dirname(os.path.realpath(__file__))
 
-__OCTOKIT_ERRORS__ = {401: "Authentication Issue"}
+__OCTOKIT_ERRORS__ = {
+    401: GHASToolkitAuthenticationError("Authentication / Permission Issue")
+}
 
 
 # logger
@@ -195,7 +198,9 @@ class RestRequest:
         logger.debug(f"Fetching content from URL :: {url}")
 
         if authenticated and not self.session.headers.get("Authorization"):
-            raise Exception(f"GitHub Token required for this request")
+            raise GHASToolkitAuthenticationError(
+                "GitHub Token required for this request"
+            )
 
         result = []
         params = {}
@@ -221,7 +226,7 @@ class RestRequest:
 
                 known_error = __OCTOKIT_ERRORS__.get(response.status_code)
                 if known_error:
-                    raise Exception(known_error)
+                    raise known_error
 
             # Handle errors in the response
             if isinstance(response_json, dict) and response_json.get("message"):
@@ -238,7 +243,7 @@ class RestRequest:
                 logger.error(f"Error message from server :: {message}")
                 logger.error(f"Documentation Link :: {docs}")
 
-                raise Exception(f"REST Request failed :: {message}")
+                raise GHASToolkitError(f"REST Request failed :: {message}", docs=docs)
 
             if isinstance(response_json, dict):
                 return response_json
