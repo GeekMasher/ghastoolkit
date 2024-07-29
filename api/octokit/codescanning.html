@@ -58,18 +58,26 @@
 <dt class="sig sig-object py" id="ghastoolkit.CodeScanning.downloadSARIF">
 <span class="sig-name descname"><span class="pre">downloadSARIF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sarif_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#ghastoolkit.CodeScanning.downloadSARIF" title="Link to this definition">¶</a></dt>
 <dd><p>Get SARIF by ID (UUID).</p>
+<p>Permissions:
+- “Code scanning alerts” repository permissions (read)</p>
+<p><a class="reference external" href="https://docs.github.com/en/rest/code-scanning/code-scanning#get-a-code-scanning-analysis-for-a-repository">https://docs.github.com/en/rest/code-scanning/code-scanning#get-a-code-scanning-analysis-for-a-repository</a></p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.CodeScanning.enableDefaultSetup">
 <span class="sig-name descname"><span class="pre">enableDefaultSetup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'configured'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_suite</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'default'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">languages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ghastoolkit.CodeScanning.enableDefaultSetup" title="Link to this definition">¶</a></dt>
 <dd><p>Enable Code Scanning using Default Setup using CodeQL.</p>
+<p>Permissions:
+- “Administration” repository permissions (write)</p>
+<p><a class="reference external" href="https://docs.github.com/en/rest/code-scanning#set-up-code-scanning">https://docs.github.com/en/rest/code-scanning#set-up-code-scanning</a></p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.CodeScanning.getAlert">
 <span class="sig-name descname"><span class="pre">getAlert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alert_number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#ghastoolkit.CodeAlert" title="ghastoolkit.octokit.codescanning.CodeAlert"><span class="pre">CodeAlert</span></a></span></span><a class="headerlink" href="#ghastoolkit.CodeScanning.getAlert" title="Link to this definition">¶</a></dt>
 <dd><p>Get Single Alert information from Code Scanning.</p>
+<p>Permissions:
+- “Code scanning alerts” repository permissions (read)</p>
 <p><a class="reference external" href="https://docs.github.com/en/rest/code-scanning#get-a-code-scanning-alert">https://docs.github.com/en/rest/code-scanning#get-a-code-scanning-alert</a></p>
 </dd></dl>
 
@@ -77,12 +85,17 @@
 <dt class="sig sig-object py" id="ghastoolkit.CodeScanning.getAlertInstances">
 <span class="sig-name descname"><span class="pre">getAlertInstances</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alert_number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ghastoolkit.CodeScanning.getAlertInstances" title="Link to this definition">¶</a></dt>
 <dd><p>Get a list of alert instances.</p>
+<p>Permissions:
+- “Code scanning alerts” repository permissions (read)</p>
+<p><a class="reference external" href="https://docs.github.com/en/rest/code-scanning/code-scanning#list-instances-of-a-code-scanning-alert">https://docs.github.com/en/rest/code-scanning/code-scanning#list-instances-of-a-code-scanning-alert</a></p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.CodeScanning.getAlerts">
 <span class="sig-name descname"><span class="pre">getAlerts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'open'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tool_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">severity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#ghastoolkit.CodeAlert" title="ghastoolkit.octokit.codescanning.CodeAlert"><span class="pre">CodeAlert</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ghastoolkit.CodeScanning.getAlerts" title="Link to this definition">¶</a></dt>
 <dd><p>Get all code scanning alerts.</p>
+<p>Permissions:
+- “Code scanning alerts” repository permissions (read)</p>
 <p><a class="reference external" href="https://docs.github.com/en/rest/code-scanning#list-code-scanning-alerts-for-a-repository">https://docs.github.com/en/rest/code-scanning#list-code-scanning-alerts-for-a-repository</a></p>
 </dd></dl>
 
@@ -92,14 +105,18 @@
 <dd><p>Get the open alerts in a Pull Request (delta / diff).</p>
 <p>Note this operation is slow due to it needing to lookup each alert instance
 information.</p>
-<p>base: str - Base reference
-<a class="reference external" href="https://docs.github.com/en/rest/code-scanning#list-instances-of-a-code-scanning-alert">https://docs.github.com/en/rest/code-scanning#list-instances-of-a-code-scanning-alert</a></p>
+<p>Permissions:
+- “Code scanning alerts” repository permissions (read)
+- “Pull Requests” repository permissions (read)</p>
+<p><a class="reference external" href="https://docs.github.com/en/rest/code-scanning#list-instances-of-a-code-scanning-alert">https://docs.github.com/en/rest/code-scanning#list-instances-of-a-code-scanning-alert</a></p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.CodeScanning.getAnalyses">
 <span class="sig-name descname"><span class="pre">getAnalyses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reference</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tool</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ghastoolkit.CodeScanning.getAnalyses" title="Link to this definition">¶</a></dt>
 <dd><p>Get a list of all the analyses for a given repository.</p>
+<p>Permissions:
+- “Code scanning alerts” repository permissions (read)</p>
 <p><a class="reference external" href="https://docs.github.com/en/enterprise-cloud&#64;latest/rest/code-scanning#list-code-scanning-analyses-for-a-repository">https://docs.github.com/en/enterprise-cloud&#64;latest/rest/code-scanning#list-code-scanning-analyses-for-a-repository</a></p>
 </dd></dl>
 
@@ -107,6 +124,8 @@ information.</p>
 <dt class="sig sig-object py" id="ghastoolkit.CodeScanning.getCodeQLDatabase">
 <span class="sig-name descname"><span class="pre">getCodeQLDatabase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">language</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#ghastoolkit.CodeScanning.getCodeQLDatabase" title="Link to this definition">¶</a></dt>
 <dd><p>Get a CodeQL database for a repository.</p>
+<p>Permissions:
+- “Contents” repository permissions (read)</p>
 <p><a class="reference external" href="https://docs.github.com/en/rest/code-scanning?apiVersion=2022-11-28#get-a-codeql-database-for-a-repository">https://docs.github.com/en/rest/code-scanning?apiVersion=2022-11-28#get-a-codeql-database-for-a-repository</a></p>
 </dd></dl>
 
@@ -114,6 +133,8 @@ information.</p>
 <dt class="sig sig-object py" id="ghastoolkit.CodeScanning.getCodeQLDatabases">
 <span class="sig-name descname"><span class="pre">getCodeQLDatabases</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ghastoolkit.CodeScanning.getCodeQLDatabases" title="Link to this definition">¶</a></dt>
 <dd><p>List CodeQL databases for a repository.</p>
+<p>Permissions:
+- “Contents” repository permissions (read)</p>
 <p><a class="reference external" href="https://docs.github.com/en/rest/code-scanning?apiVersion=2022-11-28#list-codeql-databases-for-a-repository">https://docs.github.com/en/rest/code-scanning?apiVersion=2022-11-28#list-codeql-databases-for-a-repository</a></p>
 </dd></dl>
 
@@ -121,6 +142,9 @@ information.</p>
 <dt class="sig sig-object py" id="ghastoolkit.CodeScanning.getLatestAnalyses">
 <span class="sig-name descname"><span class="pre">getLatestAnalyses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reference</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tool</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ghastoolkit.CodeScanning.getLatestAnalyses" title="Link to this definition">¶</a></dt>
 <dd><p>Get Latest Analyses for every tool.</p>
+<p>Permissions:
+- “Code scanning alerts” repository permissions (read)</p>
+<p><a class="reference external" href="https://docs.github.com/en/rest/code-scanning/code-scanning#get-a-code-scanning-analysis-for-a-repository">https://docs.github.com/en/rest/code-scanning/code-scanning#get-a-code-scanning-analysis-for-a-repository</a></p>
 </dd></dl>
 
 <dl class="py method">
@@ -133,6 +157,8 @@ information.</p>
 <dt class="sig sig-object py" id="ghastoolkit.CodeScanning.getOrganizationAlerts">
 <span class="sig-name descname"><span class="pre">getOrganizationAlerts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'open'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#ghastoolkit.CodeAlert" title="ghastoolkit.octokit.codescanning.CodeAlert"><span class="pre">CodeAlert</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ghastoolkit.CodeScanning.getOrganizationAlerts" title="Link to this definition">¶</a></dt>
 <dd><p>Get list of Organization Alerts.</p>
+<p>Permissions:
+- “Code scanning alerts” repository permissions (read)</p>
 <p><a class="reference external" href="https://docs.github.com/en/rest/code-scanning#list-code-scanning-alerts-for-an-organization">https://docs.github.com/en/rest/code-scanning#list-code-scanning-alerts-for-an-organization</a></p>
 </dd></dl>
 
@@ -160,12 +186,18 @@ return other container images.</p>
 <dt class="sig sig-object py" id="ghastoolkit.CodeScanning.getTools">
 <span class="sig-name descname"><span class="pre">getTools</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reference</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#ghastoolkit.CodeScanning.getTools" title="Link to this definition">¶</a></dt>
 <dd><p>Get list of tools from the latest analyses.</p>
+<p>Permissions:
+- “Code scanning alerts” repository permissions (read)</p>
+<p><a class="reference external" href="https://docs.github.com/en/rest/code-scanning/code-scanning#get-a-code-scanning-analysis-for-a-repository">https://docs.github.com/en/rest/code-scanning/code-scanning#get-a-code-scanning-analysis-for-a-repository</a></p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.CodeScanning.isEnabled">
 <span class="sig-name descname"><span class="pre">isEnabled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#ghastoolkit.CodeScanning.isEnabled" title="Link to this definition">¶</a></dt>
 <dd><p>Check to see if Code Scanning is enabled or not on a repository level.</p>
+<p>Permissions:
+- “Code scanning alerts” repository permissions (read)</p>
+<p><a class="reference external" href="https://docs.github.com/en/rest/code-scanning/code-scanning#list-code-scanning-analyses-for-a-repository">https://docs.github.com/en/rest/code-scanning/code-scanning#list-code-scanning-analyses-for-a-repository</a></p>
 </dd></dl>
 
 </dd></dl>
