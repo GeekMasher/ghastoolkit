@@ -103,7 +103,7 @@ class SecretScanning:
         """Check to see if Secret Scanning is enabled or not via the repository status.
 
         Permissions:
-        - "Repository Administration" repository permissions (read)
+        - "Administration" repository permissions (read)
 
         https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#get-a-repository
         """
@@ -126,7 +126,7 @@ class SecretScanning:
         """Check if Push Protection is enabled.
 
         Permissions:
-        - "Repository Administration" repository permissions (read)
+        - "Administration" repository permissions (read)
 
         https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#get-a-repository
         """
@@ -141,8 +141,8 @@ class SecretScanning:
 
         raise GHASToolkitAuthenticationError(
             "Failed to get Push Protection status",
-            docs="https://docs.github.com/en/rest/repos/repos#get-a-repository",
             permissions=["Repository Administration (read)"],
+            docs="https://docs.github.com/en/rest/repos/repos#get-a-repository",
         )
 
     def getStatus(self) -> dict:
@@ -150,7 +150,11 @@ class SecretScanning:
         result = self.rest.get("/repos/{owner}/{repo}")
         if isinstance(result, dict):
             return result
-        raise GHASToolkitError("Failed to get the current state of secret scanning")
+        raise GHASToolkitTypeError(
+            "Failed to get the current state of secret scanning",
+            permissions=["Repository Administration (read)"],
+            docs="https://docs.github.com/en/rest/repos/repos#get-a-repository",
+        )
 
     def getOrganizationAlerts(self, state: Optional[str] = None) -> list[dict]:
         """Get Organization Alerts.
@@ -165,7 +169,8 @@ class SecretScanning:
             return results
 
         raise GHASToolkitTypeError(
-            "Error getting organization secret scanning results",
+            f"Error getting organization secret scanning results",
+            permissions=["Secret scanning alerts (read)"],
             docs="https://docs.github.com/en/rest/secret-scanning#list-secret-scanning-alerts-for-an-organization",
         )
 

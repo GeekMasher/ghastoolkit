@@ -1,4 +1,5 @@
 """Secret Scanning API example."""
+
 import os
 from ghastoolkit import GitHub, SecretScanning
 
