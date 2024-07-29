@@ -1,26 +1,32 @@
 """Example showing how to connect and use the Code Scanning API.
 """
+
 import os
 from ghastoolkit import GitHub, CodeScanning
 
 GitHub.init(
     os.environ.get("GITHUB_REPOSITORY", "GeekMasher/ghastoolkit"),
+    reference=os.environ.get("GITHUB_REF", "refs/heads/main"),
 )
-print(f" >> {GitHub.repository}")
 
 cs = CodeScanning()
 
-alerts = cs.getAlerts("open", ref=GitHub.repository.reference)
+print(f"Repository :: {GitHub.repository}")
+
+# requires "Repository Administration" repository permissions (read)
+if not cs.isEnabled():
+    print("Code Scanning is not enabled :(")
+    exit()
 
 # Get list of the delta alerts in a PR
 if GitHub.repository.isInPullRequest():
-    delta = cs.getAlertsInPR("refs/heads/main")
-    print(f"Delta :: {len(delta)}")
+    alerts = cs.getAlertsInPR("refs/heads/main")
 
 # Get all alerts
 else:
     alerts = cs.getAlerts("open")
-    print(f"Alert Count :: {len(alerts)}")
+
+print(f"Alert Count :: {len(alerts)}")
 
 for alert in alerts:
     print(f" >> {alert} ({alert.severity})")
