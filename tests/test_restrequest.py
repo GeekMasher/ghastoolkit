@@ -1,5 +1,7 @@
 """Test RestRequest class."""
+
 import unittest
+from ghastoolkit.errors import GHASToolkitError
 import responses
 
 from ghastoolkit.octokit.octokit import RestRequest
@@ -35,10 +37,10 @@ class TestRestRequest(unittest.TestCase):
             status=404,
         )
 
-        with self.assertRaises(Exception):
+        with self.assertRaises(GHASToolkitError):
             self.rest.get("/repos/{owner}/{repo}/secret-scanning/alerts")
 
-        with self.assertRaises(Exception):
+        with self.assertRaises(GHASToolkitError):
             self.rest.get("/repos/{owner}/{repo}/secret-scanning/alerts/1")
 
     @responses.activate
