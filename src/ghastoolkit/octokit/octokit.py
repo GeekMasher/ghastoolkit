@@ -21,7 +21,11 @@ REST_MAX_CALLS = 80  # ~5000 per hour
 __OCTOKIT_PATH__ = os.path.dirname(os.path.realpath(__file__))
 
 __OCTOKIT_ERRORS__ = {
-    401: GHASToolkitAuthenticationError("Authentication / Permission Issue")
+    401: GHASToolkitAuthenticationError("Authentication / Permission Issue"),
+    403: GHASToolkitAuthenticationError("Authentication / Permission Issue"),
+    404: GHASToolkitError("Not Found"),
+    429: GHASToolkitError("Rate limit hit"),
+    500: GHASToolkitError("GitHub Server Error"),
 }
 
 
