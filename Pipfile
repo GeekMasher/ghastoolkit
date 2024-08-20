@@ -4,10 +4,10 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-requests = "*"
-pyyaml = "*"
-ratelimit = "*"
-semantic-version = "*"
+requests = ">=2.32.0"
+pyyaml = ">=6.0.0"
+ratelimit = ">=2.2.0"
+semantic-version = ">=2.10.0"
 
 [dev-packages]
 black = "*"
