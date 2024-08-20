@@ -16,7 +16,7 @@ class TestAdvisories(unittest.TestCase):
     def test_advisories(self):
         ad = Advisory("rand", "high")
         self.advisories.append(ad)
-        self.assertEquals(len(self.advisories), 1)
+        self.assertEqual(len(self.advisories), 1)
 
     def test_advisory_check(self):
         affected = [
@@ -26,19 +26,19 @@ class TestAdvisories(unittest.TestCase):
         ]
         ad = Advisory("rand", "high", affected=affected)
         self.advisories.append(ad)
-        self.assertEquals(len(self.advisories), 1)
+        self.assertEqual(len(self.advisories), 1)
 
         dep = Dependency("ghastoolkit", "com.geekmasher", "0.8", "maven")
 
         alert = self.advisories.check(dep)
-        self.assertEquals(alert, [ad])
+        self.assertEqual(alert, [ad])
 
     def test_advisory_cwes(self):
         ad = Advisory("rand", "high", cwes=["CWE-1234"])
-        self.assertEquals(ad.cwes, ["CWE-1234"])
+        self.assertEqual(ad.cwes, ["CWE-1234"])
 
         ad = Advisory("rand", "high", cwes=[{"cwe_id": "CWE-1234"}])
-        self.assertEquals(ad.cwes, ["CWE-1234"])
+        self.assertEqual(ad.cwes, ["CWE-1234"])
 
     def test_affect_check(self):
         dep = Dependency("ghastoolkit", "com.geekmasher", "0.8", "maven")
