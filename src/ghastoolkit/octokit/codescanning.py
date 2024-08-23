@@ -75,12 +75,15 @@ class CodeScanning:
     def __init__(
         self,
         repository: Optional[Repository] = None,
-        retry_count: int = 240,
+        retry_count: int = 0,
         retry_sleep: int = 15,
     ) -> None:
         """Code Scanning REST API.
 
-        Retries by default for 1 hour (240 * 15 seconds).
+        Retries currently are only for fetching the analyses by default is only done once.
+        If you want to retry more than once you can set the `retry_count` to a higher number.
+        You can also set the `retry_sleep` to a higher number to sleep longer between
+        each retry.
 
         https://docs.github.com/en/rest/code-scanning
         """
