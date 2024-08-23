@@ -314,7 +314,6 @@ class CodeScanning:
                 {"tool_name": tool, "ref": reference or self.repository.reference},
             )
             if isinstance(results, list) and len(results) > 0:
-                print("Beans")
                 return results
 
             logger.info(f"No analyses found, sleeping for {self.retry_sleep} seconds")
