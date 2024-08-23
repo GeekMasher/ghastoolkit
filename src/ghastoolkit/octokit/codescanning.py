@@ -309,6 +309,10 @@ class CodeScanning:
         Permissions:
         - "Code scanning alerts" repository permissions (read)
 
+        Thrown Exceptions:
+        - GHASToolkitError on retry limit reached
+        - GHASToolkitTypeError on error getting analyses
+
         https://docs.github.com/en/enterprise-cloud@latest/rest/code-scanning#list-code-scanning-analyses-for-a-repository
         """
         counter = 0
@@ -338,7 +342,7 @@ class CodeScanning:
 
         # If we get here, we have retried the max number of times and still no results
         raise GHASToolkitError(
-            "Error getting analyses from Repository",
+            "Error getting analyses from Repository (retry limit reached)",
             permissions=['"Code scanning alerts" repository permissions (read)'],
             docs="https://docs.github.com/en/enterprise-cloud@latest/rest/code-scanning#list-code-scanning-analyses-for-a-repository",
         )
