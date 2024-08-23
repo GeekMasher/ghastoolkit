@@ -75,7 +75,7 @@ class CodeScanning:
     def __init__(
         self,
         repository: Optional[Repository] = None,
-        retry_count: int = 0,
+        retry_count: int = 1,
         retry_sleep: int = 15,
     ) -> None:
         """Code Scanning REST API.
@@ -303,7 +303,8 @@ class CodeScanning:
         """Get a list of all the analyses for a given repository.
 
         This function will retry X times with a Y second sleep between each retry to
-        make sure the analysis is ready.
+        make sure the analysis is ready. This is primarily used for CodeQL Default Setup
+        in Pull Requests where the analysis might not be ready yet.
 
         Permissions:
         - "Code scanning alerts" repository permissions (read)
@@ -312,19 +313,33 @@ class CodeScanning:
         """
         counter = 0
         while counter < self.retry_count:
+            counter += 1
+
             results = self.rest.get(
                 "/repos/{org}/{repo}/code-scanning/analyses",
                 {"tool_name": tool, "ref": reference or self.repository.reference},
             )
-            if isinstance(results, list) and len(results) > 0:
+            if not isinstance(results, list):
+                raise GHASToolkitTypeError(
+                    "Error getting analyses from Repository",
+                    permissions=[
+                        '"Code scanning alerts" repository permissions (read)'
+                    ],
+                    docs="https://docs.github.com/en/enterprise-cloud@latest/rest/code-scanning#list-code-scanning-analyses-for-a-repository",
+                )
+
+            if len(results) > 0 and self.retry_count > 1:
+                logger.info(
+                    f"No analyses found, retrying {counter}/{self.retry_count})"
+                )
+                time.sleep(self.retry_sleep)
+            else:
                 return results
 
-            logger.info(f"No analyses found, sleeping for {self.retry_sleep} seconds")
-            counter += 1
-            time.sleep(self.retry_sleep)
-
-        raise GHASToolkitTypeError(
+        # If we get here, we have retried the max number of times and still no results
+        raise GHASToolkitError(
             "Error getting analyses from Repository",
+            permissions=['"Code scanning alerts" repository permissions (read)'],
             docs="https://docs.github.com/en/enterprise-cloud@latest/rest/code-scanning#list-code-scanning-analyses-for-a-repository",
         )
 
