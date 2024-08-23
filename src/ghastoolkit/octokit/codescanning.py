@@ -2,6 +2,7 @@
 
 from dataclasses import dataclass
 import json
+import time
 import logging
 from typing import Any, List, Optional
 from ghastoolkit.errors import GHASToolkitError, GHASToolkitTypeError
@@ -71,8 +72,15 @@ class CodeAlert(OctoItem):
 class CodeScanning:
     """Code Scanning."""
 
-    def __init__(self, repository: Optional[Repository] = None) -> None:
+    def __init__(
+        self,
+        repository: Optional[Repository] = None,
+        retry_count: int = 240,
+        retry_sleep: int = 15,
+    ) -> None:
         """Code Scanning REST API.
+
+        Retries by default for 1 hour (240 * 15 seconds).
 
         https://docs.github.com/en/rest/code-scanning
         """
@@ -83,6 +91,9 @@ class CodeScanning:
 
         if not self.repository:
             raise GHASToolkitError("CodeScanning requires Repository to be set")
+
+        self.retry_count = retry_count
+        self.retry_sleep = retry_sleep
         self.rest = RestRequest(self.repository)
 
     def isEnabled(self) -> bool:
@@ -288,17 +299,27 @@ class CodeScanning:
     ) -> list[dict]:
         """Get a list of all the analyses for a given repository.
 
+        This function will retry X times with a Y second sleep between each retry to
+        make sure the analysis is ready.
+
         Permissions:
         - "Code scanning alerts" repository permissions (read)
 
         https://docs.github.com/en/enterprise-cloud@latest/rest/code-scanning#list-code-scanning-analyses-for-a-repository
         """
-        results = self.rest.get(
-            "/repos/{org}/{repo}/code-scanning/analyses",
-            {"tool_name": tool, "ref": reference or self.repository.reference},
-        )
-        if isinstance(results, list):
-            return results
+        counter = 0
+        while counter < self.retry_count:
+            results = self.rest.get(
+                "/repos/{org}/{repo}/code-scanning/analyses",
+                {"tool_name": tool, "ref": reference or self.repository.reference},
+            )
+            if isinstance(results, list) and len(results) > 0:
+                print("Beans")
+                return results
+
+            logger.info(f"No analyses found, sleeping for {self.retry_sleep} seconds")
+            counter += 1
+            time.sleep(self.retry_sleep)
 
         raise GHASToolkitTypeError(
             "Error getting analyses from Repository",
