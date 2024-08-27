@@ -163,6 +163,16 @@ class CodeScanningAnalysis(OctoItem):
             # Load the tool as JSON
             self.tool = loadOctoItem(CodeScanningTool, self.tool)
 
+    @property
+    def language(self) -> Optional[str]:
+        """Language from the Environment."""
+        return self.environment.language
+
+    @property
+    def build_mode(self) -> Optional[str]:
+        """Build Mode from the Environment."""
+        return self.environment.build_mode
+
     def __str__(self) -> str:
         """To String."""
         return f"CodeScanningAnalysis({self.id}, '{self.ref}', '{self.tool.name}')"
