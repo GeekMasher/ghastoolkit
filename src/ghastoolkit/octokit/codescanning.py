@@ -69,6 +69,131 @@ class CodeAlert(OctoItem):
         return f"CodeAlert({self.number}, '{self.state}', '{self.tool_name}', '{self.rule_id}')"
 
 
+@dataclass
+class CodeScanningTool(OctoItem):
+    """Code Scanning Tool.
+
+    https://docs.github.com/rest/code-scanning/code-scanning#list-code-scanning-analyses-for-a-repository
+    """
+
+    name: str
+    """Tool Name"""
+    guid: Optional[str] = None
+    """Tool GUID"""
+    version: Optional[str] = None
+    """Tool Version"""
+
+    def __str__(self) -> str:
+        """To String."""
+        if self.version:
+            return f"CodeScanningTool({self.name}, '{self.version}')"
+        else:
+            return f"CodeScanningTool({self.name})"
+
+    def __repr__(self) -> str:
+        return self.__str__()
+
+
+@dataclass
+class CodeScanningAnalysisEnvironment(OctoItem):
+    """Code Scanning Analysis Environment.
+
+    https://docs.github.com/rest/code-scanning/code-scanning
+    """
+
+    language: Optional[str] = None
+    """Language"""
+
+    build_mode: Optional[str] = None
+    """CodeQL Build Mode"""
+
+    def __str__(self) -> str:
+        """To String."""
+        if self.language:
+            return f"CodeScanningAnalysisEnvironment({self.language})"
+        return "CodeScanningAnalysisEnvironment()"
+
+
+@dataclass
+class CodeScanningAnalysis(OctoItem):
+    """Code Scanning Analysis.
+
+    https://docs.github.com/rest/code-scanning/code-scanning#list-code-scanning-analyses-for-a-repository
+    """
+
+    id: int
+    """Unique Identifier"""
+    ref: str
+    """Reference (branch, tag, etc)"""
+    commit_sha: str
+    """Commit SHA"""
+    analysis_key: str
+    """Analysis Key"""
+    environment: CodeScanningAnalysisEnvironment
+    """Environment"""
+    error: str
+    """Error"""
+    created_at: str
+    """Created At"""
+    results_count: int
+    """Results Count"""
+    rules_count: int
+    """Rules Count"""
+    url: str
+    """URL"""
+    sarif_id: str
+    """SARIF ID"""
+    tool: CodeScanningTool
+    """Tool Information"""
+    deletable: bool
+    """Deletable"""
+    warning: str
+    """Warning"""
+
+    category: Optional[str] = None
+    """Category"""
+
+    def __post_init__(self) -> None:
+        if isinstance(self.environment, str):
+            # Load the environment as JSON
+            self.environment = loadOctoItem(
+                CodeScanningAnalysisEnvironment, json.loads(self.environment)
+            )
+        if isinstance(self.tool, dict):
+            # Load the tool as JSON
+            self.tool = loadOctoItem(CodeScanningTool, self.tool)
+
+    def __str__(self) -> str:
+        """To String."""
+        return f"CodeScanningAnalysis({self.id}, '{self.ref}', '{self.tool.name}')"
+
+
+@dataclass
+class CodeScanningConfiguration(OctoItem):
+    """Code Scanning Configuration for Default Setup.
+
+    https://docs.github.com/rest/code-scanning/code-scanning#get-a-code-scanning-default-setup-configuration--parameters
+    """
+
+    state: str
+    """State of the Configuration"""
+    query_suite: str
+    """Query Suite"""
+    languages: list[str]
+    """Languages"""
+    updated_at: str
+    """Updated At"""
+    schedule: str
+    """Scheduled (weekly)"""
+
+    def __str__(self) -> str:
+        """To String."""
+        return f"CodeScanningConfiguration('{self.state}', '{self.query_suite}', '{self.languages}')"
+
+    def __repr__(self) -> str:
+        return self.__str__()
+
+
 class CodeScanning:
     """Code Scanning."""
 
@@ -90,7 +215,7 @@ class CodeScanning:
         self.repository = repository or GitHub.repository
         self.tools: List[str] = []
 
-        self.setup: Optional[dict] = None
+        self.setup: Optional[CodeScanningConfiguration] = None
 
         if not self.repository:
             raise GHASToolkitError("CodeScanning requires Repository to be set")
@@ -125,7 +250,7 @@ class CodeScanning:
         if not self.setup:
             self.setup = self.getDefaultConfiguration()
 
-        return self.setup.get("state", "not-configured") == "configured"
+        return self.setup.state == "configured"
 
     def enableDefaultSetup(
         self,
@@ -167,7 +292,7 @@ class CodeScanning:
             docs="https://docs.github.com/en/rest/code-scanning#list-code-scanning-alerts-for-an-organization",
         )
 
-    def getDefaultConfiguration(self) -> dict:
+    def getDefaultConfiguration(self) -> CodeScanningConfiguration:
         """Get Default Code Scanning Configuration.
 
         Permissions:
@@ -177,7 +302,7 @@ class CodeScanning:
         """
         result = self.rest.get("/repos/{owner}/{repo}/code-scanning/default-setup")
         if isinstance(result, dict):
-            self.setup = result
+            self.setup = loadOctoItem(CodeScanningConfiguration, result)
             return self.setup
 
         raise GHASToolkitTypeError(
@@ -295,7 +420,7 @@ class CodeScanning:
 
     def getAnalyses(
         self, reference: Optional[str] = None, tool: Optional[str] = None
-    ) -> list[dict]:
+    ) -> list[CodeScanningAnalysis]:
         """Get a list of all the analyses for a given repository.
 
         This function will retry X times with a Y second sleep between each retry to
@@ -341,8 +466,8 @@ class CodeScanning:
             # Try default setup `head` if no results (required for default setup)
             if (
                 len(results) == 0
-                and GitHub.repository.isInPullRequest()
-                and ref.endswith("/merge")
+                and self.repository.isInPullRequest()
+                and (ref.endswith("/merge") or ref.endswith("/head"))
             ):
                 logger.debug("No analyses found for `merge`, trying `head`")
                 results = self.rest.get(
@@ -366,7 +491,9 @@ class CodeScanning:
                     )
                     time.sleep(self.retry_sleep)
             else:
-                return results
+                return [
+                    loadOctoItem(CodeScanningAnalysis, analysis) for analysis in results
+                ]
 
         # If we get here, we have retried the max number of times and still no results
         raise GHASToolkitError(
@@ -377,7 +504,7 @@ class CodeScanning:
 
     def getLatestAnalyses(
         self, reference: Optional[str] = None, tool: Optional[str] = None
-    ) -> list[dict]:
+    ) -> list[CodeScanningAnalysis]:
         """Get Latest Analyses for every tool.
 
         Permissions:
@@ -389,15 +516,30 @@ class CodeScanning:
         results = []
 
         for analysis in self.getAnalyses(reference, tool):
-            name = analysis.get("tool", {}).get("name")
-            if name in tools:
+            if analysis.tool.name in tools:
                 continue
-            tools.add(name)
+            tools.add(analysis.tool.name)
             results.append(analysis)
 
         self.tools = list(tools)
 
         return results
+
+    def getFailedAnalyses(
+        self, reference: Optional[str] = None
+    ) -> list[CodeScanningAnalysis]:
+        """Get Failed Analyses for a given reference. This will return all analyses with errors or warnings.
+
+        Permissions:
+        - "Code scanning alerts" repository permissions (read)
+
+        https://docs.github.com/en/rest/code-scanning/code-scanning
+        """
+        return [
+            analysis
+            for analysis in self.getAnalyses(reference)
+            if analysis.error != "" or analysis.warning != ""
+        ]
 
     def getTools(self, reference: Optional[str] = None) -> List[str]:
         """Get list of tools from the latest analyses.
