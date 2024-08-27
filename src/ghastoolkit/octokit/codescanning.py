@@ -4,7 +4,7 @@ from dataclasses import dataclass
 import json
 import time
 import logging
-from typing import Any, List, Optional
+from typing import Any, List, Optional, Union
 from ghastoolkit.errors import GHASToolkitError, GHASToolkitTypeError
 from ghastoolkit.octokit.github import GitHub, Repository
 from ghastoolkit.octokit.octokit import OctoItem, RestRequest, loadOctoItem
@@ -76,7 +76,7 @@ class CodeScanning:
         self,
         repository: Optional[Repository] = None,
         retry_count: int = 1,
-        retry_sleep: int = 15,
+        retry_sleep: Union[int, float] = 15,
     ) -> None:
         """Code Scanning REST API.
 
@@ -239,11 +239,7 @@ class CodeScanning:
         # Try merge and then head
         analysis = self.getAnalyses(reference=self.repository.reference)
         if len(analysis) == 0:
-            analysis = self.getAnalyses(
-                reference=self.repository.reference.replace("/merge", "/head")
-            )
-            if len(analysis) == 0:
-                raise GHASToolkitError("No analyses found for the PR")
+            raise GHASToolkitError("No analyses found for the PR")
 
         # For CodeQL results using Default Setup
         reference = analysis[0].get("ref")
@@ -315,13 +311,23 @@ class CodeScanning:
 
         https://docs.github.com/en/enterprise-cloud@latest/rest/code-scanning#list-code-scanning-analyses-for-a-repository
         """
+        ref = reference or self.repository.reference
+        logger.debug(f"Getting Analyses for {ref}")
+        if ref is None:
+            raise GHASToolkitError("Reference is required for getting analyses")
+
         counter = 0
+
+        logger.debug(
+            f"Fetching Analyses (retries {self.retry_count} every {self.retry_sleep}s)"
+        )
+
         while counter < self.retry_count:
             counter += 1
 
             results = self.rest.get(
                 "/repos/{org}/{repo}/code-scanning/analyses",
-                {"tool_name": tool, "ref": reference or self.repository.reference},
+                {"tool_name": tool, "ref": ref},
             )
             if not isinstance(results, list):
                 raise GHASToolkitTypeError(
@@ -332,11 +338,33 @@ class CodeScanning:
                     docs="https://docs.github.com/en/enterprise-cloud@latest/rest/code-scanning#list-code-scanning-analyses-for-a-repository",
                 )
 
-            if len(results) > 0 and self.retry_count > 1:
-                logger.info(
-                    f"No analyses found, retrying {counter}/{self.retry_count})"
+            # Try default setup `head` if no results (required for default setup)
+            if (
+                len(results) == 0
+                and GitHub.repository.isInPullRequest()
+                and ref.endswith("/merge")
+            ):
+                logger.debug("No analyses found for `merge`, trying `head`")
+                results = self.rest.get(
+                    "/repos/{org}/{repo}/code-scanning/analyses",
+                    {"tool_name": tool, "ref": ref.replace("/merge", "/head")},
                 )
-                time.sleep(self.retry_sleep)
+                if not isinstance(results, list):
+                    raise GHASToolkitTypeError(
+                        "Error getting analyses from Repository",
+                        permissions=[
+                            '"Code scanning alerts" repository permissions (read)'
+                        ],
+                        docs="https://docs.github.com/en/enterprise-cloud@latest/rest/code-scanning#list-code-scanning-analyses-for-a-repository",
+                    )
+
+            if len(results) < 0:
+                # If the retry count is less than 1, we don't retry
+                if self.retry_count < 1:
+                    logger.debug(
+                        f"No analyses found, retrying {counter}/{self.retry_count})"
+                    )
+                    time.sleep(self.retry_sleep)
             else:
                 return results
 
