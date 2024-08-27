@@ -19,7 +19,7 @@ classifiers = [
 dependencies = [
     "certifi==2024.7.4",
     "charset-normalizer==3.3.2",
-    "idna==3.7",
+    "idna==3.8",
     "PyYAML==6.0.2",
     "ratelimit==2.2.1",
     "requests==2.32.3",
