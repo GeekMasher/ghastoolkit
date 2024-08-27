@@ -18,12 +18,14 @@ if not cs.isEnabled():
     print("Code Scanning is not enabled :(")
     exit()
 
-# Get list of the delta alerts in a PR
 if GitHub.repository.isInPullRequest():
-    alerts = cs.getAlertsInPR("refs/heads/main")
+    # Get list of the delta alerts in a PR
+    print(f"Alerts from PR :: {GitHub.repository.getPullRequestNumber()}")
+    alerts = cs.getAlertsInPR(GitHub.repository.reference or "")
 
-# Get all alerts
 else:
+    # Get all alerts
+    print("Alerts from default Branch")
     alerts = cs.getAlerts("open")
 
 print(f"Alert Count :: {len(alerts)}")
