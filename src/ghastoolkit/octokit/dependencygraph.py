@@ -129,9 +129,9 @@ class DependencyGraph:
 
     def getDependenciesGraphQL(self) -> Dependencies:
         """Get Dependencies from GraphQL.
-        
-        This functions requests each manifest file in the repository and the 
-        dependencies associated with it. It then paginates through both the manifests 
+
+        This functions requests each manifest file in the repository and the
+        dependencies associated with it. It then paginates through both the manifests
         and dependencies.
 
         This is done to avoid the timeout errors in the GraphQL API when requesting
@@ -151,7 +151,7 @@ class DependencyGraph:
                     "owner": self.repository.owner,
                     "repo": self.repository.repo,
                     "manifests_cursor": manifests_cursor,
-                    "dependencies_cursor": dependencies_cursor
+                    "dependencies_cursor": dependencies_cursor,
                 },
             )
 
@@ -172,7 +172,9 @@ class DependencyGraph:
                     logger.debug(f"Processing :: '{node.get('filename')}'")
 
                     # Pagination
-                    has_next_page = dependencies.get("pageInfo", {}).get("hasNextPage", False)
+                    has_next_page = dependencies.get("pageInfo", {}).get(
+                        "hasNextPage", False
+                    )
                     if has_next_page:
                         dependencies_cursor = f'after: "{dependencies.get("pageInfo", {}).get("endCursor")}"'
                     else:
@@ -186,10 +188,14 @@ class DependencyGraph:
                         if dep.get("repository"):
                             if dep.get("repository", {}).get("licenseInfo"):
                                 license = (
-                                    dep.get("repository", {}).get("licenseInfo", {}).get("name")
+                                    dep.get("repository", {})
+                                    .get("licenseInfo", {})
+                                    .get("name")
                                 )
                             if dep.get("repository", {}).get("nameWithOwner"):
-                                repository = dep.get("repository", {}).get("nameWithOwner")
+                                repository = dep.get("repository", {}).get(
+                                    "nameWithOwner"
+                                )
 
                         version = dep.get("requirements")
                         if version:
@@ -206,7 +212,9 @@ class DependencyGraph:
                         )
 
                 if has_next_page:
-                    logger.debug(f"Re-run and fetch next data page :: {manifests_cursor} ({dependencies_cursor})")
+                    logger.debug(
+                        f"Re-run and fetch next data page :: {manifests_cursor} ({dependencies_cursor})"
+                    )
 
                     data = self.graphql.query(
                         "GetDependencyInfo",
@@ -214,7 +222,7 @@ class DependencyGraph:
                             "owner": self.repository.owner,
                             "repo": self.repository.repo,
                             "manifests_cursor": manifests_cursor,
-                            "dependencies_cursor": dependencies_cursor
+                            "dependencies_cursor": dependencies_cursor,
                         },
                     )
                     graph_manifests = (
@@ -223,11 +231,10 @@ class DependencyGraph:
                         .get("dependencyGraphManifests", {})
                     )
 
-
             # If there are no other manifest files, then we are done
             if graph_manifests.get("pageInfo", {}).get("hasNextPage"):
                 cursor = graph_manifests.get("pageInfo", {}).get("endCursor")
-                manifests_cursor =  f'after: "{cursor}"' if cursor != "" else ""
+                manifests_cursor = f'after: "{cursor}"' if cursor != "" else ""
                 logger.debug(f"Cursor :: {manifests_cursor}")
             else:
                 manifests = False
