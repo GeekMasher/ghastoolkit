@@ -1,13 +1,20 @@
+import os
 import json
-from ghastoolkit.octokit.dependencygraph import DependencyGraph
-from ghastoolkit.octokit.github import GitHub
+from ghastoolkit import DependencyGraph, GitHub
+from ghastoolkit.octokit.octokit import GraphQLRequest
 
-GitHub.init("GeekMasher/ghastoolkit")
+GitHub.init(repository=os.environ.get("GITHUB_REPOSITORY", "GeekMasher/ghastoolkit"))
+print(f"Repository :: {GitHub.repository}")
 
 depgraph = DependencyGraph()
 dependencies = depgraph.getDependencies()
 
 print(f"Total Dependencies :: {len(dependencies)}")
+
+# or you can get the data from the GraphQL API as well
+# This can be useful if you want to get more information about the dependencies
+dependencies = depgraph.getDependenciesGraphQL()
+print(f"Total Dependencies (GraphQL) :: {len(dependencies)}")
 
 gpl = dependencies.findLicenses(["GPL-*", "AGPL-*"])
 print(f"Total GPL Dependencies :: {len(gpl)}")
