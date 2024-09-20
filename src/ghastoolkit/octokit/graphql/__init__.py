@@ -73,7 +73,7 @@ DEPENDENCY_GRAPH_INFO = """\
                                 packageManager
                                 requirements
                                 repository {
-                                    name
+                                    nameWithOwner
                                     isArchived
                                     isDisabled
                                     isEmpty
