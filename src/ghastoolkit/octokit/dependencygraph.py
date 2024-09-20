@@ -223,6 +223,7 @@ class DependencyGraph:
                             "owner": self.repository.owner,
                             "repo": self.repository.repo,
                             "manifests_cursor": manifests_cursor,
+                            "dependencies_first": dependencies_count,
                             "dependencies_cursor": dependencies_cursor,
                         },
                     )
