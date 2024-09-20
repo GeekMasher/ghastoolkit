@@ -62,8 +62,13 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.DependencyGraph.getDependenciesGraphQL">
-<span class="sig-name descname"><span class="pre">getDependenciesGraphQL</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../supplychain/dependencies.html#ghastoolkit.Dependencies" title="ghastoolkit.supplychain.dependencies.Dependencies"><span class="pre">Dependencies</span></a></span></span><a class="headerlink" href="#ghastoolkit.DependencyGraph.getDependenciesGraphQL" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">getDependenciesGraphQL</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dependencies_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../supplychain/dependencies.html#ghastoolkit.Dependencies" title="ghastoolkit.supplychain.dependencies.Dependencies"><span class="pre">Dependencies</span></a></span></span><a class="headerlink" href="#ghastoolkit.DependencyGraph.getDependenciesGraphQL" title="Link to this definition">¶</a></dt>
 <dd><p>Get Dependencies from GraphQL.</p>
+<p>This functions requests each manifest file in the repository and the
+dependencies associated with it. It then paginates through both the manifests
+and dependencies.</p>
+<p>This is done to avoid the timeout errors in the GraphQL API when requesting
+large projects with many manifests and dependencies.</p>
 </dd></dl>
 
 <dl class="py method">
