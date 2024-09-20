@@ -1,7 +1,6 @@
 import os
 import json
 from ghastoolkit import DependencyGraph, GitHub
-from ghastoolkit.octokit.octokit import GraphQLRequest
 
 GitHub.init(repository=os.environ.get("GITHUB_REPOSITORY", "GeekMasher/ghastoolkit"))
 print(f"Repository :: {GitHub.repository}")
