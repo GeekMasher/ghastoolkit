@@ -127,7 +127,7 @@ class DependencyGraph:
 
         return result
 
-    def getDependenciesGraphQL(self) -> Dependencies:
+    def getDependenciesGraphQL(self, dependencies_count: int = 100) -> Dependencies:
         """Get Dependencies from GraphQL.
 
         This functions requests each manifest file in the repository and the
@@ -151,6 +151,7 @@ class DependencyGraph:
                     "owner": self.repository.owner,
                     "repo": self.repository.repo,
                     "manifests_cursor": manifests_cursor,
+                    "dependencies_first": dependencies_count,
                     "dependencies_cursor": dependencies_cursor,
                 },
             )
