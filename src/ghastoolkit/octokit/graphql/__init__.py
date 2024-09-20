@@ -61,7 +61,7 @@ DEPENDENCY_GRAPH_INFO = """\
             edges {
                 node {
                     filename
-                    dependencies(first: $dependencies_count, $dependencies_cursor) {
+                    dependencies(first: $dependencies_first, $dependencies_cursor) {
                         totalCount
                         pageInfo {
                             hasNextPage
