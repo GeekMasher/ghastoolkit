@@ -73,6 +73,7 @@ jobs:
     - name: Run Examples
       env:
         GITHUB_TOKEN: "${{ secrets.GHASTOOLKIT_PAT }}"
+        GHASTOOLKIT_ORG_PAT: "${{ secrets.GHASTOOLKIT_ORG_PAT }}"
       run: |
         set -e
         export PYTHONPATH=$PWD/src
