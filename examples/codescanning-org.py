@@ -5,7 +5,9 @@ import os
 from ghastoolkit import GitHub, CodeScanning
 
 GitHub.init(
-    os.environ.get("GITHUB_REPOSITORY", "GeekMasherOrg"),
+    os.environ.get("GITHUB_REPOSITORY", "GeekMasher"),
+    # PAT with access to the organization
+    token=os.environ.get("GHASTOOLKIT_ORG_PAT"),
     reference=os.environ.get("GITHUB_REF", "refs/heads/main"),
 )
 
