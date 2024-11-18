@@ -77,9 +77,10 @@ jobs:
         set -e
         export PYTHONPATH=$PWD/src
 
-        for f in examples/*.py; do
-            echo "[+] Running :: $f"
-            pipenv run python $f
+        EXAMPLES=$(jq -r '.[]' ./examples/examples.json)
+        for f in $EXAMPLES; do
+            echo "Running example: ./examples/$f.py"
+            pipenv run python ./examples/$f.py
         done
 
   cli:
@@ -102,4 +103,3 @@ jobs:
         export PYTHONPATH=$PWD/src
 
         python -m ghastoolkit --help
-

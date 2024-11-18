@@ -1,0 +1,12 @@
+ [
+    "advisories",
+    "clearlydefined",
+    "codeql-databases",
+    "codeql-packs",
+    "codescanning",
+    "dependabot",
+    "dependencies",
+    "licenses",
+    "repository",
+    "secrets"
+ ]
