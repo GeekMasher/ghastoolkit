@@ -220,6 +220,8 @@ class RestRequest:
             )
 
         cursor = None
+        page = 1  # Page starts at 1
+
         result = []
         params = {}
         # if the parameter is in the path, ignore it
@@ -232,6 +234,8 @@ class RestRequest:
         while True:
             if cursor:
                 params["after"] = cursor.replace("%3D", "=")
+            else:
+                params["page"] = page
 
             response = self.session.get(url, params=params)
             # Every response should be a JSON (including errors)
@@ -276,8 +280,15 @@ class RestRequest:
             # Use a cursor for pagination
             if link := response.headers.get("Link"):
                 if next := [x for x in link.split(", ") if x.endswith('rel="next"')]:
-                    cursor = next[0].split("after=")[1].split(">;")[0]
-                    logger.debug(f"Cursor :: {cursor}")
+                    next = next[0].split(">;")[0].replace("<", "")
+                    # If `after` parameter is not in the URL
+                    if after := next.split("&after="):
+                        # We don't want to paginate if the cursor is a URL
+                        if not after[0].startswith("http"):
+                            cursor = after[0]
+                            logger.debug(f"Cursor :: {cursor}")
+
+            page += 1
 
         return result
 
