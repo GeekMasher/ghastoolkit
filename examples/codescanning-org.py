@@ -11,8 +11,7 @@ GitHub.init(
 
 cs = CodeScanning()
 
-print(f"Org/Owner :: {GitHub.owner}")
-
+print(f"Fetching alerts for {GitHub.owner}...")
 alerts = cs.getOrganizationAlerts("open")
 
 print(f"Alerts :: {len(alerts)}")
