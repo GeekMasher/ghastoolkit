@@ -227,6 +227,7 @@ class Advisory(OctoItem):
                 return cvss.get("score")
         return None
 
+
 class Advisories:
     """GitHub Advisory List."""
 
