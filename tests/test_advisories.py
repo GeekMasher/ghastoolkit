@@ -40,6 +40,34 @@ class TestAdvisories(unittest.TestCase):
         ad = Advisory("rand", "high", cwes=[{"cwe_id": "CWE-1234"}])
         self.assertEqual(ad.cwes, ["CWE-1234"])
 
+    def test_advisory_cvss(self):
+        ad = Advisory(
+            "rand",
+            "high",
+            cvss={
+                "vector_string": "CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:C/C:H/I:H/A:H",
+                "score": 7.6
+            }
+        )
+        self.assertEqual(ad.cvss_score(), 7.6)
+
+        ad = Advisory(
+            "rand",
+            "high",
+            cvss_severities={
+                "cvss_v3": {
+                    "vector_string": "CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:C/C:H/I:H/A:H",
+                    "score": 7.6
+                },
+                "cvss_v4": {
+                    "vector_string": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
+                    "score": 9.3
+                }
+            }
+        )
+        self.assertEqual(ad.cvss_score(3), 7.6)
+        self.assertEqual(ad.cvss_score(4), 9.3)
+
     def test_affect_check(self):
         dep = Dependency("ghastoolkit", "com.geekmasher", "0.8", "maven")
         affect = AdvisoryAffect(
