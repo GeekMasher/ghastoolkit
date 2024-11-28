@@ -1,7 +1,7 @@
 import logging
 import csv
 from dataclasses import dataclass, field
-from typing import Dict, Optional, List
+from typing import Optional, List, Set
 
 from ghastoolkit.errors import GHASToolkitError
 from ghastoolkit.octokit.github import GitHub
@@ -16,12 +16,17 @@ logger = logging.getLogger("ghastoolkit.octokit.github")
 class BillingUser(OctoItem):
     """Billing User."""
 
-    login: str
+    user_login: str
     """Login."""
     last_pushed_date: str
     """Last Pushed Date."""
     last_pushed_email: str
     """Last Pushed Email."""
+
+    @property
+    def login(self) -> str:
+        """Login."""
+        return self.user_login
 
 
 @dataclass
@@ -37,18 +42,22 @@ class BillingRepository(OctoItem):
     )
     """Advanced Security Committers Breakdown."""
 
-    def activeCommitterNames(self) -> List[str]:
+    def activeCommitterCount(self) -> int:
+        """Count of Active Committers."""
+        return len(self.advanced_security_committers_breakdown)
+
+    def activeCommitterNames(self) -> Set[str]:
         """Active Committer Names."""
-        results = []
+        results = set()
         for commiter in self.advanced_security_committers_breakdown:
-            results.append(commiter.get("user_login"))
+            results.add(commiter.login)
         return results
 
-    def activeCommitterEmails(self) -> List[str]:
+    def activeCommitterEmails(self) -> Set[str]:
         """Active Committer Emails."""
-        results = []
+        results = set()
         for commiter in self.advanced_security_committers_breakdown:
-            results.append(commiter.get("last_pushed_email"))
+            results.add(commiter.last_pushed_email)
         return results
 
 
@@ -82,6 +91,31 @@ class GhasBilling(OctoItem):
     def purchased(self) -> int:
         """Purchased Advanced Security Committers."""
         return self.purchased_advanced_security_committers or 0
+
+    def getRepository(
+        self, name: str, org: Optional[str] = None
+    ) -> Optional[BillingRepository]:
+        """Get Repository by Name."""
+        for repo in self.repositories:
+            org, repo_name = repo.name.split("/", 1)
+            if repo_name == name:
+                return repo
+
+        return None
+
+    def activeCommitterNames(self) -> Set[str]:
+        """Active Committer Names."""
+        results = set()
+        for repo in self.repositories:
+            results.update(repo.activeCommitterNames())
+        return results
+
+    def activeCommitterEmails(self) -> Set[str]:
+        """Active Committer Emails."""
+        results = set()
+        for repo in self.repositories:
+            results.update(repo.activeCommitterEmails())
+        return results
 
 
 class Billing:
