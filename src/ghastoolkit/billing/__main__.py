@@ -13,28 +13,37 @@ class BillingCommandLine(CommandLine):
 
     def arguments(self):
         """Billing arguments."""
+        if self.subparser:
+            # self.addModes([""])
+
+            parser = self.parser.add_argument_group("billing")
+            parser.add_argument(
+                "--csv",
+                help="Input CSV Billing File",
+            )
 
     def run(self, arguments: Namespace):
         self.default_logger()
 
-        if GitHub.token is None:
-            logging.error("No GitHub Token provided")
+        if arguments.csv:
+            logging.info(f"Loading GHAS Billing from {arguments.csv}")
+
+            ghas = Billing.loadFromCsv(arguments.csv)
+        else:
+            if GitHub.token is None:
+                logging.error("No GitHub Token provided")
+                return
+            org = Organization(GitHub.owner)
+            billing = Billing(org)
+            ghas = billing.getGhasBilling()
+
+        if not ghas:
+            logging.error("No GHAS Billing found")
             return
-
-        org = Organization(GitHub.owner)
-        print(f"Organization :: {org}")
-
-        repos = org.getRepositories()
-        print(f"Repositories :: {len(repos)}")
-
-        billing = Billing(org)
-
-        ghas = billing.getGhasBilling()
 
         print(f"GHAS Active Committers :: {ghas.active}")
         print(f"GHAS Maximum Committers :: {ghas.maximum}")
         print(f"GHAS Purchased Committers :: {ghas.purchased}")
-
 
 
 if __name__ == "__main__":

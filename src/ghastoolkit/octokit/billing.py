@@ -1,4 +1,5 @@
 import logging
+import csv
 from dataclasses import dataclass, field
 from typing import Dict, Optional, List
 
@@ -10,46 +11,30 @@ from ghastoolkit.octokit.enterprise import Organization
 
 logger = logging.getLogger("ghastoolkit.octokit.github")
 
+
 @dataclass
-class BillingResponse(OctoItem):
-    """Billing Response."""
+class BillingUser(OctoItem):
+    """Billing User."""
 
-    total_advanced_security_committers: int
-    """Total Advanced Security Committers."""
-    total_count: int
-    """Total Count."""
-    maximum_advanced_security_committers: int
-    """Maximum Advanced Security Committers."""
-    purchased_advanced_security_committers: int
-    """Purchased Advanced Security Committers."""
-
-    repositories: List[Dict] = field(default_factory=list)
-    """Repositories."""
-
-    @property
-    def active(self) -> int:
-        """Active Advanced Security Committers."""
-        return self.total_advanced_security_committers
-    
-    @property
-    def maximum(self) -> int:
-        """Maximum Advanced Security Committers."""
-        return self.maximum_advanced_security_committers
-    
-    @property
-    def purchased(self) -> int:
-        """Purchased Advanced Security Committers."""
-        return self.purchased_advanced_security_committers
+    login: str
+    """Login."""
+    last_pushed_date: str
+    """Last Pushed Date."""
+    last_pushed_email: str
+    """Last Pushed Email."""
 
 
 @dataclass
 class BillingRepository(OctoItem):
     """Billing Repository."""
+
     name: str
     """Repository Name."""
     advanced_security_committers: int
     """Advanced Security Committers."""
-    advanced_security_committers_breakdown: Dict = field(default_factory=dict) 
+    advanced_security_committers_breakdown: List[BillingUser] = field(
+        default_factory=list
+    )
     """Advanced Security Committers Breakdown."""
 
     def activeCommitterNames(self) -> List[str]:
@@ -67,29 +52,100 @@ class BillingRepository(OctoItem):
         return results
 
 
+@dataclass
+class GhasBilling(OctoItem):
+    """Billing Response."""
+
+    repositories: List[BillingRepository] = field(default_factory=list)
+    """Repositories (required)."""
+
+    total_advanced_security_committers: Optional[int] = None
+    """Total Advanced Security Committers."""
+    total_count: Optional[int] = None
+    """Total Count."""
+    maximum_advanced_security_committers: Optional[int] = None
+    """Maximum Advanced Security Committers."""
+    purchased_advanced_security_committers: Optional[int] = None
+    """Purchased Advanced Security Committers."""
+
+    @property
+    def active(self) -> int:
+        """Active Advanced Security Committers."""
+        return self.total_advanced_security_committers or 0
+
+    @property
+    def maximum(self) -> int:
+        """Maximum Advanced Security Committers."""
+        return self.maximum_advanced_security_committers or 0
+
+    @property
+    def purchased(self) -> int:
+        """Purchased Advanced Security Committers."""
+        return self.purchased_advanced_security_committers or 0
+
+
 class Billing:
     """GitHub Billing API"""
 
     def __init__(self, organization: Optional[Organization] = None) -> None:
         """Initialise Billing API."""
-        self.org = organization.name or GitHub.owner
+        if organization is not None:
+            self.org = organization.name
+        else:
+            self.org = GitHub.owner
         self.rest = RestRequest()
         self.state = None
 
-    def getGhasBilling(self) -> BillingResponse:
+    def getGhasBilling(self) -> GhasBilling:
         """Get GitHub Advanced Security Billing."""
+        if self.org is None:
+            logger.error("No organization provided")
+            raise GHASToolkitError(
+                "No organization provided",
+            )
         result = self.rest.get(f"/orgs/{self.org}/settings/billing/advanced-security")
 
         if isinstance(result, dict):
-            return loadOctoItem(BillingResponse, result)
+            return loadOctoItem(GhasBilling, result)
 
         logger.error("Error getting billing")
         raise GHASToolkitError(
             "Error getting billing",
-            permissions=["Enterprise billing permissions (read:actions)"],
-            docs="https://docs.github.com/en/rest/reference/billing",
+            permissions=['"Administration" organization permissions (read)'],
+            docs="https://docs.github.com/en/enterprise-cloud@latest/rest/billing/billing#get-github-advanced-security-active-committers-for-an-organization",
         )
 
-    def loadFromCsv(self) -> BillingResponse:
+    @staticmethod
+    def loadFromCsv(path: str) -> GhasBilling:
         """Load Billing from CSV."""
-        pass
+        # name: {
+        repositories: dict[str, List[BillingUser]] = {}
+        unique_committers = []
+
+        with open(path, mode="r") as csv_file:
+            csv_reader = csv.DictReader(csv_file)
+
+            for row in csv_reader:
+                repo = row["Organization / repository"]
+                # if exists, add user to list
+                user = BillingUser(
+                    row["User login"],
+                    row["Last pushed date"],
+                    row["Last pushed email"],
+                )
+                if repositories.get(repo):
+                    repositories[repo].append(user)
+                else:
+                    repositories[repo] = [user]
+
+                if user.login not in unique_committers:
+                    unique_committers.append(user.login)
+
+        result = GhasBilling([])
+        result.total_count = len(unique_committers)
+        result.total_advanced_security_committers = len(unique_committers)
+
+        for repo, usrs in repositories.items():
+            result.repositories.append(BillingRepository(repo, len(usrs), usrs))
+
+        return result
