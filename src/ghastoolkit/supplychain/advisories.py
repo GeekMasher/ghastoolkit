@@ -145,6 +145,12 @@ class Advisory(OctoItem):
     cvss_severities: Dict[str, dict] = field(default_factory=dict)
     """CVSS Severities"""
 
+    epss: List[dict] = field(default_factory=list)
+    """Exploit Prediction Scoring System (EPSS)
+
+    https://www.first.org/epss/
+    """
+
     identifiers: List[dict] = field(default_factory=list)
     """List of identifiers"""
     references: List[dict] = field(default_factory=list)
@@ -225,6 +231,20 @@ class Advisory(OctoItem):
         elif version == 4:
             if cvss := self.cvss_severities.get("cvss_v4"):
                 return cvss.get("score")
+        return None
+
+    @property
+    def epss_percentage(self) -> Optional[float]:
+        """Get EPSS Percentage."""
+        if len(self.epss) < 1:
+            return self.epss[0].get("percentage")
+        return None
+
+    @property
+    def epss_percentile(self) -> Optional[str]:
+        """Get EPSS Percentile."""
+        if len(self.epss) < 1:
+            return self.epss[0].get("percentile")
         return None
 
 
