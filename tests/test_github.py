@@ -77,7 +77,9 @@ class TestRepository(unittest.TestCase):
         self.assertEqual(repo.repo, "ghastoolkit")
         self.assertEqual(repo.path, "sub/folder")
 
-        repo = Repository.parseRepository("GeekMasher/ghastoolkit:this/other/file.yml@develop")
+        repo = Repository.parseRepository(
+            "GeekMasher/ghastoolkit:this/other/file.yml@develop"
+        )
         self.assertEqual(repo.owner, "GeekMasher")
         self.assertEqual(repo.repo, "ghastoolkit")
         self.assertEqual(repo.path, "this/other/file.yml")

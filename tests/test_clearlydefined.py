@@ -1,4 +1,3 @@
-
 import unittest
 
 from ghastoolkit.octokit.clearlydefined import ClearlyDefined
@@ -12,5 +11,3 @@ class TestClearly(unittest.TestCase):
 
         url = clearly.createCurationUrl(dep)
         self.assertEqual(url, f"{clearly.api}/curations/pypi/pypi/-/requests")
-
-

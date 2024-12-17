@@ -1,4 +1,3 @@
-
 import unittest
 from ghastoolkit.codeql.dataextensions.ext import DataExtensions
 
@@ -10,9 +9,18 @@ class TestDataExtModels(unittest.TestCase):
         de = DataExtensions("python")
         self.assertEqual(de.pack, f"codeql/python-queries")
 
-        
     def test_generation_compiled(self):
-        mad = ["java.net", "Socket", True, "Socket", "(String,int)", "", "Argument[0]", "request-forgery", "manual"] 
+        mad = [
+            "java.net",
+            "Socket",
+            True,
+            "Socket",
+            "(String,int)",
+            "",
+            "Argument[0]",
+            "request-forgery",
+            "manual",
+        ]
         model = CompiledSinks(*mad)
 
         self.assertEqual(model.package, "java.net")
@@ -26,4 +34,3 @@ class TestDataExtModels(unittest.TestCase):
         self.assertEqual(model.provenance, "manual")
 
         self.assertEqual(model.generate(), mad)
-

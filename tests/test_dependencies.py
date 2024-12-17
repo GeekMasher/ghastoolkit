@@ -1,4 +1,3 @@
-
 import unittest
 
 from ghastoolkit import Dependencies, Dependency, Licenses
@@ -10,7 +9,9 @@ class TestDependencies(unittest.TestCase):
         self.deps.append(Dependency("urllib3", manager="pypi", license="MIT"))
         self.deps.append(Dependency("rich", manager="pypi", license="NOASSERTION"))
         self.deps.append(Dependency("pyyaml", manager="pypi", license="GPL-3.0"))
-        self.deps.append(Dependency("pyproject-hooks", manager="pypi", license="Apache-2.0"))
+        self.deps.append(
+            Dependency("pyproject-hooks", manager="pypi", license="Apache-2.0")
+        )
         self.deps.append(Dependency("requests", manager="pypi", license="GPL-2.0"))
         return super().setUp()
 
@@ -50,7 +51,7 @@ class TestDependencies(unittest.TestCase):
         licenses.add("pkg:pypi/rich", ["MIT"])
 
         self.deps.applyLicenses(licenses)
-        
+
         deps = self.deps.findUnknownLicenses()
         self.assertEqual(len(deps), 0)
 

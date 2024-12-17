@@ -56,4 +56,3 @@ class TestDepGraph(unittest.TestCase):
         dep = Dependency.fromPurl("npm/ini")
         self.assertEqual(dep.name, "ini")
         self.assertEqual(dep.manager, "npm")
-

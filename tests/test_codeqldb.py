@@ -25,25 +25,26 @@ class TestCodeQLDb(unittest.TestCase):
         self.assertEqual(
             codeql.createDownloadPath("/tmp"), os.path.join("/tmp", "java", "db")
         )
-    
+
     def test_pack(self):
         codeql = CodeQLDatabase("db", "java", self.repo)
         self.assertEqual(codeql.default_pack, "codeql/java-queries")
 
     def test_suite(self):
         codeql = CodeQLDatabase("db", "java", self.repo)
-        self.assertEqual(codeql.getSuite("code-scanning"), "codeql/java-queries:codeql-suites/java-code-scanning.qls")
+        self.assertEqual(
+            codeql.getSuite("code-scanning"),
+            "codeql/java-queries:codeql-suites/java-code-scanning.qls",
+        )
 
     def test_yml_loading(self):
         data = {
             "sourceLocationPrefix": "/tmp/ghastoolkit",
             "baselineLinesOfCode": 42069,
             "primaryLanguage": "python",
-            "creationMetadata": {
-                "creationTime": "2023-01-01T16:20:00.000000000Z"
-            }
+            "creationMetadata": {"creationTime": "2023-01-01T16:20:00.000000000Z"},
         }
-        with open(self.codeql_path_yml, 'w') as handle:
+        with open(self.codeql_path_yml, "w") as handle:
             yaml.safe_dump(data, handle)
 
         self.assertTrue(os.path.exists(self.codeql_path_yml))
@@ -55,4 +56,3 @@ class TestCodeQLDb(unittest.TestCase):
 
         time = datetime.fromisoformat("2023-01-01T16:20:00")
         self.assertEqual(db.created, time)
-

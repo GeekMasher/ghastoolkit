@@ -46,8 +46,8 @@ class TestAdvisories(unittest.TestCase):
             "high",
             cvss={
                 "vector_string": "CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:C/C:H/I:H/A:H",
-                "score": 7.6
-            }
+                "score": 7.6,
+            },
         )
         self.assertEqual(ad.cvss_score(), 7.6)
 
@@ -57,16 +57,23 @@ class TestAdvisories(unittest.TestCase):
             cvss_severities={
                 "cvss_v3": {
                     "vector_string": "CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:C/C:H/I:H/A:H",
-                    "score": 7.6
+                    "score": 7.6,
                 },
                 "cvss_v4": {
                     "vector_string": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
-                    "score": 9.3
-                }
-            }
+                    "score": 9.3,
+                },
+            },
         )
         self.assertEqual(ad.cvss_score(3), 7.6)
         self.assertEqual(ad.cvss_score(4), 9.3)
+
+    def test_epss(self):
+        ad = Advisory(
+            "rand", "high", epss=[{"percentage": 0.00045, "percentile": "0.16001e0"}]
+        )
+        self.assertEqual(ad.epss_percentage, 0.00045)
+        self.assertEqual(ad.epss_percentile, "0.16001e0")
 
     def test_affect_check(self):
         dep = Dependency("ghastoolkit", "com.geekmasher", "0.8", "maven")
