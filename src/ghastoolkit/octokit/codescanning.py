@@ -461,7 +461,11 @@ class CodeScanning:
         https://docs.github.com/en/enterprise-cloud@latest/rest/code-scanning#list-code-scanning-analyses-for-a-repository
         """
         ref = reference or self.repository.reference
-        logger.debug(f"Getting Analyses for {ref}")
+        logger.debug(f"Getting Analyses for ref: {ref}")
+        logger.debug(f"Repository reference: {self.repository.reference}")
+        logger.debug(f"Repository branch: {self.repository.branch}")
+        logger.debug(f"Is in PR: {self.repository.isInPullRequest()}")
+        
         if ref is None:
             raise GHASToolkitError("Reference is required for getting analyses")
 
@@ -478,6 +482,8 @@ class CodeScanning:
                 "/repos/{org}/{repo}/code-scanning/analyses",
                 {"tool_name": tool, "ref": ref},
             )
+            logger.debug(f"Initial API response for ref {ref}: {len(results) if isinstance(results, list) else 'error'} results")
+            
             if not isinstance(results, list):
                 raise GHASToolkitTypeError(
                     "Error getting analyses from Repository",
@@ -494,10 +500,14 @@ class CodeScanning:
                 and (ref.endswith("/merge") or ref.endswith("/head"))
             ):
                 logger.debug("No analyses found for `merge`, trying `head`")
+                head_ref = ref.replace("/merge", "/head")
+                logger.debug(f"Trying head ref: {head_ref}")
                 results = self.rest.get(
                     "/repos/{org}/{repo}/code-scanning/analyses",
-                    {"tool_name": tool, "ref": ref.replace("/merge", "/head")},
+                    {"tool_name": tool, "ref": head_ref},
                 )
+                logger.debug(f"Head ref API response: {len(results) if isinstance(results, list) else 'error'} results")
+                
                 if not isinstance(results, list):
                     raise GHASToolkitTypeError(
                         "Error getting analyses from Repository",
