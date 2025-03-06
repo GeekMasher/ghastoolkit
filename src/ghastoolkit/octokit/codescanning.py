@@ -371,20 +371,34 @@ class CodeScanning:
         if not self.repository.reference or not self.repository.isInPullRequest():
             raise GHASToolkitError("Repository is not in a Pull Request")
 
-        # Try merge and then head
-        analysis = self.getAnalyses(reference=self.repository.reference)
+        # Get PR info to determine the correct reference
+        pr_info = self.repository.getPullRequestInfo()
+        if not pr_info:
+            raise GHASToolkitError("Could not get PR information")
+            
+        # Try head ref first, then merge ref
+        head_ref = f"refs/pull/{self.repository.getPullRequestNumber()}/head"
+        merge_ref = f"refs/pull/{self.repository.getPullRequestNumber()}/merge"
+        
+        logger.debug(f"Trying head ref first: {head_ref}")
+        analysis = self.getAnalyses(reference=head_ref)
+        
+        if len(analysis) == 0:
+            logger.debug(f"No analyses found for head ref, trying merge ref: {merge_ref}")
+            analysis = self.getAnalyses(reference=merge_ref)
+
         if len(analysis) == 0:
             raise GHASToolkitError("No analyses found for the PR")
 
         # For CodeQL results using Default Setup
-        reference = analysis[0].get("ref")
+        reference = analysis[0].ref
         if not reference:
             raise GHASToolkitError("No ref found in the analysis")
 
         alerts = self.getAlerts("open", ref=reference)
 
         for alert in alerts:
-            number = alert.get("number")
+            number = alert.number
             alert_info = self.getAlertInstances(number, ref=base)
             if len(alert_info) == 0:
                 results.append(alert)
