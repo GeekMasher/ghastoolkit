@@ -375,16 +375,18 @@ class CodeScanning:
         pr_info = self.repository.getPullRequestInfo()
         if not pr_info:
             raise GHASToolkitError("Could not get PR information")
-            
+
         # Try head ref first, then merge ref
         head_ref = f"refs/pull/{self.repository.getPullRequestNumber()}/head"
         merge_ref = f"refs/pull/{self.repository.getPullRequestNumber()}/merge"
-        
+
         logger.debug(f"Trying head ref first: {head_ref}")
         analysis = self.getAnalyses(reference=head_ref)
-        
+
         if len(analysis) == 0:
-            logger.debug(f"No analyses found for head ref, trying merge ref: {merge_ref}")
+            logger.debug(
+                f"No analyses found for head ref, trying merge ref: {merge_ref}"
+            )
             analysis = self.getAnalyses(reference=merge_ref)
 
         if len(analysis) == 0:
@@ -465,20 +467,22 @@ class CodeScanning:
         logger.debug(f"Repository reference: {self.repository.reference}")
         logger.debug(f"Repository branch: {self.repository.branch}")
         logger.debug(f"Is in PR: {self.repository.isInPullRequest()}")
-        
+
         if ref is None:
             raise GHASToolkitError("Reference is required for getting analyses")
 
         counter = 0
-        logger.debug(f"Fetching Analyses (retries {self.retry_count} every {self.retry_sleep}s)")
+        logger.debug(
+            f"Fetching Analyses (retries {self.retry_count} every {self.retry_sleep}s)"
+        )
 
         # If we're in a PR, try merge ref first
         if self.repository.isInPullRequest() and "/pull/" in ref:
             pr_number = self.repository.getPullRequestNumber()
             refs_to_try = [
                 f"refs/pull/{pr_number}/merge",  # Try merge first
-                f"refs/pull/{pr_number}/head",   # Then head
-                ref                              # Then original ref
+                f"refs/pull/{pr_number}/head",  # Then head
+                ref,  # Then original ref
             ]
         else:
             refs_to_try = [ref]
@@ -487,24 +491,35 @@ class CodeScanning:
             counter = 0
             while counter < self.retry_count:
                 counter += 1
-                logger.debug(f"Attempting with ref {try_ref} (attempt {counter}/{self.retry_count})")
+                logger.debug(
+                    f"Attempting with ref {try_ref} (attempt {counter}/{self.retry_count})"
+                )
 
                 try:
                     results = self.rest.get(
                         "/repos/{org}/{repo}/code-scanning/analyses",
                         {"tool_name": tool, "ref": try_ref},
                     )
-                    
+
                     if isinstance(results, list) and len(results) > 0:
-                        logger.debug(f"Found {len(results)} analyses with ref {try_ref}")
-                        return [loadOctoItem(CodeScanningAnalysis, analysis) for analysis in results]
-                    
-                    logger.debug(f"No results found with ref {try_ref}, will retry or try next ref")
+                        logger.debug(
+                            f"Found {len(results)} analyses with ref {try_ref}"
+                        )
+                        return [
+                            loadOctoItem(CodeScanningAnalysis, analysis)
+                            for analysis in results
+                        ]
+
+                    logger.debug(
+                        f"No results found with ref {try_ref}, will retry or try next ref"
+                    )
                     time.sleep(self.retry_sleep)
-                
+
                 except Exception as e:
                     logger.debug(f"Error getting analyses with ref {try_ref}: {str(e)}")
-                    if "Code scanning alerts" in str(e) and "repository permissions" in str(e):
+                    if "Code scanning alerts" in str(
+                        e
+                    ) and "repository permissions" in str(e):
                         raise  # Re-raise permission errors immediately
                     time.sleep(self.retry_sleep)
 
