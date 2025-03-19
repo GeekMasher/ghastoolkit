@@ -1,15 +1,14 @@
 [project]
 name = "ghastoolkit"
-version = "0.15.1"
+version = "0.16.0"
 authors = [{ name = "GeekMasher" }]
 description = "GitHub Advanced Security Python Toolkit"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 classifiers = [
     "Development Status :: 4 - Beta",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -18,20 +17,21 @@ classifiers = [
 ]
 
 dependencies = [
-    "certifi==2025.1.31",
-    "charset-normalizer==3.4.1",
-    "idna==3.10",
-    "PyYAML==6.0.2",
-    "ratelimit==2.2.1",
-    "requests==2.32.3",
-    "semantic-version==2.10.0",
-    "urllib3==2.3.0",
+    "pyyaml>=6.0.2",
+    "ratelimit>=2.2.1",
+    "requests>=2.32.3",
+    "semantic-version>=2.10.0",
+]
+
+[dependency-groups]
+dev = [
+    "black>=25.1.0",
+    "myst-parser>=4.0.1",
+    "responses>=0.25.7",
+    "sphinx==7.4.7",
+    "typing-extensions>=4.12.2",
 ]
 
 [project.urls]
 "Homepage" = "https://github.com/GeekMasher/ghastoolkit"
 "Bug Tracker" = "https://github.com/GeekMasher/ghastoolkit/issues"
-
-[build-system]
-requires = ["setuptools>=61.0"]
-build-backend = "setuptools.build_meta"
