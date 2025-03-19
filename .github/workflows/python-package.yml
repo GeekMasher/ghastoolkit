@@ -12,99 +12,111 @@ permissions:
   contents: read
   security-events: read
 
+env:
+  PYTHON_VERSION: "3.13"
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
+
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-${{ matrix.python-version }}
+      cancel-in-progress: true
+    
+    env:
+      UV_PYTHON: ${{ matrix.python-version }}
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5
-      with:
-        python-version: ${{ matrix.python-version }}
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
 
-    - name: Install dependencies
-      run: |
-        set -e
+      - name: Install uv
+        uses: astral-sh/setup-uv@f94ec6bedd8674c4426838e6b50417d36b6ab231   # v5.3.1
+    
+      - name: Install dependencies
+        run: |
+          uv sync --all-extras --dev
 
-        sudo apt-get update
-        sudo apt-get install python3-sphinx
-        
-        python -m pip install --upgrade pip pipenv
-        pipenv sync -d
+      - name: Building
+        run: |
+          uv build
 
-    - name: Build
-      run: |
-        pipenv run build
+      - name: Linting
+        run: |
+          uv run black
 
-    - name: Test with unittest
-      run: |
-        export PYTHONPATH=$PWD/src
-        pipenv run test
+      - name: Testing
+        run: |
+          export PYTHONPATH=$PWD/src
+          uv run python -m unittest discover -v -s ./tests -p 'test_*.py'
 
-    - name: Build Docs 
-      run: | 
-        export PYTHONPATH=$PWD/src
-        pipenv run docs
+      - name: Documentation building 
+        run: |
+          export PYTHONPATH=$PWD/src
+          uv run sphinx-build -b html ./docs ./public
 
-    - name: Lint with Black
-      run: |
-        pipenv run lint
-
-    - name: Run
-      run: |
-        export PYTHONPATH=$PWD/src
-        pipenv run main all \
-          -t="${{ github.token }}" \
-          --ref "refs/heads/main" \
-          -r="GeekMasher/ghastoolkit"
-
+  # Only run examples on push to main branch
   examples:
     runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: build
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Install uv
+        uses: astral-sh/setup-uv@f94ec6bedd8674c4426838e6b50417d36b6ab231   # v5.3.1
+    
+      - name: Install dependencies
+        run: |
+          uv sync --all-extras --dev
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip pipenv
-        pipenv sync -d
+      - name: Run Examples
+        env:
+          GITHUB_TOKEN: "${{ secrets.GHASTOOLKIT_PAT }}"
+          GHASTOOLKIT_ORG_PAT: "${{ secrets.GHASTOOLKIT_ORG_PAT }}"
+        run: |
+          set -e
+          export PYTHONPATH=$PWD/src
 
-    - name: Run Examples
-      env:
-        GITHUB_TOKEN: "${{ secrets.GHASTOOLKIT_PAT }}"
-        GHASTOOLKIT_ORG_PAT: "${{ secrets.GHASTOOLKIT_ORG_PAT }}"
-      run: |
-        set -e
-        export PYTHONPATH=$PWD/src
-
-        for f in examples/*.py; do
-            echo "[+] Running :: $f"
-            pipenv run python $f
-        done
+          for f in examples/*.py; do
+              echo "[+] Running :: $f"
+              uv run python $f
+          done
 
   cli:
     runs-on: ubuntu-latest
     needs: build
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Install uv
+        uses: astral-sh/setup-uv@f94ec6bedd8674c4426838e6b50417d36b6ab231   # v5.3.1
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip pipenv
-        pipenv sync -d --system
+      - name: Install dependencies
+        run: |
+          uv sync --all-extras --dev
 
-    - name: Run Examples
-      env:
-        GITHUB_TOKEN: "${{ github.token }}"
-      run: |
-        set -e
-        export PYTHONPATH=$PWD/src
+      - name: Run CLI
+        env:
+          GITHUB_TOKEN: "${{ github.token }}"
+        run: |
+          set -e
+          export PYTHONPATH=$PWD/src
 
-        python -m ghastoolkit --help
+          uv run python -m ghastoolkit --help
