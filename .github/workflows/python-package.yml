@@ -29,7 +29,11 @@ jobs:
 
     - name: Install dependencies
       run: |
-        apt-get install python3-sphinx
+        set -e
+
+        sudo apt-get update
+        sudo apt-get install python3-sphinx
+        
         python -m pip install --upgrade pip pipenv
         pipenv sync -d
 
