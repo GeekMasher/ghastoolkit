@@ -51,7 +51,7 @@ jobs:
 
       - name: Linting
         run: |
-          uv run black
+          uv run black --check ./src
 
       - name: Testing
         run: |
