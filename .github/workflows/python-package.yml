@@ -29,6 +29,7 @@ jobs:
 
     - name: Install dependencies
       run: |
+        apt-get install python3-sphinx
         python -m pip install --upgrade pip pipenv
         pipenv sync -d
 
@@ -103,4 +104,3 @@ jobs:
         export PYTHONPATH=$PWD/src
 
         python -m ghastoolkit --help
-

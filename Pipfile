@@ -14,10 +14,10 @@ black = "*"
 typing_extensions = "*"
 build = "*"
 twine = "*"
-sphinx = "*"
 myst-parser = "*"
 tomli = "*"
 responses = "*"
+sphinx = "*"
 
 [scripts]
 main = "python -m ghastoolkit"
