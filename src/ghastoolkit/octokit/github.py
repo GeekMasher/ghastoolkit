@@ -162,6 +162,27 @@ class GitHub:
             # TODO: Load from GH CLI?
             logger.debug("Failed to load GitHub token")
 
+    @staticmethod
+    def getToken(masked: bool = True) -> Optional[str]:
+        """Get the GitHub token.
+
+        Masking the token will only show the first 5 and all the other
+        characters as `#`.
+
+        Args:
+            masked (bool): Mask the token. Defaults to True.
+
+        Returns:
+            str: The GitHub token.
+        """
+        if not GitHub.token:
+            return None
+
+        if masked:
+            last = len(GitHub.token) - 5
+            return f"{GitHub.token[0:5]}{'#' * last}"
+        return GitHub.token
+
     @property
     def github_app(self) -> bool:
         """Check if the token is a GitHub App token."""
