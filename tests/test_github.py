@@ -52,6 +52,17 @@ class TestGitHub(unittest.TestCase):
         self.assertEqual(GitHub.owner, "MyOtherOrg")
         self.assertEqual(GitHub.getOrganization(), "MyOtherOrg")
 
+    def test_token_type(self):
+        GitHub.init(token="github_pat_1234567890")
+        self.assertEqual(GitHub.token, "github_pat_1234567890")
+        self.assertEqual(GitHub.validateTokenType(GitHub.token or ""), "PAT")
+
+        GitHub.init(token="gho_1234567890")
+        self.assertEqual(GitHub.token, "gho_1234567890")
+        self.assertEqual(GitHub.validateTokenType(GitHub.token or ""), "OAUTH")
+
+        GitHub.token = None
+
 
 class TestRepository(unittest.TestCase):
     def setUp(self) -> None:
@@ -77,7 +88,9 @@ class TestRepository(unittest.TestCase):
         self.assertEqual(repo.repo, "ghastoolkit")
         self.assertEqual(repo.path, "sub/folder")
 
-        repo = Repository.parseRepository("GeekMasher/ghastoolkit:this/other/file.yml@develop")
+        repo = Repository.parseRepository(
+            "GeekMasher/ghastoolkit:this/other/file.yml@develop"
+        )
         self.assertEqual(repo.owner, "GeekMasher")
         self.assertEqual(repo.repo, "ghastoolkit")
         self.assertEqual(repo.path, "this/other/file.yml")
