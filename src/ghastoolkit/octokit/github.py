@@ -38,6 +38,9 @@ class GitHub:
     passed in as a parameter.
     """
 
+    token_type: Optional[str] = None
+    """GitHub Token Type"""
+
     # URLs
     instance: str = "https://github.com"
     """Instance"""
@@ -48,9 +51,6 @@ class GitHub:
 
     server_version: Optional[Version] = None
     """GitHub Enterprise Server Version"""
-
-    github_app: bool = False
-    """GitHub App setting"""
 
     @staticmethod
     def init(
@@ -80,17 +80,12 @@ class GitHub:
             if branch:
                 GitHub.repository.branch = branch
 
-        if not token:
-            token = os.environ.get("GITHUB_TOKEN")
-        GitHub.token = token
-
-        if GitHub.token:
-            token_type = GitHub.validateTokenType(GitHub.token)
-            logger.debug(f"Token type: {token_type}")
-
-            if token_type == "OAUTH":
-                GitHub.github_app = True
-                logger.debug("Using OAuth token")
+        # Set token or load from environment
+        if token:
+            GitHub.token = token
+        else:
+            GitHub.loadToken()
+        GitHub.token_type = GitHub.validateTokenType(GitHub.token)
 
         if not instance:
             instance = os.environ.get("GITHUB_SERVER_URL")
@@ -151,22 +146,59 @@ class GitHub:
         return response.json()
 
     @staticmethod
-    def validateTokenType(token: str) -> str:
-        """Check what type of token is being used.
+    def loadToken():
+        """Load the GitHub token from the environment variable."""
+        if envvar := os.environ.get("GITHUB_TOKEN"):
+            GitHub.token = envvar
+            logger.debug("Loaded GITHUB_TOKEN from environment variable")
 
+            GitHub.validateTokenType(GitHub.token)
+        elif envvar := os.environ.get("GH_TOKEN"):
+            # This is sometimes set by GitHub CLI
+            GitHub.token = envvar
+            logger.debug("Loaded GH_TOKEN from environment variable")
+
+        else:
+            # TODO: Load from GH CLI?
+            logger.debug("Failed to load GitHub token")
+
+    @property
+    def github_app(self) -> bool:
+        """Check if the token is a GitHub App token."""
+        # This is for backwards compatibility
+        if ttype := self.token_type:
+            return ttype == "OAUTH"
+        return False
+
+    @staticmethod
+    def validateTokenType(token: Optional[str]) -> Optional[str]:
+        """Check what type of token is being used.
 
         Returns:
             str: The type of token being used.
                 - "PAT" for Personal Access Token
                 - "OAUTH" for GitHub App token / OAuth token
+                - "ACTIONS" for GitHub Actions token
+                - "SERVICES" for Server-to-Server token
                 - "UNKNOWN" for unknown token type
 
         https://github.blog/engineering/behind-githubs-new-authentication-token-formats/
         """
+        if not token or not isinstance(token, str):
+            return None
+
+        # GitHub Actions sets the GITHUB_SECRET_SOURCE environment variable
+        if secret_source := os.environ.get("GITHUB_SECRET_SOURCE"):
+            if secret_source != "None":
+                return secret_source.upper()
 
         if token.startswith("ghp_") or token.startswith("github_pat_"):
             return "PAT"
-        elif token.startswith("gho_") or token.startswith("github_oauth_"):
+        elif token.startswith("gho_"):
+            # GitHub OAuth tokens are used for GitHub Apps or GH CLI
             return "OAUTH"
-        else:
-            return "UNKNOWN"
+        elif token.startswith("ghs_"):
+            # GitHub Actions token are Server-to-Server tokens
+            if os.environ.get("CI") == "true":
+                return "ACTIONS"
+            return "SERVICES"
