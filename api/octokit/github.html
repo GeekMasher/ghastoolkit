@@ -5,10 +5,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>GitHub &#8212; GHAS Toolkit 0.15.1 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <title>GitHub &#8212; GHAS Toolkit 0.16.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=12dfc556" />
-    <script src="../../_static/documentation_options.js?v=4befc426"></script>
+    <script src="../../_static/documentation_options.js?v=7de89ed4"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -79,10 +79,29 @@ Its a standard interface across all projects.</p>
 <dd><p>Get the Organization.</p>
 </dd></dl>
 
-<dl class="py attribute">
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.GitHub.getToken">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">getToken</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">masked</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#ghastoolkit.GitHub.getToken" title="Link to this definition">¶</a></dt>
+<dd><p>Get the GitHub token.</p>
+<p>Masking the token will only show the first 5 and all the other
+characters as <cite>#</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>masked</strong> (<em>bool</em>) – Mask the token. Defaults to True.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The GitHub token.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
 <dt class="sig sig-object py" id="ghastoolkit.GitHub.github_app">
-<span class="sig-name descname"><span class="pre">github_app</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#ghastoolkit.GitHub.github_app" title="Link to this definition">¶</a></dt>
-<dd><p>GitHub App setting</p>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">github_app</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#ghastoolkit.GitHub.github_app" title="Link to this definition">¶</a></dt>
+<dd><p>Check if the token is a GitHub App token.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -101,6 +120,12 @@ Its a standard interface across all projects.</p>
 <dt class="sig sig-object py" id="ghastoolkit.GitHub.isEnterpriseServer">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">isEnterpriseServer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#ghastoolkit.GitHub.isEnterpriseServer" title="Link to this definition">¶</a></dt>
 <dd><p>Is the GitHub instance an Enterprise Server.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.GitHub.loadToken">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">loadToken</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ghastoolkit.GitHub.loadToken" title="Link to this definition">¶</a></dt>
+<dd><p>Load the GitHub token from the environment variable.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -130,7 +155,41 @@ Its a standard interface across all projects.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ghastoolkit.GitHub.token">
 <span class="sig-name descname"><span class="pre">token</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ghastoolkit.GitHub.token" title="Link to this definition">¶</a></dt>
-<dd><p>GitHub Access Token</p>
+<dd><p>GitHub Access Token
+This is used to authenticate with the GitHub API.</p>
+<p>This can be set using the GITHUB_TOKEN environment variable or
+passed in as a parameter.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ghastoolkit.GitHub.token_type">
+<span class="sig-name descname"><span class="pre">token_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ghastoolkit.GitHub.token_type" title="Link to this definition">¶</a></dt>
+<dd><p>GitHub Token Type</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.GitHub.validateTokenType">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">validateTokenType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#ghastoolkit.GitHub.validateTokenType" title="Link to this definition">¶</a></dt>
+<dd><p>Check what type of token is being used.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>The type of token being used.</dt><dd><ul class="simple">
+<li><p>”PAT” for Personal Access Token</p></li>
+<li><p>”OAUTH” for GitHub App token / OAuth token</p></li>
+<li><p>”ACTIONS” for GitHub Actions token</p></li>
+<li><p>”SERVICES” for Server-to-Server token</p></li>
+<li><p>”UNKNOWN” for unknown token type</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+<p><a class="reference external" href="https://github.blog/engineering/behind-githubs-new-authentication-token-formats/">https://github.blog/engineering/behind-githubs-new-authentication-token-formats/</a></p>
 </dd></dl>
 
 </dd></dl>

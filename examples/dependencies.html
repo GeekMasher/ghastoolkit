@@ -5,10 +5,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Dependency Graph &#8212; GHAS Toolkit 0.15.1 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <title>Dependency Graph &#8212; GHAS Toolkit 0.16.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=12dfc556" />
-    <script src="../_static/documentation_options.js?v=4befc426"></script>
+    <script src="../_static/documentation_options.js?v=7de89ed4"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -37,7 +37,7 @@
 <section id="organization">
 <h2>Organization<a class="headerlink" href="#organization" title="Link to this heading">¶</a></h2>
 <p>To get a list of all the dependencies in an organization, your’ll need to setup <code class="docutils literal notranslate"><span class="pre">DependencyGraph</span></code>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ghastoolkit</span> <span class="kn">import</span> <span class="n">GitHub</span><span class="p">,</span> <span class="n">DependencyGraph</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ghastoolkit</span><span class="w"> </span><span class="kn">import</span> <span class="n">GitHub</span><span class="p">,</span> <span class="n">DependencyGraph</span>
 
 <span class="n">GitHub</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="s2">&quot;GeekMasher/ghastoolkit&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Owner :: </span><span class="si">{</span><span class="n">GitHub</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">owner</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -72,8 +72,8 @@ This has to be done via the GraphQL API but this data can help with tracking and
 <h2>Snapshots<a class="headerlink" href="#snapshots" title="Link to this heading">¶</a></h2>
 <p>To upload a snapshot to the Dependency Graph you can use the <code class="docutils literal notranslate"><span class="pre">DependencyGraph</span></code> octokit API.</p>
 <p>Lets start by importing and setting up <code class="docutils literal notranslate"><span class="pre">GitHub</span></code>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">from</span> <span class="nn">ghastoolkit</span> <span class="kn">import</span> <span class="n">DependencyGraph</span><span class="p">,</span> <span class="n">Dependencies</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ghastoolkit</span><span class="w"> </span><span class="kn">import</span> <span class="n">DependencyGraph</span><span class="p">,</span> <span class="n">Dependencies</span>
 
 <span class="c1"># initialise GitHub</span>
 <span class="n">GitHub</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="s2">&quot;GeekMasher/ghastoolkit&quot;</span><span class="p">)</span>
