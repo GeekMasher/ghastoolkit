@@ -30,12 +30,12 @@ jobs:
 
       - name: Build and Test Package
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           set -e
           export PYTHONPATH=$PWD/src
+
           uv build
-          uv run python -m ghastoolkit all
           uv run python -m unittest discover -v -s ./tests -p 'test_*.py'
 
       - name: Publish package
