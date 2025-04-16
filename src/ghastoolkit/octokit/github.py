@@ -7,6 +7,7 @@ from urllib.parse import urlparse
 
 from semantic_version import Version
 
+from ghastoolkit.errors import GHASToolkitError
 from ghastoolkit.octokit.repository import Repository
 
 
@@ -30,7 +31,12 @@ class GitHub:
     """Enterprise Name"""
 
     token: Optional[str] = None
-    """GitHub Access Token"""
+    """GitHub Access Token
+    This is used to authenticate with the GitHub API.
+
+    This can be set using the GITHUB_TOKEN environment variable or
+    passed in as a parameter.
+    """
 
     # URLs
     instance: str = "https://github.com"
@@ -77,6 +83,14 @@ class GitHub:
         if not token:
             token = os.environ.get("GITHUB_TOKEN")
         GitHub.token = token
+
+        if GitHub.token:
+            token_type = GitHub.validateTokenType(GitHub.token)
+            logger.debug(f"Token type: {token_type}")
+
+            if token_type == "OAUTH":
+                GitHub.github_app = True
+                logger.debug("Using OAuth token")
 
         if not instance:
             instance = os.environ.get("GITHUB_SERVER_URL")
@@ -135,3 +149,24 @@ class GitHub:
             GitHub.server_version = Version(version)
 
         return response.json()
+
+    @staticmethod
+    def validateTokenType(token: str) -> str:
+        """Check what type of token is being used.
+
+
+        Returns:
+            str: The type of token being used.
+                - "PAT" for Personal Access Token
+                - "OAUTH" for GitHub App token / OAuth token
+                - "UNKNOWN" for unknown token type
+
+        https://github.blog/engineering/behind-githubs-new-authentication-token-formats/
+        """
+
+        if token.startswith("ghp_") or token.startswith("github_pat_"):
+            return "PAT"
+        elif token.startswith("gho_") or token.startswith("github_oauth_"):
+            return "OAUTH"
+        else:
+            return "UNKNOWN"
