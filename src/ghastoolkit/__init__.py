@@ -43,7 +43,8 @@ from ghastoolkit.octokit.advisories import SecurityAdvisories
 # Supply Chain
 from ghastoolkit.supplychain.advisories import Advisory, Advisories
 from ghastoolkit.supplychain.dependencyalert import DependencyAlert
-from ghastoolkit.supplychain.dependencies import Dependency, Dependencies
+from ghastoolkit.supplychain.dependencies import Dependencies
+from ghastoolkit.supplychain.dependency import Dependency
 from ghastoolkit.supplychain.licensing import Licenses
 
 # CodeQL

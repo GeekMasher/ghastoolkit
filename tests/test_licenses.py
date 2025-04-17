@@ -23,8 +23,6 @@ class TestLicensing(unittest.TestCase):
         
         dependencies.applyLicenses(self.licenses)
 
-        dep = dependencies.pop(0)
+        dep = dependencies.pop('ghastoolkit')
         self.assertTrue(isinstance(dep, Dependency))
         self.assertEqual(dep.license, "MIT")
-
-

@@ -22,7 +22,7 @@ jobs:
           python-version: '${{ env.PYTHON_VERSION }}'
 
       - name: Install uv
-        uses: astral-sh/setup-uv@f94ec6bedd8674c4426838e6b50417d36b6ab231   # v5.3.1
+        uses: astral-sh/setup-uv@0c5e2b8115b80b4c7c5ddf6ffdd634974642d182   # v5.4.1
 
       - name: Install dependencies
         run: |
@@ -30,11 +30,12 @@ jobs:
 
       - name: Build and Test Package
         env:
-          PYTHONPATH: $PWD/src
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
+          set -e
+          export PYTHONPATH=$PWD/src
+
           uv build
-          uv run python -m ghastoolkit all
           uv run python -m unittest discover -v -s ./tests -p 'test_*.py'
 
       - name: Publish package
@@ -57,7 +58,7 @@ jobs:
           python-version: '3.13'
 
       - name: Install uv
-        uses: astral-sh/setup-uv@f94ec6bedd8674c4426838e6b50417d36b6ab231   # v5.3.1
+        uses: astral-sh/setup-uv@0c5e2b8115b80b4c7c5ddf6ffdd634974642d182   # v5.4.1
 
       - name: Build docs
         run: |

@@ -1,6 +1,7 @@
 """Test RestRequest class."""
 
 import unittest
+import utils
 from ghastoolkit.errors import GHASToolkitError
 import responses
 
@@ -18,24 +19,7 @@ class TestRestRequest(unittest.TestCase):
 
     @responses.activate
     def test_errors(self):
-        responses.add(
-            responses.GET,
-            "https://api.github.com/repos/GeekMasher/ghastoolkit/secret-scanning/alerts",
-            json={
-                "message": "Secret scanning is disabled on this repository.",
-                "documentation_url": "https://docs.github.com/rest/secret-scanning/secret-scanning",
-            },
-            status=404,
-        )
-        responses.add(
-            responses.GET,
-            "https://api.github.com/repos/GeekMasher/ghastoolkit/secret-scanning/alerts/1",
-            json={
-                "message": "Not Found",
-                "documentation_url": "https://docs.github.com/rest/secret-scanning/secret-scanning",
-            },
-            status=404,
-        )
+        utils.loadResponses("restrequests.json", "errors")
 
         with self.assertRaises(GHASToolkitError):
             self.rest.get("/repos/{owner}/{repo}/secret-scanning/alerts")
@@ -45,15 +29,7 @@ class TestRestRequest(unittest.TestCase):
 
     @responses.activate
     def test_error_handler(self):
-        responses.add(
-            responses.GET,
-            "https://api.github.com/repos/GeekMasher/ghastoolkit/secret-scanning/alerts",
-            json={
-                "message": "Secret scanning is disabled on this repository.",
-                "documentation_url": "https://docs.github.com/rest/secret-scanning/secret-scanning",
-            },
-            status=404,
-        )
+        utils.loadResponses("restrequests.json", "error_handler") 
 
         def handle(code, _):
             self.assertEqual(code, 404)

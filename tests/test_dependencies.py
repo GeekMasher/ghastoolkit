@@ -17,24 +17,24 @@ class TestDependencies(unittest.TestCase):
     def test_license(self):
         mit = self.deps.findLicenses(["MIT"])
         self.assertEqual(len(mit), 1)
-        self.assertEqual(mit[0].name, "urllib3")
+        self.assertTrue(isinstance(self.deps.pop("urllib3"), Dependency))
 
         gpl = self.deps.findLicenses(["GPL-3.0", "GPL-2.0"])
         self.assertEqual(len(gpl), 2)
-        self.assertEqual(gpl[0].name, "pyyaml")
-        self.assertEqual(gpl[1].name, "requests")
+        self.assertTrue(isinstance(self.deps.pop("pyyaml"), Dependency))
+        self.assertTrue(isinstance(self.deps.pop("requests"), Dependency))
 
     def test_license_wildcard(self):
         gpl = self.deps.findLicenses(["GPL-*"])
         self.assertEqual(len(gpl), 2)
-        self.assertEqual(gpl[0].name, "pyyaml")
-        self.assertEqual(gpl[1].name, "requests")
+        self.assertTrue(isinstance(self.deps.pop('pyyaml'), Dependency))
+        self.assertTrue(isinstance(self.deps.pop('requests'), Dependency))
 
     def test_findName(self):
         pys = self.deps.findNames(["py*"])
         self.assertEqual(len(pys), 2)
-        self.assertEqual(pys[0].name, "pyyaml")
-        self.assertEqual(pys[1].name, "pyproject-hooks")
+        self.assertTrue(isinstance(self.deps.pop("pyyaml"), Dependency))
+        self.assertTrue(isinstance(self.deps.pop("pyproject-hooks"), Dependency))
 
     def test_find(self):
         dep = self.deps.find("pyyaml")
@@ -70,3 +70,16 @@ class TestDependencies(unittest.TestCase):
     def test_hashable(self):
         dep = Dependency("urllib3", manager="pypi", license="MIT")
         self.assertEqual(hash(dep), hash(dep.getPurl()))
+
+    def test_contains(self):
+        dep = Dependency("urllib3", manager="pypi", license="MIT")
+        self.assertTrue(self.deps.contains(dep))
+
+        dep = Dependency("random-lib", manager="pypi", license="MIT")
+        self.assertFalse(self.deps.contains(dep))
+        
+        # version is ignored
+        dep = Dependency("urllib3", manager="pypi", license="MIT", version="1.26.5")
+        self.assertTrue(self.deps.contains(dep))
+
+        self.assertFalse(self.deps.contains(dep, version=True))

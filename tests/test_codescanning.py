@@ -1,5 +1,6 @@
 import unittest
 import responses
+import utils
 
 from ghastoolkit import GHASToolkitError, CodeScanning, GitHub
 from ghastoolkit.octokit.codescanning import (
@@ -31,33 +32,9 @@ class TestCodeScanning(unittest.TestCase):
 
     @responses.activate
     def test_default(self):
-        repo = Repository("GeekMasher", "ghastoolkit", reference="refs/heads/main")
+        utils.loadResponses("codescanning.json", "default")
 
-        responses.add(
-            responses.GET,
-            "https://api.github.com/repos/GeekMasher/ghastoolkit/code-scanning/analyses",
-            content_type="application/json",
-            json=[
-                {
-                    "ref": "refs/head/main",
-                    "commit_sha": "abcdef",
-                    "analysis_key": "dynamic/github-code-scanning/codeql:analyze",
-                    "environment": '{"language":"python"}',
-                    "category": "/language:python",
-                    "error": "",
-                    "created_at": "2024-08-27T10:35:05Z",
-                    "results_count": 0,
-                    "rules_count": 50,
-                    "id": 1234,
-                    "url": "https://api.github.com/repos/...",
-                    "sarif_id": "absdef",
-                    "tool": {"name": "CodeQL", "guid": None, "version": "2.18.2"},
-                    "deletable": True,
-                    "warning": "",
-                }
-            ],
-            status=200,
-        )
+        repo = Repository("GeekMasher", "ghastoolkit", reference="refs/heads/main")
 
         codescanning = CodeScanning(repo)
         analyses = codescanning.getAnalyses(GitHub.repository.reference)
@@ -70,16 +47,9 @@ class TestCodeScanning(unittest.TestCase):
 
     @responses.activate
     def test_errors(self):
+        utils.loadResponses("codescanning.json", "errors")
+
         repo = Repository("GeekMasher", "ghastoolkit", reference="refs/pull/1/head")
-        responses.add(
-            responses.GET,
-            "https://api.github.com/repos/GeekMasher/ghastoolkit/code-scanning/analyses",
-            json={
-                "message": "Resource not found",
-                "documentation_url": "https://docs.github.com/rest/code-scanning/code-scanning",
-            },
-            status=404,
-        )
 
         codescanning = CodeScanning(repo)
 
@@ -88,44 +58,11 @@ class TestCodeScanning(unittest.TestCase):
 
     @responses.activate
     def test_retries(self):
+        utils.loadResponses("codescanning.json", "retries")
+
         # Reference is a Default Setup for a Pull Request
         repo = Repository("GeekMasher", "ghastoolkit", reference="refs/pull/1/head")
         self.assertTrue(repo.isInPullRequest())
-
-        # First try isn't avalible
-        responses.add(
-            responses.GET,
-            "https://api.github.com/repos/GeekMasher/ghastoolkit/code-scanning/analyses",
-            content_type="application/json",
-            json=[],
-            status=200,
-        )
-        # Second try its avalible
-        responses.add(
-            responses.GET,
-            "https://api.github.com/repos/GeekMasher/ghastoolkit/code-scanning/analyses",
-            content_type="application/json",
-            json=[
-                {
-                    "ref": "refs/pull/1/head",
-                    "commit_sha": "abcdef",
-                    "analysis_key": "dynamic/github-code-scanning/codeql:analyze",
-                    "environment": '{"language":"python"}',
-                    "category": "/language:python",
-                    "error": "",
-                    "created_at": "2024-08-27T10:35:05Z",
-                    "results_count": 0,
-                    "rules_count": 0,
-                    "id": 1234,
-                    "url": "https://api.github.com/repos/...",
-                    "sarif_id": "absdef",
-                    "tool": {"name": "CodeQL", "guid": None, "version": "2.18.2"},
-                    "deletable": True,
-                    "warning": "",
-                }
-            ],
-            status=200,
-        )
 
         # Enable retries
         codescanning = CodeScanning(repo, retry_count=5, retry_sleep=0)
