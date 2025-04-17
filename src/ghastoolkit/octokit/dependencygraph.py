@@ -9,9 +9,13 @@ from semantic_version import Version
 
 from ghastoolkit.errors import GHASToolkitError, GHASToolkitTypeError
 from ghastoolkit.octokit.github import GitHub, Repository
-from ghastoolkit.supplychain.advisories import Advisory
-from ghastoolkit.supplychain.dependencyalert import DependencyAlert
-from ghastoolkit.supplychain.dependencies import Dependencies, Dependency
+from ghastoolkit.supplychain import (
+    Advisory,
+    Dependencies,
+    Dependency,
+    DependencyAlert,
+    uniqueDependencies,
+)
 from ghastoolkit.octokit.enterprise import Organization
 from ghastoolkit.octokit.octokit import GraphQLRequest, Optional, RestRequest
 from ghastoolkit.utils.cache import Cache
@@ -74,6 +78,18 @@ class DependencyGraph:
 
         self.rest = RestRequest(self.repository)
         return deps
+
+    def getUniqueOrgDependencies(
+        self,
+        version: bool = False,
+    ) -> Dependencies:
+        """Create a unique list of dependencies, this is useful for merging multiple lists for example
+        from an organization.
+
+        Arguments:
+            version: If True, include the version in the unique list. Defaults to False.
+        """
+        return uniqueDependencies(self.getOrganizationDependencies(), version=version)
 
     def getDependencies(self) -> Dependencies:
         """Get Dependencies."""
