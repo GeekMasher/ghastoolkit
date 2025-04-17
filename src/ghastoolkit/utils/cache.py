@@ -5,31 +5,33 @@ from typing import Any, Dict, Optional
 
 logger = logging.getLogger("ghastoolkit.utils.cache")
 
+
 class Cache:
     def __init__(self, root: Optional[str] = None, store: Optional[str] = None):
         """Initialize Cache."""
         if root is None:
-            root = os.path.join(
-                os.path.expanduser("~"), ".ghastoolkit", "cache"
-            )
+            root = os.path.join(os.path.expanduser("~"), ".ghastoolkit", "cache")
         self.root = root
         self.store = store
-        self.cache: Dict[str, Any] = {} 
+        self.cache: Dict[str, Any] = {}
 
         logger.debug(f"Cache root: {self.root}")
 
         if not os.path.exists(self.cache_path):
             os.makedirs(self.cache_path, exist_ok=True)
-    
+
     @property
     def cache_path(self) -> str:
         if self.store is None:
             return self.root
         return os.path.join(self.root, self.store)
-    
-    def read(self, key: str) -> Optional[Any]:
+
+    def read(self, key: str, file_type: Optional[str] = None) -> Optional[Any]:
         """Read from cache."""
         path = os.path.join(self.cache_path, key)
+        if file_type:
+            path = f"{path}.{file_type}"
+
         if os.path.exists(path):
             logger.debug(f"Cache hit: {path}")
             with open(path, "r") as file:
