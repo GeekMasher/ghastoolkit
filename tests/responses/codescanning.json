@@ -1,0 +1,72 @@
+{
+    "default": [
+        {
+            "url": "https://api.github.com/repos/GeekMasher/ghastoolkit/code-scanning/analyses",
+            "json": [
+                {
+                    "ref": "refs/head/main",
+                    "commit_sha": "abcdef",
+                    "analysis_key": "dynamic/github-code-scanning/codeql:analyze",
+                    "environment": "{\"language\": \"python\"}",
+                    "category": "/language:python",
+                    "error": "",
+                    "created_at": "2024-08-27T10:35:05Z",
+                    "results_count": 0,
+                    "rules_count": 50,
+                    "id": 1234,
+                    "url": "https://api.github.com/repos/...",
+                    "sarif_id": "absdef",
+                    "tool": {
+                        "name": "CodeQL",
+                        "guid": null,
+                        "version": "2.18.2"
+                    },
+                    "deletable": true,
+                    "warning": ""
+                }
+            ]
+        }
+    ],
+    "errors": [
+        {
+            "url": "https://api.github.com/repos/GeekMasher/ghastoolkit/code-scanning/analyses",
+            "status": 404,
+            "json": {
+                "message": "Not Found",
+                "documentation_url": "https://docs.github.com/rest/reference/repos#list-code-scanning-analyses"
+            }
+        }
+    ],
+    "retries": [
+        {
+            "url": "https://api.github.com/repos/GeekMasher/ghastoolkit/code-scanning/analyses",
+            "json": [] 
+        },
+        {
+            "url": "https://api.github.com/repos/GeekMasher/ghastoolkit/code-scanning/analyses",
+            "json": [
+                {
+                    "ref": "refs/pull/1/head",
+                    "commit_sha": "abcdef",
+                    "analysis_key": "dynamic/github-code-scanning/codeql:analyze",
+                    "environment": "{\"language\": \"python\"}",
+                    "category": "/language:python",
+                    "error": "",
+                    "created_at": "2024-08-27T10:35:05Z",
+                    "results_count": 0,
+                    "rules_count": 50,
+                    "id": 1234,
+                    "url": "https://api.github.com/repos/...",
+                    "sarif_id": "absdef",
+                    "tool": {
+                        "name": "CodeQL",
+                        "guid": null,
+                        "version": "2.18.2"
+                    },
+                    "deletable": true,
+                    "warning": ""
+                }
+            ]
+        }
+    ]
+}
