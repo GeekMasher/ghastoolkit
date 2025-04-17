@@ -1,5 +1,6 @@
 """Dependency Graph Octokit."""
 
+import json
 import logging
 from typing import Any, Dict
 import urllib.parse
@@ -11,7 +12,9 @@ from ghastoolkit.octokit.github import GitHub, Repository
 from ghastoolkit.supplychain.advisories import Advisory
 from ghastoolkit.supplychain.dependencyalert import DependencyAlert
 from ghastoolkit.supplychain.dependencies import Dependencies, Dependency
+from ghastoolkit.octokit.enterprise import Organization
 from ghastoolkit.octokit.octokit import GraphQLRequest, Optional, RestRequest
+from ghastoolkit.utils.cache import Cache
 
 logger = logging.getLogger("ghastoolkit.octokit.dependencygraph")
 
@@ -24,6 +27,7 @@ class DependencyGraph:
         repository: Optional[Repository] = None,
         enable_graphql: bool = True,
         enable_clearlydefined: bool = False,
+        cache: bool = False,
     ) -> None:
         """Initialise Dependency Graph."""
         self.repository = repository or GitHub.repository
@@ -33,23 +37,39 @@ class DependencyGraph:
         self.enable_graphql = enable_graphql
         self.enable_clearlydefined = enable_clearlydefined
 
-    def getOrganizationDependencies(self) -> Dict[Repository, Dependencies]:
-        """Get Organization Dependencies."""
+        self.cache_enabled = cache
+        self.cache = Cache(store="dependencygraph")
+
+    def getOrganizationDependencies(
+        self, owner: Optional[str] = None
+    ) -> Dict[Repository, Dependencies]:
+        """Get Organization Dependencies for all repositories.
+
+        This is done by iterating through all the repositories in the organization
+        and getting the dependencies for each repository. This is done as there is no
+        way to get all the dependencies for an organization in a single request.
+
+        Arguments:
+            cache: If True, use cached dependencies. Defaults to False.
+
+        Returns:
+            Dict[Repository, Dependencies]: A dictionary of repositories and their dependencies.
+        """
+        org = Organization(organization=owner or GitHub.owner)
+
         deps: Dict[Repository, Dependencies] = {}
 
-        repositories = self.rest.get("/orgs/{org}/repos")
-        if not isinstance(repositories, list):
-            raise Exception("Invalid organization")
+        repositories = org.getRepositories()
+        logger.debug(f"Found {len(repositories)} repositories in organization")
 
         for repo in repositories:
-            repo = Repository.parseRepository(repo.get("full_name"))
             logger.debug(f"Processing repository :: {repo}")
             try:
                 self.rest = RestRequest(repo)
 
                 deps[repo] = self.getDependenciesSbom()
             except Exception as err:
-                logger.warning(f"Failed to get dependencies :: {err}")
+                logger.warning(f"Failed to get `{repo}` dependencies :: {err}")
                 deps[repo] = Dependencies()
 
         self.rest = RestRequest(self.repository)
@@ -88,44 +108,31 @@ class DependencyGraph:
         return deps
 
     def getDependenciesSbom(self) -> Dependencies:
-        """Get Dependencies from SBOM."""
-        result = Dependencies()
+        """Get Dependencies from SBOM.
+
+        If cache is enabled, it will use the cached dependencies if they exist.
+        If not, it will download the SBOM and cache it.
+        """
+        cache_key = self.rest.repository.__str__()
+
+        if self.cache_enabled:
+            cache = self.cache.read(cache_key, file_type="spdx.json")
+            if cache:
+                logger.debug(f"Using cached dependencies for `{self.rest.repository}`")
+                data = json.loads(cache)
+                return Dependencies.loadSpdxSbom(data)
+            else:
+                logger.debug(
+                    f"Cache not found for {self.repository.repo}, downloading SBOM"
+                )
+
         spdx_bom = self.exportBOM()
 
-        for package in spdx_bom.get("sbom", {}).get("packages", []):
-            extref = False
-            dep = Dependency("")
-            for ref in package.get("externalRefs", []):
-                if ref.get("referenceType", "") == "purl":
-                    dep = Dependency.fromPurl(ref.get("referenceLocator"))
-                    extref = True
-                else:
-                    logger.warning(f"Unknown external reference :: {ref}")
+        if self.cache_enabled:
+            logger.debug(f"Caching dependencies for {self.repository.repo}")
+            self.cache.write(cache_key, spdx_bom, file_type="spdx.json")
 
-            # if get find a PURL or not
-            if extref:
-                dep.license = package.get("licenseConcluded")
-            else:
-                name = package.get("name", "").lower()
-                # manager ':'
-                if ":" in name:
-                    dep.manager, name = name.split(":", 1)
-
-                # HACK: Maven / NuGet
-                if dep.manager in ["maven", "nuget"]:
-                    if "." in name:
-                        dep.namespace, name = name.rsplit(".", 1)
-                # Namespace '/'
-                elif "/" in package:
-                    dep.namespace, name = name.split("/", 1)
-
-                dep.name = name
-                dep.version = package.get("versionInfo")
-                dep.license = package.get("licenseConcluded")
-
-            result.append(dep)
-
-        return result
+        return Dependencies.loadSpdxSbom(spdx_bom)
 
     def getDependenciesGraphQL(self, dependencies_count: int = 100) -> Dependencies:
         """Get Dependencies from GraphQL.
@@ -303,11 +310,12 @@ class DependencyGraph:
 
         return dependencies
 
-    def exportBOM(self) -> Dependencies:
+    def exportBOM(self) -> Dict:
         """Download / Export DependencyGraph SBOM.
 
         https://docs.github.com/en/rest/dependency-graph/sboms#export-a-software-bill-of-materials-sbom-for-a-repository
         """
+        logger.debug(f"Exporting SBOM for {self.repository}")
         result = self.rest.get("/repos/{owner}/{repo}/dependency-graph/sbom")
         if result:
             return result
@@ -315,6 +323,9 @@ class DependencyGraph:
         raise GHASToolkitTypeError(
             "Failed to download SBOM",
             docs="https://docs.github.com/en/rest/dependency-graph/sboms#export-a-software-bill-of-materials-sbom-for-a-repository",
+            permissions=[
+                "\"Contents\" repository permissions (read)"
+            ]
         )
 
     def submitDependencies(

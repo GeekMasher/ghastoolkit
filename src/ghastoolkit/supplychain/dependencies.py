@@ -1,3 +1,5 @@
+import os
+import json
 import logging
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -146,6 +148,65 @@ class Dependencies(list[Dependency]):
             },
         }
         return data
+
+    @staticmethod
+    def loadSpdx(
+        path: str,
+    ) -> "Dependencies":
+        """Load a SPDX file into the Dependencies list."""
+        if not os.path.exists(path):
+            raise ValueError(f"File does not exist: {path}")
+        if not os.path.isfile(path):
+            raise ValueError(f"Path is not a file: {path}")
+        
+        with open(path, "r") as file:
+            data = json.load(file)
+                
+        return Dependencies.loadSpdxSbom(data)
+
+    @staticmethod
+    def loadSpdxSbom(
+        data: dict,
+    ) -> "Dependencies":
+        """Load a SBOM into the Dependencies list."""
+        if not isinstance(data, dict):
+            raise ValueError("Data must be a dictionary")
+
+        result = Dependencies()
+
+        for package in data.get("sbom", {}).get("packages", []):
+            extref = False
+            dep = Dependency("")
+            for ref in package.get("externalRefs", []):
+                if ref.get("referenceType", "") == "purl":
+                    dep = Dependency.fromPurl(ref.get("referenceLocator"))
+                    extref = True
+                else:
+                    logger.warning(f"Unknown external reference :: {ref}")
+
+            # if get find a PURL or not
+            if extref:
+                dep.license = package.get("licenseConcluded")
+            else:
+                name = package.get("name", "").lower()
+                # manager ':'
+                if ":" in name:
+                    dep.manager, name = name.split(":", 1)
+
+                # HACK: Maven / NuGet
+                if dep.manager in ["maven", "nuget"]:
+                    if "." in name:
+                        dep.namespace, name = name.rsplit(".", 1)
+                # Namespace '/'
+                elif "/" in package:
+                    dep.namespace, name = name.split("/", 1)
+
+                dep.name = name
+                dep.version = package.get("versionInfo")
+                dep.license = package.get("licenseConcluded")
+
+            result.append(dep)
+        return result
 
     def findLicenses(self, licenses: list[str]) -> "Dependencies":
         """Find dependencies with a given license."""

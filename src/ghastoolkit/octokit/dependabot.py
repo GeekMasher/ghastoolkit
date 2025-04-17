@@ -114,6 +114,10 @@ class Dependabot:
         raise GHASToolkitTypeError(
             f"Error getting Dependabot alerts",
             docs="https://docs.github.com/en/rest/dependabot/alerts",
+            permissions=[
+                '"Dependabot alerts" repository permissions (read)',
+                '"Dependabot security updates" repository permissions (read)',
+            ],
         )
 
     def getAlertsInPR(self) -> list[DependencyAlert]:
