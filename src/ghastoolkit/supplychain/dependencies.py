@@ -23,9 +23,17 @@ class Dependencies:
             for dep in iterable:
                 self.add(dep)
 
-    def add(self, dependency: Dependency):
+    def add(self, dependency: Dependency, repository: Repository = None):
         """Add a dependency to the set."""
         self._dependencies.add(dependency)
+
+        if repository:
+            # Find and add repo
+            for dep in self:
+                if dep.name == dependency.name or dep.fullname == dependency.fullname:
+                    dep.repositories.add(repository)
+                    self.add(dep)
+                    return
 
     def append(self, dependency: Dependency):
         """Append is an alias for `.add`, for backwards compatibility."""
@@ -297,12 +305,6 @@ def uniqueDependencies(
 
     for repo, deps in dependencies.items():
         for dep in deps:
-
-            # Remove the version
-            if version:
-                dep.version = None
-
-            unique_deps.add(dep)
-            unique_deps[dep].repositories.append(repo)
+            unique_deps.add(dep, repo)
 
     return unique_deps
