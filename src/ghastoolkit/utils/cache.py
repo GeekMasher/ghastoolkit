@@ -1,19 +1,49 @@
 import os
 import json
 import logging
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Union
+from datetime import datetime, timedelta
 
 logger = logging.getLogger("ghastoolkit.utils.cache")
 
+# A month in minutes
+CACHE_MONTH = 30 * 24 * 60
+# A week in minutes
+CACHE_WEEK = 7 * 24 * 60
+# A day in minutes
+CACHE_DAY = 24 * 60
 
 class Cache:
-    def __init__(self, root: Optional[str] = None, store: Optional[str] = None):
-        """Initialize Cache."""
+    """Cache class for storing and retrieving data."""
+
+    cache_age: int = CACHE_DAY
+    """Default cache age in minutes."""
+
+    def __init__(self, root: Optional[str] = None, store: Optional[str] = None, age: Union[int, str] = CACHE_DAY):
+        """Initialize Cache.
+        
+        Args:
+            root (str, optional): Root directory for cache. Defaults to ~/.ghastoolkit/cache.
+            store (str, optional): Subdirectory for cache. Defaults to None.
+            age (int, str): Cache expiration age in hours. Defaults to 1440mins (24hrs).
+        """
         if root is None:
             root = os.path.join(os.path.expanduser("~"), ".ghastoolkit", "cache")
         self.root = root
         self.store = store
         self.cache: Dict[str, Any] = {}
+
+        if isinstance(age, str):
+            if age.upper() == "MONTH":
+                Cache.cache_age = CACHE_MONTH
+            elif age.upper() == "WEEK":
+                Cache.cache_age = CACHE_WEEK
+            elif age.upper() == "DAY":
+                Cache.cache_age = CACHE_DAY
+            else:
+                Cache.cache_age = CACHE_DAY
+        else:
+            Cache.cache_age = age
 
         logger.debug(f"Cache root: {self.root}")
 
@@ -26,13 +56,39 @@ class Cache:
             return self.root
         return os.path.join(self.root, self.store)
 
-    def read(self, key: str, file_type: Optional[str] = None) -> Optional[Any]:
+    def get_file_age(self, path: str) -> Optional[float]:
+        """Get the age of a file in hours."""
+        if not os.path.exists(path):
+            return None
+        
+        file_mtime = os.path.getmtime(path)
+        file_time = datetime.fromtimestamp(file_mtime)
+        current_time = datetime.now()
+        
+        age_hours = (current_time - file_time).total_seconds() / 3600
+        logger.debug(f"Cache file age: {age_hours:.2f} hours for {path}")
+        
+        return age_hours
+    
+    def is_cache_expired(self, path: str, max_age_hours: float = 24.0) -> bool:
+        """Check if cache file is expired (older than max_age_hours)."""
+        age = self.get_file_age(path)
+        if age is None:
+            return True
+        
+        return age > max_age_hours
+
+    def read(self, key: str, file_type: Optional[str] = None, max_age_hours: float = 24.0) -> Optional[Any]:
         """Read from cache."""
         path = os.path.join(self.cache_path, key)
         if file_type:
             path = f"{path}.{file_type}"
 
         if os.path.exists(path):
+            if self.is_cache_expired(path, max_age_hours):
+                logger.debug(f"Cache expired ({max_age_hours} hours): {path}")
+                return None
+                
             logger.debug(f"Cache hit: {path}")
             with open(path, "r") as file:
                 return file.read()
