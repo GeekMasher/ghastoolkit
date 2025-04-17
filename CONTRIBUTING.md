@@ -43,6 +43,30 @@ GHASToolkit uses `unittest` for testing. To run the tests, you can use the follo
 uv run python -m unittest discover -v -s ./tests -p 'test_*.py'
 ```
 
+### API Requests / Responses
+
+When writing tests for API requests, please make sure to use the `responses` library along with the `utils` module to mock the requests.
+This is important to ensure that the tests are not dependent on the actual API responses and can be run in isolation.
+
+**Example:**
+
+```python
+import responses
+import utils
+
+class TestMyClass(unittest.TestCase):
+    @responses.activate
+    def test_my_method(self):
+        # This will add all the mocked
+        utils.loadResponses('mytests', 'my_method')
+
+        # Call the method
+        result = utils.my_method()
+
+        # Assert the result
+        self.assertEqual(result, {'key': 'value'})
+```
+
 ## Running CLI
 
 To run the CLI, you can use the following command:
