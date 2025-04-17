@@ -1,0 +1,30 @@
+{
+    "errors": [
+        {
+            "url": "https://api.github.com/repos/GeekMasher/ghastoolkit/secret-scanning/alerts",
+            "status": 404,
+            "json": {
+                "message": "Secret scanning is disabled on this repository.",
+                "documentation_url": "https://docs.github.com/rest/secret-scanning/secret-scanning"
+            }
+        },
+        {
+            "url": "https://api.github.com/repos/GeekMasher/ghastoolkit/secret-scanning/alerts/1",
+            "status": 404,
+            "json": {
+                "message": "Not Found",
+                "documentation_url": "https://docs.github.com/rest/secret-scanning/secret-scanning"
+            }
+        }
+    ],
+    "error_handler": [
+        {
+            "url": "https://api.github.com/repos/GeekMasher/ghastoolkit/secret-scanning/alerts",
+            "status": 404,
+            "json": {
+                "message": "Secret scanning is disabled on this repository.",
+                "documentation_url": "https://docs.github.com/rest/secret-scanning/secret-scanning"
+            }
+        }
+    ]
+}
