@@ -38,8 +38,56 @@
 <h2>Dependencies<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
 <dl class="py class" id="module-ghastoolkit">
 <dt class="sig sig-object py" id="ghastoolkit.Dependencies">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ghastoolkit.</span></span><span class="sig-name descname"><span class="pre">Dependencies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ghastoolkit.Dependencies" title="Link to this definition">¶</a></dt>
-<dd><p>List of Dependencies.</p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ghastoolkit.</span></span><span class="sig-name descname"><span class="pre">Dependencies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ghastoolkit.Dependencies" title="Link to this definition">¶</a></dt>
+<dd><p>Set-like collection of Dependencies with list compatibility.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.Dependencies.__contains__">
+<span class="sig-name descname"><span class="pre">__contains__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dependency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="dependency.html#ghastoolkit.Dependency" title="ghastoolkit.supplychain.dependency.Dependency"><span class="pre">Dependency</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#ghastoolkit.Dependencies.__contains__" title="Link to this definition">¶</a></dt>
+<dd><p>Check if dependency is in the collection.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.Dependencies.__getitem__">
+<span class="sig-name descname"><span class="pre">__getitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ghastoolkit.Dependencies.__getitem__" title="Link to this definition">¶</a></dt>
+<dd><p>Support for index-based access for backward compatibility.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.Dependencies.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ghastoolkit.Dependencies.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>Initialize with an optional iterable.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.Dependencies.__iter__">
+<span class="sig-name descname"><span class="pre">__iter__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ghastoolkit.Dependencies.__iter__" title="Link to this definition">¶</a></dt>
+<dd><p>Iterator protocol support.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.Dependencies.__len__">
+<span class="sig-name descname"><span class="pre">__len__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ghastoolkit.Dependencies.__len__" title="Link to this definition">¶</a></dt>
+<dd><p>Return count of dependencies.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.Dependencies.__setitem__">
+<span class="sig-name descname"><span class="pre">__setitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ghastoolkit.Dependencies.__setitem__" title="Link to this definition">¶</a></dt>
+<dd><p>Support for index-based setting for backward compatibility.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.Dependencies.add">
+<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dependency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="dependency.html#ghastoolkit.Dependency" title="ghastoolkit.supplychain.dependency.Dependency"><span class="pre">Dependency</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">repository</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../octokit/repository.html#ghastoolkit.Repository" title="ghastoolkit.octokit.repository.Repository"><span class="pre">Repository</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ghastoolkit.Dependencies.add" title="Link to this definition">¶</a></dt>
+<dd><p>Add a dependency to the set.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.Dependencies.append">
+<span class="sig-name descname"><span class="pre">append</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dependency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="dependency.html#ghastoolkit.Dependency" title="ghastoolkit.supplychain.dependency.Dependency"><span class="pre">Dependency</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ghastoolkit.Dependencies.append" title="Link to this definition">¶</a></dt>
+<dd><p>Append is an alias for <cite>.add</cite>, for backwards compatibility.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.Dependencies.applyClearlyDefined">
 <span class="sig-name descname"><span class="pre">applyClearlyDefined</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ghastoolkit.Dependencies.applyClearlyDefined" title="Link to this definition">¶</a></dt>
@@ -54,8 +102,22 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.Dependencies.contains">
-<span class="sig-name descname"><span class="pre">contains</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dependency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="dependency.html#ghastoolkit.Dependency" title="ghastoolkit.supplychain.dependencies.Dependency"><span class="pre">Dependency</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#ghastoolkit.Dependencies.contains" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">contains</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dependency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="dependency.html#ghastoolkit.Dependency" title="ghastoolkit.supplychain.dependency.Dependency"><span class="pre">Dependency</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#ghastoolkit.Dependencies.contains" title="Link to this definition">¶</a></dt>
 <dd><p>Contains the dependency.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dependency</strong> – Dependency to check</p></li>
+<li><p><strong>version</strong> – Check the version as well</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the dependency is in the list</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -66,7 +128,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.Dependencies.find">
-<span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="dependency.html#ghastoolkit.Dependency" title="ghastoolkit.supplychain.dependencies.Dependency"><span class="pre">Dependency</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#ghastoolkit.Dependencies.find" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="dependency.html#ghastoolkit.Dependency" title="ghastoolkit.supplychain.dependency.Dependency"><span class="pre">Dependency</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#ghastoolkit.Dependencies.find" title="Link to this definition">¶</a></dt>
 <dd><p>Find by name.</p>
 </dd></dl>
 
@@ -84,7 +146,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.Dependencies.findPurl">
-<span class="sig-name descname"><span class="pre">findPurl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">purl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="dependency.html#ghastoolkit.Dependency" title="ghastoolkit.supplychain.dependencies.Dependency"><span class="pre">Dependency</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#ghastoolkit.Dependencies.findPurl" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">findPurl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">purl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="dependency.html#ghastoolkit.Dependency" title="ghastoolkit.supplychain.dependency.Dependency"><span class="pre">Dependency</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#ghastoolkit.Dependencies.findPurl" title="Link to this definition">¶</a></dt>
 <dd><p>Find by PURL.</p>
 </dd></dl>
 
@@ -95,6 +157,30 @@
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.Dependencies.loadSpdx">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">loadSpdx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#ghastoolkit.Dependencies" title="ghastoolkit.supplychain.dependencies.Dependencies"><span class="pre">Dependencies</span></a></span></span><a class="headerlink" href="#ghastoolkit.Dependencies.loadSpdx" title="Link to this definition">¶</a></dt>
+<dd><p>Load a SPDX file into the Dependencies list.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.Dependencies.loadSpdxSbom">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">loadSpdxSbom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#ghastoolkit.Dependencies" title="ghastoolkit.supplychain.dependencies.Dependencies"><span class="pre">Dependencies</span></a></span></span><a class="headerlink" href="#ghastoolkit.Dependencies.loadSpdxSbom" title="Link to this definition">¶</a></dt>
+<dd><p>Load a SBOM into the Dependencies list.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.Dependencies.pop">
+<span class="sig-name descname"><span class="pre">pop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="dependency.html#ghastoolkit.Dependency" title="ghastoolkit.supplychain.dependency.Dependency"><span class="pre">Dependency</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="dependency.html#ghastoolkit.Dependency" title="ghastoolkit.supplychain.dependency.Dependency"><span class="pre">Dependency</span></a></span></span><a class="headerlink" href="#ghastoolkit.Dependencies.pop" title="Link to this definition">¶</a></dt>
+<dd><p>Pop allows you to remove an element from the set and return it.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ghastoolkit.Dependencies.remove">
+<span class="sig-name descname"><span class="pre">remove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dependency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="dependency.html#ghastoolkit.Dependency" title="ghastoolkit.supplychain.dependency.Dependency"><span class="pre">Dependency</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ghastoolkit.Dependencies.remove" title="Link to this definition">¶</a></dt>
+<dd><p>Remove a dependency from the set.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.Dependencies.updateDependencies">
 <span class="sig-name descname"><span class="pre">updateDependencies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dependencies</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#ghastoolkit.Dependencies" title="ghastoolkit.supplychain.dependencies.Dependencies"><span class="pre">Dependencies</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ghastoolkit.Dependencies.updateDependencies" title="Link to this definition">¶</a></dt>
 <dd><p>Update a list of dependencies.</p>
@@ -102,7 +188,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ghastoolkit.Dependencies.updateDependency">
-<span class="sig-name descname"><span class="pre">updateDependency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dependency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="dependency.html#ghastoolkit.Dependency" title="ghastoolkit.supplychain.dependencies.Dependency"><span class="pre">Dependency</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ghastoolkit.Dependencies.updateDependency" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">updateDependency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dependency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="dependency.html#ghastoolkit.Dependency" title="ghastoolkit.supplychain.dependency.Dependency"><span class="pre">Dependency</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ghastoolkit.Dependencies.updateDependency" title="Link to this definition">¶</a></dt>
 <dd><p>Update a dependency in our list with the incoming information.</p>
 </dd></dl>
 
