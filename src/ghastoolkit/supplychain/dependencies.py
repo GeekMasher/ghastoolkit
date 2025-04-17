@@ -158,10 +158,10 @@ class Dependencies(list[Dependency]):
             raise ValueError(f"File does not exist: {path}")
         if not os.path.isfile(path):
             raise ValueError(f"Path is not a file: {path}")
-        
+
         with open(path, "r") as file:
             data = json.load(file)
-                
+
         return Dependencies.loadSpdxSbom(data)
 
     @staticmethod

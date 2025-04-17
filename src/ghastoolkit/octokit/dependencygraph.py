@@ -323,9 +323,7 @@ class DependencyGraph:
         raise GHASToolkitTypeError(
             "Failed to download SBOM",
             docs="https://docs.github.com/en/rest/dependency-graph/sboms#export-a-software-bill-of-materials-sbom-for-a-repository",
-            permissions=[
-                "\"Contents\" repository permissions (read)"
-            ]
+            permissions=['"Contents" repository permissions (read)'],
         )
 
     def submitDependencies(
