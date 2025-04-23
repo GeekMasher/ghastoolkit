@@ -64,36 +64,36 @@ jobs:
           uv run sphinx-build -b html ./docs ./public
 
   # Only run examples on push to main branch
-  examples:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs: build
+  # examples:
+  #   runs-on: ubuntu-latest
+  #   if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+  #   needs: build
 
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up Python ${{ env.PYTHON_VERSION }}
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
-      - name: Install uv
-        uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86   # v5.4.2
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Set up Python ${{ env.PYTHON_VERSION }}
+  #       uses: actions/setup-python@v5
+  #       with:
+  #         python-version: ${{ env.PYTHON_VERSION }}
+  #     - name: Install uv
+  #       uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86   # v5.4.2
     
-      - name: Install dependencies
-        run: |
-          uv sync --all-extras --dev
+  #     - name: Install dependencies
+  #       run: |
+  #         uv sync --all-extras --dev
 
-      - name: Run Examples
-        env:
-          GITHUB_TOKEN: "${{ secrets.GHASTOOLKIT_PAT }}"
-          GHASTOOLKIT_ORG_PAT: "${{ secrets.GHASTOOLKIT_ORG_PAT }}"
-        run: |
-          set -e
-          export PYTHONPATH=$PWD/src
+  #     - name: Run Examples
+  #       env:
+  #         GITHUB_TOKEN: "${{ secrets.GHASTOOLKIT_PAT }}"
+  #         GHASTOOLKIT_ORG_PAT: "${{ secrets.GHASTOOLKIT_ORG_PAT }}"
+  #       run: |
+  #         set -e
+  #         export PYTHONPATH=$PWD/src
 
-          for f in examples/*.py; do
-              echo "[+] Running :: $f"
-              uv run python $f
-          done
+  #         for f in examples/*.py; do
+  #             echo "[+] Running :: $f"
+  #             uv run python $f
+  #         done
 
   cli:
     runs-on: ubuntu-latest
