@@ -24,7 +24,10 @@ logger = logging.getLogger("ghastoolkit.octokit.dependencygraph")
 
 
 class DependencyGraph:
-    """Dependency Graph API."""
+    """Dependency Graph API.
+    
+    This class is used to interact with the Dependency Graph API in GitHub.
+    """
 
     def __init__(
         self,
@@ -33,7 +36,16 @@ class DependencyGraph:
         enable_clearlydefined: bool = False,
         cache: bool = False,
     ) -> None:
-        """Initialise Dependency Graph."""
+        """Initialise Dependency Graph.
+        
+        Arguments:
+            repository: The repository to use. If not provided, it will use the current
+                        repository in `GitHub`.
+            enable_graphql: Enable GraphQL API. Defaults to True.
+            enable_clearlydefined: Enable ClearlyDefined API. Defaults to False.
+            cache: Enable caching. Defaults to False.
+        
+        """
         self.repository = repository or GitHub.repository
         self.rest = RestRequest(repository)
         self.graphql = GraphQLRequest(repository)
@@ -54,7 +66,8 @@ class DependencyGraph:
         way to get all the dependencies for an organization in a single request.
 
         Arguments:
-            cache: If True, use cached dependencies. Defaults to False.
+            owner: The owner of the organization. If not provided, it will use the current
+                   owner of the repository.
 
         Returns:
             Dict[Repository, Dependencies]: A dictionary of repositories and their dependencies.
@@ -269,7 +282,15 @@ class DependencyGraph:
         return deps
 
     def getDependenciesInPR(self, base: str, head: str) -> Dependencies:
-        """Get all the dependencies from a Pull Request."""
+        """Get all the dependencies from a Pull Request.
+        
+        Arguments:
+            base: The base branch of the Pull Request.
+            head: The head branch of the Pull Request.
+        Returns:
+            Dependencies: A list of dependencies.
+
+        """
 
         if GitHub.isEnterpriseServer() and GitHub.server_version < Version("3.6.0"):
             raise GHASToolkitError("Enterprise Server version must be >= 3.6")
@@ -299,8 +320,8 @@ class DependencyGraph:
 
             purl = depdata.get("package_url")
             if not purl or purl == "":
-                logger.warn("Package URL is not present, skipping...")
-                logger.warn(f"Package :: {depdata}")
+                logger.warning("Package URL is not present, skipping...")
+                logger.warning(f"Package :: {depdata}")
                 continue
 
             dep = Dependency.fromPurl(purl)
@@ -353,6 +374,15 @@ class DependencyGraph:
         url: str = "",
     ):
         """Submit dependencies to GitHub Dependency Graph snapshots API.
+
+        Arguments:
+            dependencies: The dependencies to submit.
+            tool: The tool used to generate the dependencies.
+            path: The path to the dependencies file.
+            sha: The SHA of the commit.
+            ref: The reference of the commit.
+            version: The version of the dependencies.
+            url: The URL of the dependencies file.
 
         https://docs.github.com/en/rest/dependency-graph/dependency-submission?apiVersion=2022-11-28#create-a-snapshot-of-dependencies-for-a-repository
         """
