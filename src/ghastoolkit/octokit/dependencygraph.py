@@ -25,7 +25,7 @@ logger = logging.getLogger("ghastoolkit.octokit.dependencygraph")
 
 class DependencyGraph:
     """Dependency Graph API.
-    
+
     This class is used to interact with the Dependency Graph API in GitHub.
     """
 
@@ -37,14 +37,14 @@ class DependencyGraph:
         cache: bool = False,
     ) -> None:
         """Initialise Dependency Graph.
-        
+
         Arguments:
             repository: The repository to use. If not provided, it will use the current
                         repository in `GitHub`.
             enable_graphql: Enable GraphQL API. Defaults to True.
             enable_clearlydefined: Enable ClearlyDefined API. Defaults to False.
             cache: Enable caching. Defaults to False.
-        
+
         """
         self.repository = repository or GitHub.repository
         self.rest = RestRequest(repository)
@@ -283,7 +283,7 @@ class DependencyGraph:
 
     def getDependenciesInPR(self, base: str, head: str) -> Dependencies:
         """Get all the dependencies from a Pull Request.
-        
+
         Arguments:
             base: The base branch of the Pull Request.
             head: The head branch of the Pull Request.
