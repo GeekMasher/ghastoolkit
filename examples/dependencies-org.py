@@ -1,4 +1,4 @@
-"""Example fetching all the of the dependencies for an organization.
+"""Example fetching all of the dependencies for an organization.
 
 This example also caches the results to a local folder.
 """
