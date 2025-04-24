@@ -14,18 +14,25 @@ class Dependency:
 
     name: str
     """Name of the Dependency"""
+
     namespace: Optional[str] = None
     """Namespace of the Dependency"""
+
     version: Optional[str] = None
     """Version of the Dependency"""
+
     manager: Optional[str] = None
     """Package Manager"""
+
     path: Optional[str] = None
     """Path to the Dependency"""
+
     qualifiers: dict[str, str] = field(default_factory=dict)
     """Qualifiers"""
+
     license: Optional[str] = None
     """License information"""
+
     alerts: list[DependencyAlert] = field(default_factory=list)
     """Security Alerts"""
 
