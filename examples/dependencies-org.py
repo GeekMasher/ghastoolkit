@@ -21,7 +21,7 @@ print(f"GitHub :: {GitHub}")
 print(f"Owner  :: {GitHub.owner}")
 print(f"Token  :: {GitHub.getToken()} ({GitHub.token_type})")
 
-depgraph = DependencyGraph(cache=True)
+depgraph = DependencyGraph(cache=True, enable_graphql=True)
 print(f"Cache  :: {depgraph.cache.cache_path}")
 
 # OR Get the list of unique dependencies
