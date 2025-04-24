@@ -66,6 +66,24 @@ class Dependabot:
     ) -> list[DependencyAlert]:
         """Get All Dependabot alerts from REST API.
 
+        Arguments:
+            state (str): State of the alert. Defaults to "open".
+                Options: auto_dismissed, dismissed, fixed, open
+            severity (str): Severity of the alert.
+                Options: low, moderate, high, critical
+            ecosystem (str): Ecosystem of the alert.
+                Options: npm, rubygems, maven, pip, etc.
+            package (str): Package name of the alert.
+            manifest (str): Manifest path of the alert.
+            scope (str): Scope of the alert.
+
+        Returns:
+            list[DependencyAlert]: List of Dependabot alerts.
+
+        Raises:
+            GHASToolkitTypeError: If the state is not valid.
+            GHASToolkitError: If the request fails.
+
         https://docs.github.com/en/rest/dependabot/alerts
         """
         if state not in ["auto_dismissed", "dismissed", "fixed", "open"]:
@@ -87,6 +105,7 @@ class Dependabot:
                 "scope": scope,
             },
         )
+
         if isinstance(results, list):
             retval = []
             for alert in results:
@@ -94,23 +113,28 @@ class Dependabot:
                 # Fix issues between GraphQL and Advisory class
                 advisory_data["affected"] = advisory_data.pop("vulnerabilities")
                 advisory = Advisory(**advisory_data)
+                logger.debug(f"Advisory :: {advisory}")
 
                 package = alert.get("dependency", {}).get("package", {})
 
-                retval.append(
-                    DependencyAlert(
-                        number=alert.get("number"),
-                        state=alert.get("state"),
-                        severity=alert.get("security_advisory", {}).get(
-                            "severity", "unknown"
-                        ),
-                        advisory=advisory,
-                        purl=f"pkg:{package.get('ecosystem')}/{package.get('name')}".lower(),
-                        manifest=alert.get("manifest_path"),
-                    )
+                alert = DependencyAlert(
+                    number=alert.get("number"),
+                    state=alert.get("state"),
+                    severity=alert.get("security_advisory", {}).get(
+                        "severity", "unknown"
+                    ),
+                    advisory=advisory,
+                    purl=f"pkg:{package.get('ecosystem')}/{package.get('name')}".lower(),
+                    manifest=alert.get("manifest_path"),
                 )
+                logger.debug(f"Alert :: {alert}")
 
+                retval.append(alert)
+
+            logger.debug(f"Number of Dependabot Alerts :: {len(retval)}")
             return retval
+
+        logger.debug(f"Failed to get Dependabot alerts :: {results}")
         raise GHASToolkitTypeError(
             f"Error getting Dependabot alerts",
             docs="https://docs.github.com/en/rest/dependabot/alerts",
@@ -149,7 +173,8 @@ class Dependabot:
         return alerts
 
     def getAlertsGraphQL(self) -> list[DependencyAlert]:
-        """Get All Dependabot alerts from GraphQL API using the `GetDependencyAlerts` query."""
+        """Get All Dependabot alerts from GraphQL API using the `GetDependencyAlerts` query.
+        """
         results = []
 
         while True:
@@ -164,19 +189,24 @@ class Dependabot:
                     "This could be due to a lack of permissions or access token"
                 )
                 raise GHASToolkitError(f"Failed to get GraphQL repository alerts")
+            logger.debug("GraphQL successfully got repository data")
 
-            alerts = repo.get("vulnerabilityAlerts", {})
+            alerts = repo.get("vulnerabilityAlerts", {}).get("edges", [])
+            page_info = repo.get("vulnerabilityAlerts", {}).get("pageInfo", {})
 
-            for alert in alerts.get("edges", []):
+            for alert in alerts:
                 data = alert.get("node", {})
                 package = data.get("securityVulnerability", {}).get("package", {})
-                purl = f"pkg:{package.get('ecosystem')}/{package.get('name')}".lower()
+                ecosystem = package.get("ecosystem", "")
+                name = package.get("name", "")
+                purl = f"pkg:{ecosystem}/{name}".lower()
                 created_at = data.get("createdAt")
 
                 advisory_data = data.get("securityAdvisory", {})
                 # Fix issues between GraphQL and Advisory class
                 advisory_data["ghsa_id"] = advisory_data.pop("ghsaId")
                 advisory = Advisory(**advisory_data)
+                logger.debug(f"Advisory :: {advisory}")
 
                 dep_alert = DependencyAlert(
                     number=data.get("number"),
@@ -187,13 +217,16 @@ class Dependabot:
                     created_at=created_at,
                 )
                 dep_alert.__data__ = data
+
+                logger.debug(f"Alert :: {dep_alert}")
                 results.append(dep_alert)
 
-            if not alerts.get("pageInfo", {}).get("hasNextPage"):
+            if not page_info.get("pageInfo", {}).get("hasNextPage"):
                 logger.debug(f"GraphQL cursor hit end page")
                 break
 
-            self.graphql.cursor = alerts.get("pageInfo", {}).get("endCursor", "")
+            self.graphql.cursor = page_info.get("pageInfo", {}).get("endCursor", "")
+            logger.debug(f"GraphQL cursor :: {self.graphql.cursor}")
 
         logger.debug(f"Number of Dependabot Alerts :: {len(results)}")
         return results

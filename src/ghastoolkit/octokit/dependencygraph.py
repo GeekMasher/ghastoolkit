@@ -206,7 +206,9 @@ class DependencyGraph:
                 for manifest in graph_manifests.get("edges", []):
                     node = manifest.get("node", {})
                     dependencies = node.get("dependencies", {})
-                    logger.debug(f"Processing :: '{node.get('filename')}'")
+
+                    manifestfile = node.get("filename") or node.get("blobPath")
+                    logger.debug(f"Processing :: '{manifestfile}'")
 
                     # Pagination
                     has_next_page = dependencies.get("pageInfo", {}).get(
@@ -245,6 +247,7 @@ class DependencyGraph:
                                 version=version,
                                 license=license,
                                 repository=repository,
+                                path=manifestfile,
                             )
                         )
 
