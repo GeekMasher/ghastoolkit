@@ -21,21 +21,20 @@ print(f"GitHub :: {GitHub}")
 print(f"Owner  :: {GitHub.owner}")
 print(f"Token  :: {GitHub.getToken()} ({GitHub.token_type})")
 
-depgraph = DependencyGraph(cache=True)
+# GraphQL is required to get the full dependencies details
+depgraph = DependencyGraph(cache=True, enable_graphql=True)
 print(f"Cache  :: {depgraph.cache.cache_path}")
 
-# OR Get the list of unique dependencies
+# Get the list of unique dependencies (ignoring versions)
 unique = depgraph.getUniqueOrgDependencies(version=False)
 
 print(f"Unique dependencies: {len(unique)}")
-print("\nDependencies:")
-for dep in unique:
-    # Example filter for a specific dependency
-    if dep.fullname == "github/codeql-action/analyze":
-        if len(dep.repositories) == 0:
-            continue
 
-        # Every dependencies has a list of repositories that use it
-        print(f"{dep}")
-        for r in dep.repositories:
-            print(f"\t> {r}")
+direct = unique.findDirectDependencies()
+print(f"Direct dependencies: {len(direct)}\n")
+
+for dep in direct:
+    # Every dependencies has a list of repositories that use it
+    print(f"{dep}")
+    for r in dep.repositories:
+        print(f"\t> {r}")
