@@ -85,6 +85,13 @@ class DependencyGraph:
                 self.rest = RestRequest(repo)
 
                 deps[repo] = self.getDependenciesSbom()
+
+                if self.enable_graphql:
+                    logger.debug("Enabled GraphQL Dependencies")
+                    graph_deps = self.getDependenciesGraphQL()
+
+                    deps[repo].updateDependencies(graph_deps)
+                    logger.debug("Updated dependencies with GraphQL")
             except Exception as err:
                 logger.warning(f"Failed to get `{repo}` dependencies :: {err}")
                 deps[repo] = Dependencies()
@@ -175,6 +182,19 @@ class DependencyGraph:
         """
         deps = Dependencies()
 
+        if self.cache_enabled:
+            cache_key = self.rest.repository.__str__()
+            cache = self.cache.read(cache_key, file_type="graphql.json")
+            if cache:
+                logger.debug(
+                    f"Using cached dependencies for `{self.rest.repository}`"
+                )
+                data = json.loads(cache)
+                return self._parseGraphQL(data) 
+
+        # Build up a single list of dependencies
+        graphql_data = {}
+
         manifests = True
         manifests_cursor = ""
         dependencies_cursor = ""
@@ -205,10 +225,16 @@ class DependencyGraph:
             while has_next_page:
                 for manifest in graph_manifests.get("edges", []):
                     node = manifest.get("node", {})
-                    dependencies = node.get("dependencies", {})
 
                     manifestfile = node.get("filename") or node.get("blobPath")
                     logger.debug(f"Processing :: '{manifestfile}'")
+
+                    dependencies = node.get("dependencies", {})
+
+                    if graphql_data.get(manifestfile):
+                        graphql_data[manifestfile].extend(dependencies)
+                    else:
+                        graphql_data[manifestfile] = dependencies
 
                     # Pagination
                     has_next_page = dependencies.get("pageInfo", {}).get(
@@ -218,38 +244,6 @@ class DependencyGraph:
                         dependencies_cursor = f'after: "{dependencies.get("pageInfo", {}).get("endCursor")}"'
                     else:
                         dependencies_cursor = ""
-
-                    for dep in dependencies.get("edges", []):
-                        dep = dep.get("node", {})
-                        license = None
-                        repository = None
-
-                        if dep.get("repository"):
-                            if dep.get("repository", {}).get("licenseInfo"):
-                                license = (
-                                    dep.get("repository", {})
-                                    .get("licenseInfo", {})
-                                    .get("name")
-                                )
-                            if dep.get("repository", {}).get("nameWithOwner"):
-                                repository = dep.get("repository", {}).get(
-                                    "nameWithOwner"
-                                )
-
-                        version = dep.get("requirements")
-                        if version:
-                            version = version.replace("= ", "")
-
-                        deps.append(
-                            Dependency(
-                                name=dep.get("packageName"),
-                                manager=dep.get("packageManager"),
-                                version=version,
-                                license=license,
-                                repository=repository,
-                                path=manifestfile,
-                            )
-                        )
 
                 if has_next_page:
                     logger.debug(
@@ -282,7 +276,11 @@ class DependencyGraph:
                 manifests_cursor = ""
                 logger.debug("No more manifests to be processed")
 
-        return deps
+        if self.cache_enabled:
+            logger.debug(f"Caching dependencies for {self.repository.repo}")
+            self.cache.write(cache_key, graphql_data, file_type="graphql.json")
+
+        return self._parseGraphQL(graphql_data)
 
     def getDependenciesInPR(self, base: str, head: str) -> Dependencies:
         """Get all the dependencies from a Pull Request.
@@ -402,3 +400,49 @@ class DependencyGraph:
             sbom,
             expected=201,
         )
+
+    def _parseGraphQL(self, data: Dict[str, Any]) -> Dependencies:
+        """Parse GraphQL data.
+
+        Arguments:
+            data: The data to parse.
+
+        Returns:
+            Dependencies: A list of dependencies.
+        """
+        deps = Dependencies()
+
+        for manifest, dependencies in data.items(): 
+            for dep in data.get("edges", []):
+                dep = dep.get("node", {})
+                license = None
+                repository = None
+
+                if dep.get("repository"):
+                    if dep.get("repository", {}).get("licenseInfo"):
+                        license = (
+                            dep.get("repository", {})
+                            .get("licenseInfo", {})
+                            .get("name")
+                        )
+                    if dep.get("repository", {}).get("nameWithOwner"):
+                        repository = dep.get("repository", {}).get(
+                            "nameWithOwner"
+                        )
+
+                version = dep.get("requirements")
+                if version:
+                    version = version.replace("= ", "")
+
+                deps.append(
+                    Dependency(
+                        name=dep.get("packageName"),
+                        manager=dep.get("packageManager"),
+                        version=version,
+                        license=license,
+                        repository=repository,
+                        path=manifest,
+                    )
+                )
+
+        return deps
