@@ -230,7 +230,7 @@ class DependencyGraph:
                     dependencies = node.get("dependencies", {})
 
                     if graphql_data.get(manifestfile):
-                        graphql_data[manifestfile].extend(dependencies)
+                        graphql_data[manifestfile].update(dependencies)
                     else:
                         graphql_data[manifestfile] = dependencies
 
