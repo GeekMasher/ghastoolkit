@@ -117,7 +117,7 @@ class RestRequest:
         self.session.headers = {
             "Accept": "application/vnd.github.v3+json",
             "X-GitHub-Api-Version": RestRequest.VERSION,
-            "Authorization": f"token {GitHub.token}",
+            "Authorization": f"Bearer {GitHub.getToken(masked=False)}",
         }
 
         if retries:
