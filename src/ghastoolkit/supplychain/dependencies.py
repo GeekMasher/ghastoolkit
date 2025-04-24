@@ -286,6 +286,10 @@ class Dependencies:
         for dep in dependencies:
             self.updateDependency(dep)
 
+    def findDirectDependencies(self) -> "Dependencies":
+        """Find all the direct dependencies."""
+        return Dependencies([dep for dep in self if dep.isDirect()])
+
 
 def uniqueDependencies(
     dependencies: Dict[Repository, Dependencies],
