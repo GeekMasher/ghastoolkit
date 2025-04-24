@@ -30,6 +30,12 @@ class Dependency:
     qualifiers: dict[str, str] = field(default_factory=dict)
     """Qualifiers"""
 
+    relationship: Optional[str] = None
+    """Relationship to the Dependency.
+    
+    This can be direct or indirect/transitive.
+    """
+
     license: Optional[str] = None
     """License information"""
 
@@ -48,6 +54,12 @@ class Dependency:
             self.manager = self.manager.lower()
         if self.repository and isinstance(self.repository, str):
             self.repository = Repository.parseRepository(self.repository)
+
+        if self.version:
+            self.version = self.version.strip()
+            if self.version.startswith("v"):
+                # normalize version
+                self.version = self.version[1:]
 
     def getPurl(self, version: bool = True) -> str:
         """Create a PURL from the Dependency.
@@ -104,6 +116,22 @@ class Dependency:
                 sep = ":"
             return f"{self.namespace}{sep}{self.name}"
         return self.name
+
+    def isDirect(self) -> bool:
+        """Is this a direct dependency?
+        
+        This is a bit of a hack to determine if this is a direct dependency or not.
+        In the future we will have this data as part of the API (SBOM).
+
+        Only supports `npm`
+        """
+        if self.relationship and self.relationship.lower() == "direct":
+            return True
+        # package.json has the direct dependencies and no transitive dependencies
+        if self.manager == "npm" and self.path.endswith("package.json"):
+            return True
+
+        return False
 
     def __str__(self) -> str:
         """To String (PURL)."""
