@@ -186,11 +186,9 @@ class DependencyGraph:
             cache_key = self.rest.repository.__str__()
             cache = self.cache.read(cache_key, file_type="graphql.json")
             if cache:
-                logger.debug(
-                    f"Using cached dependencies for `{self.rest.repository}`"
-                )
+                logger.debug(f"Using cached dependencies for `{self.rest.repository}`")
                 data = json.loads(cache)
-                return self._parseGraphQL(data) 
+                return self._parseGraphQL(data)
 
         # Build up a single list of dependencies
         graphql_data = {}
@@ -412,7 +410,7 @@ class DependencyGraph:
         """
         deps = Dependencies()
 
-        for manifest, dependencies in data.items(): 
+        for manifest, dependencies in data.items():
             for dep in data.get("edges", []):
                 dep = dep.get("node", {})
                 license = None
@@ -421,14 +419,10 @@ class DependencyGraph:
                 if dep.get("repository"):
                     if dep.get("repository", {}).get("licenseInfo"):
                         license = (
-                            dep.get("repository", {})
-                            .get("licenseInfo", {})
-                            .get("name")
+                            dep.get("repository", {}).get("licenseInfo", {}).get("name")
                         )
                     if dep.get("repository", {}).get("nameWithOwner"):
-                        repository = dep.get("repository", {}).get(
-                            "nameWithOwner"
-                        )
+                        repository = dep.get("repository", {}).get("nameWithOwner")
 
                 version = dep.get("requirements")
                 if version:
