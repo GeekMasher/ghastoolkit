@@ -411,7 +411,7 @@ class DependencyGraph:
         deps = Dependencies()
 
         for manifest, dependencies in data.items():
-            for dep in data.get("edges", []):
+            for dep in dependencies.get("edges", []):
                 dep = dep.get("node", {})
                 license = None
                 repository = None
