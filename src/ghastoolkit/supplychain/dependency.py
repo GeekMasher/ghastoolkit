@@ -119,7 +119,7 @@ class Dependency:
 
     def isDirect(self) -> bool:
         """Is this a direct dependency?
-        
+
         This is a bit of a hack to determine if this is a direct dependency or not.
         In the future we will have this data as part of the API (SBOM).
 
