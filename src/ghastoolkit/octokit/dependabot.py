@@ -1,7 +1,7 @@
 """Dependabot API."""
 
 import logging
-from typing import Optional
+from typing import Optional, Any
 
 from ghastoolkit.errors import GHASToolkitError, GHASToolkitTypeError
 from ghastoolkit.octokit.github import GitHub, Repository
@@ -55,6 +55,110 @@ class Dependabot:
         status = saa.get("dependabot_security_updates", {}).get("status", "disabled")
         return status == "enabled"
 
+    def getEnterpriseAlerts(
+        self,
+        state: str = "open",
+        severity: Optional[str] = None,
+        ecosystem: Optional[str] = None,
+        package: Optional[str] = None,
+        manifest: Optional[str] = None,
+        scope: Optional[str] = None,
+    ) -> list[DependencyAlert]:
+        """Get all Dependabot alerts from Enterprise.
+
+        Arguments:
+            severity (str): Severity of the alert.
+                Options: low, moderate, high, critical
+            ecosystem (str): Ecosystem of the alert.
+                Options: npm, rubygems, maven, pip, etc.
+            package (str): Package name of the alert.
+            manifest (str): Manifest path of the alert.
+            scope (str): Scope of the alert.
+        Returns:
+            list[DependencyAlert]: List of Dependabot alerts.
+        Raises:
+            GHASToolkitAuthenticationError: If the request fails due to authentication.
+            GHASToolkitTypeError: If the state is not valid.
+            GHASToolkitError: If the request fails.
+        """
+        parameters = self._validateInput(
+            {
+                "state": state,
+                "severity": severity,
+                "ecosystem": ecosystem,
+                "package": package,
+                "manifest": manifest,
+                "scope": scope,
+            }
+        )
+        results = self.rest.get(
+            "/enterprises/{enterprise}/dependabot/alerts", parameters
+        )
+        if isinstance(results, list):
+            return self._apiToAlerts(results)
+
+        logger.debug(f"Failed to get Dependabot alerts :: {results}")
+        raise GHASToolkitTypeError(
+            "Error getting Dependabot organization alerts",
+            docs="https://docs.github.com/en/rest/dependabot/alerts#list-dependabot-alerts-for-an-enterprise",
+            permissions=[
+                '"Dependabot alerts" repository permissions (read)',
+                '"Dependabot security updates" repository permissions (read)',
+            ],
+        )
+
+    def getOrganizationAlerts(
+        self,
+        state: str = "open",
+        severity: Optional[str] = None,
+        ecosystem: Optional[str] = None,
+        package: Optional[str] = None,
+        manifest: Optional[str] = None,
+        scope: Optional[str] = None,
+    ) -> list[DependencyAlert]:
+        """Get all Dependabot alerts from organization.
+
+        Arguments:
+            state (str): State of the alert. Defaults to "open".
+                Options: auto_dismissed, dismissed, fixed, open
+            severity (str): Severity of the alert.
+                Options: low, moderate, high, critical
+            ecosystem (str): Ecosystem of the alert.
+                Options: npm, rubygems, maven, pip, etc.
+            package (str): Package name of the alert.
+            manifest (str): Manifest path of the alert.
+            scope (str): Scope of the alert.
+        Returns:
+            list[DependencyAlert]: List of Dependabot alerts.
+        Raises:
+            GHASToolkitAuthenticationError: If the request fails due to authentication.
+            GHASToolkitTypeError: If the state is not valid.
+            GHASToolkitError: If the request fails.
+        """
+        parameters = self._validateInput(
+            {
+                "state": state,
+                "severity": severity,
+                "ecosystem": ecosystem,
+                "package": package,
+                "manifest": manifest,
+                "scope": scope,
+            }
+        )
+        results = self.rest.get("/orgs/{org}/dependabot/alerts", parameters)
+        if isinstance(results, list):
+            return self._apiToAlerts(results)
+
+        logger.debug(f"Failed to get Dependabot alerts :: {results}")
+        raise GHASToolkitTypeError(
+            "Error getting Dependabot organization alerts",
+            docs="https://docs.github.com/en/rest/dependabot/alerts#list-dependabot-alerts-for-an-organization",
+            permissions=[
+                '"Dependabot alerts" repository permissions (read)',
+                '"Dependabot security updates" repository permissions (read)',
+            ],
+        )
+
     def getAlerts(
         self,
         state: str = "open",
@@ -86,16 +190,7 @@ class Dependabot:
 
         https://docs.github.com/en/rest/dependabot/alerts
         """
-        if state not in ["auto_dismissed", "dismissed", "fixed", "open"]:
-            raise GHASToolkitError(
-                f"Invalid state provided: {state}",
-                docs="https://docs.github.com/en/rest/reference/repos#get-a-repository",
-            )
-
-        logger.debug(f"Getting Dependabot alerts with state: {state}")
-
-        results = self.rest.get(
-            "/repos/{owner}/{repo}/dependabot/alerts",
+        parameters = self._validateInput(
             {
                 "state": state,
                 "severity": severity,
@@ -103,36 +198,12 @@ class Dependabot:
                 "package": package,
                 "manifest": manifest,
                 "scope": scope,
-            },
+            }
         )
+        results = self.rest.get("/repos/{owner}/{repo}/dependabot/alerts", parameters)
 
         if isinstance(results, list):
-            retval = []
-            for alert in results:
-                advisory_data = alert.get("security_advisory", {})
-                # Fix issues between GraphQL and Advisory class
-                advisory_data["affected"] = advisory_data.pop("vulnerabilities")
-                advisory = Advisory(**advisory_data)
-                logger.debug(f"Advisory :: {advisory}")
-
-                package = alert.get("dependency", {}).get("package", {})
-
-                alert = DependencyAlert(
-                    number=alert.get("number"),
-                    state=alert.get("state"),
-                    severity=alert.get("security_advisory", {}).get(
-                        "severity", "unknown"
-                    ),
-                    advisory=advisory,
-                    purl=f"pkg:{package.get('ecosystem')}/{package.get('name')}".lower(),
-                    manifest=alert.get("manifest_path"),
-                )
-                logger.debug(f"Alert :: {alert}")
-
-                retval.append(alert)
-
-            logger.debug(f"Number of Dependabot Alerts :: {len(retval)}")
-            return retval
+            return self._apiToAlerts(results)
 
         logger.debug(f"Failed to get Dependabot alerts :: {results}")
         raise GHASToolkitTypeError(
@@ -173,8 +244,7 @@ class Dependabot:
         return alerts
 
     def getAlertsGraphQL(self) -> list[DependencyAlert]:
-        """Get All Dependabot alerts from GraphQL API using the `GetDependencyAlerts` query.
-        """
+        """Get All Dependabot alerts from GraphQL API using the `GetDependencyAlerts` query."""
         results = []
 
         while True:
@@ -230,3 +300,54 @@ class Dependabot:
 
         logger.debug(f"Number of Dependabot Alerts :: {len(results)}")
         return results
+
+    def _validateInput(self, parameters: dict[str, Any]) -> dict[str, Any]:
+        """Validates the input parameters for the API request."""
+        if state := parameters.get("state"):
+            if state not in [
+                "auto_dismissed",
+                "dismissed",
+                "fixed",
+                "open",
+            ]:
+                raise GHASToolkitTypeError(
+                    f"Invalid state provided: {state}",
+                    docs="https://docs.github.com/en/rest/dependabot/alerts",
+                )
+        else:
+            parameters["state"] = "open"
+        logger.debug(f"Getting Dependabot alerts with state: {parameters.get('state')}")
+
+        if severity := parameters.get("severity"):
+            if severity not in ["low", "moderate", "high", "critical"]:
+                raise GHASToolkitTypeError(
+                    f"Invalid severity provided: {severity}",
+                    docs="https://docs.github.com/en/rest/dependabot/alerts",
+                )
+        return parameters
+
+    def _apiToAlerts(self, alerts: list[dict[str, Any]]) -> list[DependencyAlert]:
+        retval = []
+        for alert in alerts:
+            advisory_data = alert.get("security_advisory", {})
+            # Fix issues between GraphQL and Advisory class
+            advisory_data["affected"] = advisory_data.pop("vulnerabilities")
+            advisory = Advisory(**advisory_data)
+            logger.debug(f"Advisory :: {advisory}")
+
+            package = alert.get("dependency", {}).get("package", {})
+
+            alert = DependencyAlert(
+                number=alert.get("number"),
+                state=alert.get("state"),
+                severity=alert.get("security_advisory", {}).get("severity", "unknown"),
+                advisory=advisory,
+                purl=f"pkg:{package.get('ecosystem')}/{package.get('name')}".lower(),
+                manifest=alert.get("manifest_path"),
+            )
+            logger.debug(f"Alert :: {alert}")
+
+            retval.append(alert)
+
+        logger.debug(f"Number of Dependabot Alerts :: {len(retval)}")
+        return retval
