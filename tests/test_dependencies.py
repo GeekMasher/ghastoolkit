@@ -83,3 +83,14 @@ class TestDependencies(unittest.TestCase):
         self.assertTrue(self.deps.contains(dep))
 
         self.assertFalse(self.deps.contains(dep, version=True))
+
+    def test_extends(self):
+        deps = Dependencies()
+        deps.append(Dependency("random-lib", manager="pypi", license="MIT"))
+        deps.append(Dependency("random-lib2", manager="pypi", license="MIT"))
+
+        self.deps.extend(deps)
+
+        self.assertEqual(len(self.deps), 7)
+        self.assertTrue(isinstance(self.deps.pop("random-lib"), Dependency))
+        self.assertTrue(isinstance(self.deps.pop("random-lib2"), Dependency))
