@@ -144,7 +144,7 @@ class Advisory(OctoItem):
     """CVSS Score"""
     cvss_severities: Dict[str, dict] = field(default_factory=dict)
     """CVSS Severities"""
-    
+
     epss: List[dict[str, Any]] = field(default_factory=list)
     """EPS Score"""
 
@@ -229,21 +229,20 @@ class Advisory(OctoItem):
             if cvss := self.cvss_severities.get("cvss_v4"):
                 return cvss.get("score")
         return None
-    
+
     @property
     def epss_percentile(self) -> Optional[str]:
         """Get EPSS Percentile."""
         if epss := self.epss:
             return epss[0].get("percentile", "0")
         return None
-    
+
     @property
     def epss_percentage(self) -> Optional[float]:
         """Get EPSS Percentage."""
         if epss := self.epss:
             return float(epss[0].get("percentage", 0))
         return None
-
 
 
 class Advisories:
