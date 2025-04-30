@@ -131,8 +131,8 @@ class Dependency:
         """
         if self.relationship and self.relationship.lower() == "direct":
             return True
-        # package.json has the direct dependencies and no transitive dependencies
         if manifest_file := self.path:
+            # Use the manifest file to determine if this is a direct dependency
             if self.manager == "npm" and manifest_file.endswith("package.json"):
                 return True
             elif self.manager == "maven" and manifest_file.endswith("pom.xml"):

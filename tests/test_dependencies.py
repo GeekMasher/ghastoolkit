@@ -1,4 +1,3 @@
-
 import unittest
 
 from ghastoolkit import Dependencies, Dependency, Licenses
@@ -94,3 +93,36 @@ class TestDependencies(unittest.TestCase):
         self.assertEqual(len(self.deps), 7)
         self.assertTrue(isinstance(self.deps.pop("random-lib"), Dependency))
         self.assertTrue(isinstance(self.deps.pop("random-lib2"), Dependency))
+        
+    def test_is_direct(self):
+        # Test with relationship="direct"
+        dep = Dependency("direct-dep", relationship="direct")
+        self.assertTrue(dep.isDirect())
+        
+        dep = Dependency("indirect-dep", relationship="indirect")
+        self.assertFalse(dep.isDirect())
+        
+        # Test npm ecosystem
+        dep = Dependency("npm-direct", manager="npm", path="package.json")
+        self.assertTrue(dep.isDirect())
+        
+        dep = Dependency("npm-indirect", manager="npm", path="node_modules/some-lib/package.json")
+        self.assertTrue(dep.isDirect())
+        
+        # Test maven ecosystem
+        dep = Dependency("maven-direct", manager="maven", path="pom.xml")
+        self.assertTrue(dep.isDirect())
+        
+        dep = Dependency("maven-indirect", manager="maven")
+        self.assertFalse(dep.isDirect())
+        
+        # Test pip ecosystem
+        dep = Dependency("pip-direct", manager="pip", path="requirements.txt")
+        self.assertTrue(dep.isDirect())
+        
+        dep = Dependency("pip-indirect", manager="pip", path="venv/lib/something.txt")
+        self.assertFalse(dep.isDirect())
+        
+        # Test without path
+        dep = Dependency("no-path", manager="npm")
+        self.assertFalse(dep.isDirect())
