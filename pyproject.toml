@@ -17,10 +17,10 @@ classifiers = [
 ]
 
 dependencies = [
-    "pyyaml>=6.0.2",
-    "ratelimit>=2.2.1",
-    "requests>=2.32.3",
-    "semantic-version>=2.10.0",
+    "pyyaml==6.0.2",
+    "ratelimit==2.2.1",
+    "requests>=2.32.4",
+    "semantic-version==2.10.0",
 ]
 
 [dependency-groups]
