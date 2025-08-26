@@ -228,6 +228,93 @@ class RestRequest:
     VERSION = "2022-11-28"
     
     @staticmethod
+    def convert_to_return_type(result: Any, return_type: type) -> Any:
+        """Convert API response data to the specified return type.
+        
+        Handles conversion of raw dictionary data from API responses to appropriate
+        typed objects such as OctoItem instances or collections.
+        
+        Args:
+            result: The raw API response data (dict or list of dicts)
+            return_type: The target type to convert to
+            
+        Returns:
+            The converted data, or None if no conversion was performed
+        """
+        logger.debug(f"Converting result to type: {return_type}")
+        
+        # Check if it's a Union type
+        if hasattr(return_type, "__origin__") and return_type.__origin__ == Union:
+            logger.debug(f"Ignoring Union type")
+            return None
+            
+        # Check if it's a simple OctoItem type
+        if inspect.isclass(return_type) and issubclass(return_type, OctoItem):
+            if isinstance(result, dict):
+                logger.debug(f"Converting dict to {return_type.__name__}")
+                return loadOctoItem(return_type, result)
+            elif isinstance(result, list) and all(isinstance(item, dict) for item in result):
+                # Handle case where a single OctoItem is expected but we have a list of dicts
+                # This can happen if an API returns a list but the caller expects a single item
+                logger.debug(f"Converting list of dicts to a list of {return_type.__name__}")
+                return [loadOctoItem(return_type, item) for item in result]
+            else:
+                logger.warning(f"Cannot convert non-dict result to {return_type.__name__}")
+                return None
+                
+        # Check if it's a list type with OctoItem elements
+        if (hasattr(return_type, "__origin__") 
+            and return_type.__origin__ == list
+            and hasattr(return_type, "__args__")):
+            subtype = return_type.__args__[0]
+            
+            # Check if the subtype is an OctoItem
+            if inspect.isclass(subtype) and issubclass(subtype, OctoItem):
+                # Handle case where we have a single dict but expect a list
+                if isinstance(result, dict):
+                    # Verify the dict has the required fields for conversion
+                    try:
+                        logger.debug(f"Converting single dict to list of {subtype.__name__}")
+                        return [loadOctoItem(subtype, result)]
+                    except Exception as e:
+                        logger.warning(f"Could not convert dict to {subtype.__name__}: {str(e)}")
+                        return None
+                # Normal list conversion
+                elif isinstance(result, list):
+                    logger.debug(f"Converting list items to {subtype.__name__}")
+                    new_results = []
+                    for item in result:
+                        if isinstance(item, dict):
+                            new_results.append(loadOctoItem(subtype, item))
+                        else:
+                            logger.warning(f"Skipping non-dict item in list conversion")
+                    return new_results
+                
+        return None
+    
+    @staticmethod
+    def convert_list_to_octoitems(result: list, item_class: type) -> list:
+        """Convert a list of dictionaries to a list of OctoItem instances.
+        
+        Args:
+            result: List of dictionaries from API response
+            item_class: The OctoItem subclass to convert each item to
+            
+        Returns:
+            List of converted OctoItem instances
+        """
+        if not isinstance(result, list):
+            logger.warning(f"Cannot convert non-list result to list of {item_class.__name__}")
+            return result
+            
+        if not inspect.isclass(item_class) or not issubclass(item_class, OctoItem):
+            logger.warning(f"Cannot convert to non-OctoItem class: {item_class}")
+            return result
+            
+        logger.debug(f"Converting {len(result)} items to {item_class.__name__}")
+        return [loadOctoItem(item_class, item) for item in result]
+    
+    @staticmethod
     def parse_link_header(link_header: str) -> dict:
         """Parse a Link header from GitHub API response.
         
@@ -370,20 +457,9 @@ class RestRequest:
 
                 # Handle type conversions if a return type is specified
                 if return_type:
-                    # Check if it's a Union type
-                    if hasattr(return_type, "__origin__") and return_type.__origin__ == Union:
-                        logger.debug(f"Ignoring Union type")
-                    # Check if it's a list type with OctoItem elements
-                    elif (hasattr(return_type, "__origin__") 
-                          and isinstance(result, return_type.__origin__)
-                          and return_type.__origin__ == list
-                          and hasattr(return_type, "__args__")):
-                        subtype = return_type.__args__[0]
-                        if issubclass(subtype, OctoItem):
-                            new_results = []
-                            for rslt in result:
-                                new_results.append(loadOctoItem(subtype, rslt))
-                            return new_results
+                    converted_result = RestRequest.convert_to_return_type(result, return_type)
+                    if converted_result is not None:
+                        return converted_result
 
                 return result
 
