@@ -215,15 +215,89 @@ def loadOctoItem(classtype: type, data: dict) -> OctoItem:
 class RestRequest:
     """Class for making REST API requests to GitHub.
     
-    This class handles communication with the GitHub REST API, including:
-    - Authentication
-    - Pagination
-    - Error handling
-    - Rate limiting
+    This class handles REST API requests to GitHub endpoints, including:
+    - Making authenticated requests with rate limiting
+    - Handling pagination of results
+    - Error handling and response parsing
     """
     
-    PER_PAGE = 100  # Maximum items per page in GitHub API responses
-    VERSION: str = "2022-11-28"  # GitHub API version
+    # Max per page that GitHub allows
+    PER_PAGE = 100
+    
+    # GitHub API version to use
+    VERSION = "2022-11-28"
+    
+    @staticmethod
+    def parse_link_header(link_header: str) -> dict:
+        """Parse a Link header from GitHub API response.
+        
+        GitHub uses the Link header for pagination as described in:
+        https://docs.github.com/en/rest/guides/traversing-with-pagination
+        
+        Args:
+            link_header: The Link header string from a GitHub API response.
+            
+        Returns:
+            Dictionary with keys like 'next', 'prev', 'first', 'last' and URL values.
+            Returns empty dict if the header is empty or invalid.
+        """
+        if not link_header:
+            return {}
+            
+        logger.debug(f"Parsing Link header: {link_header}")
+        links = {}
+        
+        for link_part in link_header.split(", "):
+            if ">" not in link_part or "rel=" not in link_part:
+                continue
+                
+            # Extract URL and relation parts
+            url_part, rel_part = link_part.split(">; ", 1)
+            url = url_part.strip("<")
+            rel = rel_part.split("=", 1)[1].strip('"')
+            
+            links[rel] = url
+            logger.debug(f"Found '{rel}' link: {url}")
+            
+        return links
+    
+    @staticmethod
+    def extract_cursor_from_link(next_link: str) -> str:
+        """Extract a cursor value from a GitHub API next link URL.
+        
+        Args:
+            next_link: The URL from the 'next' relation in a Link header.
+            
+        Returns:
+            Cursor string or None if no cursor found.
+        """
+        if not next_link:
+            return None
+            
+        logger.debug(f"Extracting cursor from link: {next_link}")
+        
+        # Parse the URL to extract query parameters
+        import urllib.parse as urlparse
+        from urllib.parse import parse_qs
+        
+        # Split the URL into parts and extract the query string
+        parsed = urlparse.urlparse(next_link)
+        query_params = parse_qs(parsed.query)
+        
+        # Check if 'after' is in the query parameters
+        if 'after' in query_params and query_params['after']:
+            cursor = query_params['after'][0]  # parse_qs returns lists of values
+            
+            # Make sure cursor isn't a URL (which would be invalid)
+            if not cursor.startswith('http'):
+                logger.debug(f"Extracted cursor: {cursor}")
+                return cursor
+            else:
+                logger.debug("Found 'after' parameter but it contains a URL (invalid cursor)")
+                return None
+        else:
+            logger.debug("No 'after' parameter found in link")
+            return None
 
     def __init__(
         self, repository: Optional[Repository] = None, retries: Optional[Retry] = None
@@ -473,26 +547,24 @@ class RestRequest:
                 logger.debug(f"Received less than {RestRequest.PER_PAGE} items ({current_count}), ending pagination")
                 break
 
-            # Use a cursor for pagination
-            if link := response.headers.get("Link"):
-                logger.debug(f"Processing Link header: {link}")
-                if next_links := [x for x in link.split(", ") if x.endswith('rel="next"')]:
-                    next_link = next_links[0].split(">;")[0].replace("<", "")
+            # Use a cursor for pagination if a Link header is present
+            if link_header := response.headers.get("Link"):
+                logger.debug(f"Processing Link header: {link_header}")
+                
+                # Parse the Link header into a dictionary of relations and URLs
+                links = self.parse_link_header(link_header)
+                
+                # Check if we have a 'next' link for pagination
+                if next_link := links.get("next"):
                     logger.debug(f"Found next page link: {next_link}")
                     
-                    # Check for 'after' parameter (used by some GitHub endpoints)
-                    if "&after=" in next_link:
-                        after_parts = next_link.split("&after=")
-                        # We don't want to paginate if the cursor is a URL
-                        if len(after_parts) > 1 and not after_parts[0].startswith("http"):
-                            cursor = after_parts[1].split("&")[0]
-                            logger.debug(f"Extracted cursor from next link: {cursor}")
-                        else:
-                            logger.debug("Found 'after' parameter but couldn't extract valid cursor")
-                    else:
+                    # Try to extract a cursor from the next link
+                    cursor = self.extract_cursor_from_link(next_link)
+                    
+                    if cursor is None:
                         # No cursor found, just increment the page number
+                        logger.debug("No cursor extracted from next link, will use page-based pagination")
                         cursor = None
-                        logger.debug("No 'after' parameter in next link, will use page-based pagination")
                 else:
                     # No "next" link, we've reached the end
                     logger.debug("No 'next' link found in Link header, ending pagination")
