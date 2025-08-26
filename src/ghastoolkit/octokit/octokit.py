@@ -657,6 +657,11 @@ class RestRequest:
             if isinstance(response_json, dict):
                 logger.debug("Received single object response, returning directly")
                 return response_json
+            elif not isinstance(response_json, list):
+                logger.warning(
+                    f"Unexpected response type: {type(response_json).__name__}, expected list or dict"
+                )
+                return response_json
 
             # For collection responses, accumulate items
             current_count = len(response_json)
@@ -694,25 +699,8 @@ class RestRequest:
                             "No cursor extracted from next link, will use page-based pagination"
                         )
                         cursor = None
-                else:
-                    # No "next" link, we've reached the end
-                    logger.debug(
-                        "No 'next' link found in Link header, ending pagination"
-                    )
-                    break
-            else:
-                # No Link header, increment the page if we got a full page of results
-                logger.debug("No Link header found in response")
-                if len(response_json) >= RestRequest.PER_PAGE:
-                    page += 1
-                    logger.debug(
-                        f"Received full page of results, incrementing page to {page}"
-                    )
-                else:
-                    logger.debug(
-                        f"Received partial page ({len(response_json)} items), ending pagination"
-                    )
-                    break
+
+            page += 1
 
         logger.debug(
             f"Pagination complete: retrieved {len(result)} total items across {page_count} pages"
