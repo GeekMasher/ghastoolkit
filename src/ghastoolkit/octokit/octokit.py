@@ -77,18 +77,24 @@ class OctoItem:
     __data__: dict = field(default_factory=dict)
 
     def get(self, name: str, default: Any = None) -> Any:
+        """Get attribute or dictionary value with fallback default."""
         try:
-            return self.__getattr__(name)
+            # First check if this is a direct attribute
+            if name in self.__dict__:
+                return self.__dict__[name]
+            # Then check in the data dictionary
+            elif self.__data__ and name in self.__data__:
+                return self.__data__[name]
+            else:
+                return default
         except:
             return default
 
     def __getattr__(self, name) -> Any:
-        """Get Attr"""
-        if hasattr(self, name):
-            return getattr(self, name)
-        elif self.__data__ and self.__data__.get(name):
-            return self.__data__.get(name)
-        raise Exception(f"Unknown key: {name}")
+        """Get attribute from data dictionary if not found in class."""
+        if self.__data__ and name in self.__data__:
+            return self.__data__[name]
+        raise AttributeError(f"'{self.__class__.__name__}' has no attribute '{name}'")
 
 
 def loadOctoItem(classtype, data: dict):
