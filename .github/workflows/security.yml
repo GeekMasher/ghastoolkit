@@ -17,10 +17,10 @@ jobs:
 
     steps:
       - name: 'Checkout Repository'
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: 'Dependency Review'
-        uses: actions/dependency-review-action@v4
+        uses: actions/dependency-review-action@v5
         with:
           fail-on-severity: moderate
           fail-on-scopes: runtime
@@ -41,19 +41,19 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
 
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v4
+      uses: github/codeql-action/init@v4.37.4
       with:
         languages: ${{ matrix.language }}
         config-file: geekmasher/security-codeql/config/default.yml@main
 
     - name: Autobuild
-      uses: github/codeql-action/autobuild@v4
+      uses: github/codeql-action/autobuild@v4.37.4
 
     - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v4
+      uses: github/codeql-action/analyze@v4.37.4
       with:
         category: "/language:${{matrix.language}}"
 
@@ -70,13 +70,13 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Run Semgrep
         run: semgrep --config auto . --sarif --output semgrep.sarif
 
       - name: Upload SARIF file
-        uses: github/codeql-action/upload-sarif@v4
+        uses: github/codeql-action/upload-sarif@v4.37.4
         with:
           sarif_file: semgrep.sarif
         if: always()
